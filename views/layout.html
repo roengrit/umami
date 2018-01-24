@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{.title}}</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="shortcut icon" type="image/png" href="/static/image/sushi.png" />
+
+    <link rel="stylesheet" href="/static/css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/static/css/font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/static/css/ionicon/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="/static/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" href="/static/css/skins/_all-skins.min.css">
+    
+    {{.html_head}}
+
+    <link rel="stylesheet" href="/static/css/umami.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="sidebar-collapse sidebar-mini skin-green-light">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">
+                    <b>U</b>M</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <b>UMA</b>MI</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/static/image/avatar5.png" class="user-image" alt="User Image">
+                                <span id="name-r" class="hidden-xs">{{.base_user_display}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="/static/image/avatar5.png" class="img-circle" alt="User Image">
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="/change-pass" class="btn btn-default btn-flat">เปลี่ยนรหัสผ่าน</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/logout" class="btn btn-default btn-flat">ออกจากระบบ</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- =============================================== -->
+
+        <!-- Left side column. contains the sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="treeview">
+                        <a href="/">
+                            <i class="fa fa-home"></i>
+                            <span>หน้าหลัก</span>
+                        </a>
+                    </li>
+                    <li class="treeview {{.m_request}}">
+                        <a href="#">
+                            <i class="fa fa-dollar"></i>
+                            <span>ขาย</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> ขาย</a>
+                            </li>                                                       
+                        </ul>
+                    </li>
+                    <li class="treeview {{.m_request}}">
+                        <a href="#">
+                            <i class="fa fa-rub"></i>
+                            <span>โปรโมชั่น</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> โปรโมชั่น</a>
+                            </li>                                                       
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-line-chart"></i>
+                            <span>รายงาน</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="../forms/general.html">
+                                    <i class="fa fa-circle-o"></i> รายงาน</a>
+                            </li>
+                            <li>
+                                <a href="../forms/advanced.html">
+                                    <i class="fa fa-circle-o"></i> รายงาน...</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{.m_user}}">
+                        <a href="#">
+                            <i class="fa fa-users"></i>
+                            <span>สมาชิก</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="../forms/general.html">
+                                    <i class="fa fa-circle-o"></i> สร้างสมาชิก</a>
+                            </li>
+                            <li>
+                                <a href="../forms/advanced.html">
+                                    <i class="fa fa-circle-o"></i> รายชื่อสมาชิก</a>
+                            </li>
+                            <li class="{{.m_role_list}}">
+                                <a href="/normal/?entity=roles">
+                                    <i class="fa fa-circle-o"></i>สิทธิ์</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{.m_setting}}">
+                        <a href="#">
+                            <i class="fa fa-gear"></i>
+                            <span>ตั้งค่า</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-circle-o"></i> รายละเอียดร้าน</a>
+                            </li>
+                            <li class="{{.m_category_list}}">
+                                <a href="/normal/?entity=categorys">
+                                    <i class="fa fa-circle-o"></i>หมวดหมู่อาหาร</a>
+                            </li>
+                            <li class="{{.m_category_list}}">
+                                <a href="/normal/?entity=categorys">
+                                    <i class="fa fa-circle-o"></i>สินค้า/อาหาร</a>
+                            </li>
+                            <li class="{{.m_category_list}}">
+                                <a href="/normal/?entity=categorys">
+                                    <i class="fa fa-circle-o"></i>โต๊ะ</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- =============================================== -->
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            {{.LayoutContent}}
+        </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; 2018
+                <a href="#">FIXED</a>.</strong> All rights reserved.
+        </footer>
+        <!-- /.control-sidebar -->
+        <div class="modal modal-default fade" id="small-global-modal">
+            <div class="modal-dialog">
+                <div class="modal-content" id="small-global-modal-content">
+
+                </div>
+            </div>
+        </div>
+        <div class="modal modal-default fade" id="small-delete-global-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content" id="small-delete-global-modal-content">
+                            <input type="hidden" id="global-delete-id" name="global-delete-id" />
+                            <input type="hidden" id="global-delete-url" name="global-delete-url" />
+                            <input type="hidden" id="global-delete-xsrf" name="global-delete-xsrf" />
+                            <div class="modal-header alert-danger">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title ">ยืนยันการลบข้อมูล</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                        <div class="alert alert-danger fade in no-margin"
+                                           style="display:none"
+                                          id="global-delete-alert">
+                                        </div>
+                                    <p>ท่านกำลังจะลบข้อมูล, จะดำเนินการต่อหรือไม่?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"> ปิด </button>
+                                        <button type="button" onclick="deleteGlobal()" class="btn btn-warning">
+                                            <i class="fa fa-trash-o"></i> ลบข้อมูล
+                                        </button>
+                                  </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.slimscroll.min.js"></script>
+    <script src="/static/js/fastclick.js"></script>
+    <script src="/static/js/timepicker/js/bootstrap-timepicker.js"></script>
+    <script src="/static/js/adminlte.min.js"></script>
+    <script src="/static/js/umami.js"></script> {{.scripts}}
+    <script>
+        $(document).ready(function () {
+            $('.sidebar-menu').tree()
+        })
+    </script>
+</body>
+</html>
