@@ -21,6 +21,7 @@ type OrderTable struct {
 	EditAt      time.Time `orm:"auto_now;type(datetime)"`
 }
 
+//OrderTableMerg _
 type OrderTableMerg struct {
 	ID         int
 	Parent     *OrderTable `orm:"rel(fk)"`
