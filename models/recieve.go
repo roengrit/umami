@@ -6,7 +6,7 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-//ReceiveOrder _
+//Receive _
 type Receive struct {
 	ID            int
 	Flag          int
@@ -15,16 +15,18 @@ type Receive struct {
 	Supplier      *Supplier `orm:"rel(fk)"`
 	SupplierrName string    `orm:"size(300)"`
 	DiscountType  int
-	DiscountWord  string    `orm:"size(300)"`
-	TotalDiscount float64   `orm:"digits(12);decimals(2)"`
-	TotalAmount   float64   `orm:"digits(12);decimals(2)"`
+	DiscountWord  string  `orm:"size(300)"`
+	TotalDiscount float64 `orm:"digits(12);decimals(2)"`
+	TotalAmount   float64 `orm:"digits(12);decimals(2)"`
+	CreditDay     int
+	CreditDate    time.Time `orm:"type(date)"`
 	Creator       *User     `orm:"rel(fk)"`
 	CreatedAt     time.Time `orm:"auto_now_add;type(datetime)"`
 	Editor        *User     `orm:"rel(fk)"`
 	EditAt        time.Time `orm:"auto_now;type(datetime)"`
 }
 
-//ReceiveOrderSub _
+//ReceiveSub _
 type ReceiveSub struct {
 	ID         int
 	Flag       int

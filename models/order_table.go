@@ -14,9 +14,11 @@ type OrderTable struct {
 	InUse       bool
 	Remark      string `orm:"size(300)"`
 	ReserveDate time.Time
-	ReserveUser *User `orm:"rel(fk)"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ReserveUser *User     `orm:"rel(fk)"`
+	Creator     *User     `orm:"rel(fk)"`
+	CreatedAt   time.Time `orm:"auto_now_add;type(datetime)"`
+	Editor      *User     `orm:"rel(fk)"`
+	EditAt      time.Time `orm:"auto_now;type(datetime)"`
 }
 
 type OrderTableMerg struct {
@@ -24,9 +26,10 @@ type OrderTableMerg struct {
 	Parent     *OrderTable `orm:"rel(fk)"`
 	ChildTable *OrderTable `orm:"rel(fk)"`
 	Remark     string      `orm:"size(300)"`
-	MergUser   *User       `orm:"rel(fk)"`
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	Creator    *User       `orm:"rel(fk)"`
+	CreatedAt  time.Time   `orm:"auto_now_add;type(datetime)"`
+	Editor     *User       `orm:"rel(fk)"`
+	EditAt     time.Time   `orm:"auto_now;type(datetime)"`
 }
 
 func init() {

@@ -10,8 +10,10 @@ import (
 type Menu struct {
 	ID        int
 	Name      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	Creator   *User     `orm:"rel(fk)"`
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	Editor    *User     `orm:"rel(fk)"`
+	EditAt    time.Time `orm:"auto_now;type(datetime)"`
 }
 
 func init() {
