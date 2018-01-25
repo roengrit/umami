@@ -111,25 +111,27 @@
                         </a>
                         <ul class="treeview-menu">
                             <li class="{{.m_create_request}}">
-                                <a href="/sale">
-                                    <i class="fa fa-circle-o"></i> เปิดร้าน</a>
-                            </li>
-                            <li class="{{.m_create_request}}">
-                                <a href="/sale">
-                                    <i class="fa fa-circle-o"></i> จองโต๊ะ</a>
-                            </li>
-                            <li class="{{.m_create_request}}">
-                                <a href="/sale">
-                                    <i class="fa fa-circle-o"></i> รับแขก</a>
-                            </li>
-                            <li class="{{.m_create_request}}">
-                                <a href="/sale">
-                                    <i class="fa fa-circle-o"></i> ย้ายโต๊ะ</a>
-                            </li>
-                            <li class="{{.m_create_request}}">
                                     <a href="/sale">
-                                        <i class="fa fa-circle-o"></i> ปิดโต๊ะ</a>
+                                        <i class="fa fa-circle-o"></i> รับออร์เดอร์</a>
                             </li>
+                            <li class="treeview">
+                                    <a href="#">
+                                      <i class="fa fa-circle-o"></i> <span>โต๊ะ</span>
+                                      <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                      </span>
+                                    </a>
+                                    <ul class="treeview-menu" style="display: none;">
+                                      <li><a href="#"><i class="fa fa-circle-o"></i> จองโต๊ะ</a></li>
+                                      <li><a href="#"><i class="fa fa-circle-o"></i> ย้ายโตะ</a></li>
+                                      <li><a href="#"><i class="fa fa-circle-o"></i> แยกโต๊ะ</a></li>
+                                      <li><a href="#"><i class="fa fa-circle-o"></i> รวมโต๊ะ</a></li>
+                                      <li class="{{.m_create_request}}">
+                                            <a href="/sale">
+                                                <i class="fa fa-circle-o"></i> ปิดโต๊ะ</a>
+                                        </li>
+                                    </ul>
+                                  </li>                            
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
                                     <i class="fa fa-circle-o"></i> เช็คบิล</a>
@@ -147,16 +149,16 @@
                         <ul class="treeview-menu">
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
-                                    <i class="fa fa-circle-o"></i>จำนวนอาหารต่อวัน</a>
-                            </li>
-                            <li class="{{.m_create_request}}">
-                                <a href="/sale">
                                     <i class="fa fa-circle-o"></i> คิวอาหาร</a>
                             </li>
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
                                     <i class="fa fa-circle-o"></i> จ่ายอาหาร</a>
-                            </li> 
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                    <a href="/sale">
+                                        <i class="fa fa-circle-o"></i> ปิดรับออร์เดอร์</a>
+                                </li>
                         </ul>
                     </li>
                     <li class="treeview {{.m_request}}">
@@ -198,20 +200,20 @@
                         </ul>
                     </li>
                     <li class="treeview {{.m_user}}">
-                            <a href="#">
-                                <i class="fa fa-smile-o"></i>
-                                <span>สมาชิก</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="../forms/general.html">
-                                        <i class="fa fa-circle-o"></i> สร้างสมาชิก</a>
-                                </li>                              
-                            </ul>
-                        </li>
+                        <a href="#">
+                            <i class="fa fa-smile-o"></i>
+                            <span>สมาชิก</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="../forms/general.html">
+                                    <i class="fa fa-circle-o"></i> สร้างสมาชิก</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="treeview {{.m_user}}">
                         <a href="#">
                             <i class="fa fa-users"></i>
@@ -224,7 +226,7 @@
                             <li>
                                 <a href="../forms/general.html">
                                     <i class="fa fa-circle-o"></i> สร้างผู้ใช้งาน</a>
-                            </li>                            
+                            </li>
                             <li class="{{.m_role_list}}">
                                 <a href="/normal/?entity=roles">
                                     <i class="fa fa-circle-o"></i>สิทธิ์</a>
