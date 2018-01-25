@@ -17,9 +17,7 @@
 
     <link rel="stylesheet" href="/static/css/AdminLTE.min.css">
 
-    <link rel="stylesheet" href="/static/css/skins/_all-skins.min.css">
-    
-    {{.html_head}}
+    <link rel="stylesheet" href="/static/css/skins/_all-skins.min.css"> {{.html_head}}
 
     <link rel="stylesheet" href="/static/css/umami.css">
 
@@ -114,8 +112,51 @@
                         <ul class="treeview-menu">
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
-                                    <i class="fa fa-circle-o"></i> ขาย</a>
-                            </li>                                                       
+                                    <i class="fa fa-circle-o"></i> เปิดร้าน</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> จองโต๊ะ</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> รับแขก</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> ย้ายโต๊ะ</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                    <a href="/sale">
+                                        <i class="fa fa-circle-o"></i> ปิดโต๊ะ</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> เช็คบิล</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{.m_request}}">
+                        <a href="#">
+                            <i class="fa fa-tasks"></i>
+                            <span>ครัว</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i>จำนวนอาหารต่อวัน</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> คิวอาหาร</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> จ่ายอาหาร</a>
+                            </li> 
                         </ul>
                     </li>
                     <li class="treeview {{.m_request}}">
@@ -130,7 +171,11 @@
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
                                     <i class="fa fa-circle-o"></i> โปรโมชั่น</a>
-                            </li>                                                       
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> บัตรส่วนลด</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -144,18 +189,33 @@
                         <ul class="treeview-menu">
                             <li>
                                 <a href="../forms/general.html">
-                                    <i class="fa fa-circle-o"></i> รายงาน</a>
+                                    <i class="fa fa-circle-o"></i> รายงานการขาย</a>
                             </li>
                             <li>
                                 <a href="../forms/advanced.html">
-                                    <i class="fa fa-circle-o"></i> รายงาน...</a>
+                                    <i class="fa fa-circle-o"></i> รายงานอาหารขายดี</a>
                             </li>
                         </ul>
                     </li>
                     <li class="treeview {{.m_user}}">
+                            <a href="#">
+                                <i class="fa fa-smile-o"></i>
+                                <span>สมาชิก</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a href="../forms/general.html">
+                                        <i class="fa fa-circle-o"></i> สร้างสมาชิก</a>
+                                </li>                              
+                            </ul>
+                        </li>
+                    <li class="treeview {{.m_user}}">
                         <a href="#">
                             <i class="fa fa-users"></i>
-                            <span>สมาชิก</span>
+                            <span>ผู้ใช้งาน</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -163,12 +223,8 @@
                         <ul class="treeview-menu">
                             <li>
                                 <a href="../forms/general.html">
-                                    <i class="fa fa-circle-o"></i> สร้างสมาชิก</a>
-                            </li>
-                            <li>
-                                <a href="../forms/advanced.html">
-                                    <i class="fa fa-circle-o"></i> รายชื่อสมาชิก</a>
-                            </li>
+                                    <i class="fa fa-circle-o"></i> สร้างผู้ใช้งาน</a>
+                            </li>                            
                             <li class="{{.m_role_list}}">
                                 <a href="/normal/?entity=roles">
                                     <i class="fa fa-circle-o"></i>สิทธิ์</a>
@@ -220,7 +276,7 @@
                 <b>Version</b> 1.0.0
             </div>
             <strong>Copyright &copy; 2018
-                <a href="#">FIXED</a>.</strong> All rights reserved.
+                <a href="#">UMAMI</a>.</strong> All rights reserved.
         </footer>
         <!-- /.control-sidebar -->
         <div class="modal modal-default fade" id="small-global-modal">
@@ -231,33 +287,32 @@
             </div>
         </div>
         <div class="modal modal-default fade" id="small-delete-global-modal">
-                <div class="modal-dialog">
-                    <div class="modal-content" id="small-delete-global-modal-content">
-                            <input type="hidden" id="global-delete-id" name="global-delete-id" />
-                            <input type="hidden" id="global-delete-url" name="global-delete-url" />
-                            <input type="hidden" id="global-delete-xsrf" name="global-delete-xsrf" />
-                            <div class="modal-header alert-danger">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">×</span></button>
-                                    <h4 class="modal-title ">ยืนยันการลบข้อมูล</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                        <div class="alert alert-danger fade in no-margin"
-                                           style="display:none"
-                                          id="global-delete-alert">
-                                        </div>
-                                    <p>ท่านกำลังจะลบข้อมูล, จะดำเนินการต่อหรือไม่?</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal"> ปิด </button>
-                                        <button type="button" onclick="deleteGlobal()" class="btn btn-warning">
-                                            <i class="fa fa-trash-o"></i> ลบข้อมูล
-                                        </button>
-                                  </div>
-                                </div>
+            <div class="modal-dialog">
+                <div class="modal-content" id="small-delete-global-modal-content">
+                    <input type="hidden" id="global-delete-id" name="global-delete-id" />
+                    <input type="hidden" id="global-delete-url" name="global-delete-url" />
+                    <input type="hidden" id="global-delete-xsrf" name="global-delete-xsrf" />
+                    <div class="modal-header alert-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title ">ยืนยันการลบข้อมูล</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger fade in no-margin" style="display:none" id="global-delete-alert">
+                        </div>
+                        <p>ท่านกำลังจะลบข้อมูล, จะดำเนินการต่อหรือไม่?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> ปิด </button>
+                        <button type="button" onclick="deleteGlobal()" class="btn btn-warning">
+                            <i class="fa fa-trash-o"></i> ลบข้อมูล
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
     </div>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
@@ -272,4 +327,5 @@
         })
     </script>
 </body>
+
 </html>
