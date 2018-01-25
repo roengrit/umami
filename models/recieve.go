@@ -22,8 +22,8 @@ type Receive struct {
 	CreditDate    time.Time `orm:"type(date)"`
 	Creator       *User     `orm:"rel(fk)"`
 	CreatedAt     time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor        *User     `orm:"rel(fk)"`
-	EditAt        time.Time `orm:"auto_now;type(datetime)"`
+	Editor        *User     `orm:"null;rel(fk)"`
+	EditedAt      time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //ReceiveSub _
@@ -39,8 +39,8 @@ type ReceiveSub struct {
 	TotalPrice float64   `orm:"digits(12);decimals(2)"`
 	Creator    *User     `orm:"rel(fk)"`
 	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor     *User     `orm:"rel(fk)"`
-	EditAt     time.Time `orm:"auto_now;type(datetime)"`
+	Editor     *User     `orm:"null;rel(fk)"`
+	EditedAt   time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 func init() {

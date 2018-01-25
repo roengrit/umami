@@ -20,8 +20,8 @@ type Product struct {
 	Active          bool
 	Creator         *User     `orm:"rel(fk)"`
 	CreatedAt       time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor          *User     `orm:"rel(fk)"`
-	EditAt          time.Time `orm:"auto_now;type(datetime)"`
+	Editor          *User     `orm:"null;rel(fk)"`
+	EditedAt        time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //ProductCategory _
@@ -32,8 +32,8 @@ type ProductCategory struct {
 	Active    bool
 	Creator   *User     `orm:"rel(fk)"`
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor    *User     `orm:"rel(fk)"`
-	EditAt    time.Time `orm:"auto_now;type(datetime)"`
+	Editor    *User     `orm:"null;rel(fk)"`
+	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //ProductType _
@@ -44,8 +44,8 @@ type ProductType struct {
 	Active    bool
 	Creator   *User     `orm:"rel(fk)"`
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor    *User     `orm:"rel(fk)"`
-	EditAt    time.Time `orm:"auto_now;type(datetime)"`
+	Editor    *User     `orm:"null;rel(fk)"`
+	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //Unit _
@@ -56,8 +56,8 @@ type Unit struct {
 	Active    bool
 	Creator   *User     `orm:"rel(fk)"`
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor    *User     `orm:"rel(fk)"`
-	EditAt    time.Time `orm:"auto_now;type(datetime)"`
+	Editor    *User     `orm:"null;rel(fk)"`
+	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 func init() {

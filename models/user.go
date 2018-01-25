@@ -21,10 +21,10 @@ type User struct {
 	Line      string `orm:"size(255)"`
 	Role      *Role  `orm:"rel(fk)"`
 	Active    bool
-	Creator    *User       `orm:"rel(fk)"`
-	CreatedAt  time.Time   `orm:"auto_now_add;type(datetime)"`
-	Editor     *User       `orm:"rel(fk)"`
-	EditAt     time.Time   `orm:"auto_now;type(datetime)"`
+	Creator   *User     `orm:"rel(fk)"`
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	Editor    *User     `orm:"null;rel(fk)"`
+	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //Permiss เก็บข้อมูลสิทธิ์ใช้งาน
@@ -33,21 +33,21 @@ type Permiss struct {
 	RoleID    *Role `orm:"rel(fk)"`
 	MenuID    *Menu `orm:"rel(fk)"`
 	Active    bool
-	Creator    *User       `orm:"rel(fk)"`
-	CreatedAt  time.Time   `orm:"auto_now_add;type(datetime)"`
-	Editor     *User       `orm:"rel(fk)"`
-	EditAt     time.Time   `orm:"auto_now;type(datetime)"`
+	Creator   *User     `orm:"rel(fk)"`
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	Editor    *User     `orm:"null;rel(fk)"`
+	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //Role _
 type Role struct {
 	ID        int
 	Lock      bool
-	Name      string `orm:"size(225)"`
-	Creator    *User       `orm:"rel(fk)"`
-	CreatedAt  time.Time   `orm:"auto_now_add;type(datetime)"`
-	Editor     *User       `orm:"rel(fk)"`
-	EditAt     time.Time   `orm:"auto_now;type(datetime)"`
+	Name      string    `orm:"size(225)"`
+	Creator   *User     `orm:"rel(fk)"`
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	Editor    *User     `orm:"null;rel(fk)"`
+	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 func init() {
