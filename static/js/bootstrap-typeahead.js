@@ -451,6 +451,9 @@
         },
         blur: function (e) {
             this.focused = false
+            if($('#' + this.valid).val()==''){
+                this.$element.val('');
+            }
             if (!this.mousedover && this.shown)
                 this.hide()
         },
@@ -527,6 +530,7 @@
             preProcess: null
         }    ,
         parent :  ''  ,
+        valid :  ''  ,
         fixurl :  ''   
     };
 
