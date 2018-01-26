@@ -13,7 +13,7 @@ type StockAdj struct {
 	DocNo         string    `orm:"size(30)"`
 	DocRefNo      string    `orm:"size(30)"`
 	Supplier      *Supplier `orm:"rel(fk)"`
-	SupplierrName string    `orm:"size(300)"`
+	SupplierName  string    `orm:"size(300)"`
 	DiscountType  int
 	DiscountWord  string  `orm:"size(300)"`
 	TotalDiscount float64 `orm:"digits(12);decimals(2)"`

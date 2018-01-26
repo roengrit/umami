@@ -28,5 +28,6 @@ func main() {
 	}
 
 	beego.Router("/", &c.AppController{})
+	beego.Router("/receive", &c.ReceiveController{})
 	beego.Run()
 }

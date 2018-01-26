@@ -1,0 +1,135 @@
+<section class="content-header">
+    <div id="top-alert" style="display:none">
+    </div>
+    <h1 id="title-content">
+        {{.title}}
+    </h1>
+</section>
+<section class="content">
+    <form action="/create-receive" autocomplete="off" id="rec-form" method="post">
+        {{ .xsrfdata }}
+        
+        <input type="hidden" id="current-row" />
+        <input type="hidden" id="SuplierID" name="Suplier.ID" />
+
+        <div id="box-req" class="box box-primary">
+            <div class="box-body">
+                <div class="form-group req-box-form">
+                    <div class="col-xs-12">
+                        <label for="req-name">ผู้จำหน่าย</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input type="text" id="SuplierName" name="Suplier.Name" class="form-control has-query" autocomplete="off" placeholder="ผู้จำหน่าย...."
+                                value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group req-box-form">
+                    <div class="col-xs-6">
+                        <label for="req-sn">วันที่รับ</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calculator"></i>
+                            </span>
+                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" class="form-control" placeholder="....">
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="req-sn">เอกสารอ้างอิง</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa  fa-file-text-o"></i>
+                            </span>
+                            <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" placeholder="เอกสารอ้างอิง">
+                        </div>
+                    </div>
+                </div>             
+                <div class="form-group req-box-form">
+                    <div class="col-xs-12">
+                        <table class="table" id="ret-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-5 col-md-5-table">ชื่อ</th>
+                                    <th class="col-md-2 col-md-2-table" style="text-align:right;">จำนวน</th>
+                                    <th class="col-md-2 col-md-2-table" style="text-align:right;">ราคา:หน่วย</th>
+                                    <th class="col-md-2 col-md-2-table" style="text-align:right;">รวม</th>
+                                    <th class="col-md-1 col-md-1-table" style="width:100%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-bordered table-condensed" id="RetData">
+
+                            </tbody>
+                            <tfoot class="table-bordered table-condensed">
+                                <tr>
+                                    <th>
+                                        <button type="button" class="btn btn-sm btn-success add-row">เพิ่ม</button>
+                                    </th>
+                                    <th colspan="2" style="text-align:right;vertical-align: middle;">รวมเป็นเงิน</th>
+                                    <th style="text-align:right;vertical-align: middle;" id="TotalText">0.00</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th> </th>
+                                    <th colspan="2" style="text-align:right;vertical-align: middle;">
+                                        <div style="display:block;">
+                                            <input type="text" class="form-control" style="width:130px!important;float:right;margin-left:5px;" />
+                                            <select id="discountType" class="form-control" style="width:80px!important;float:right;margin-left:5px;">
+                                                <option>%</option>
+                                                <option>เงิน</option>
+                                            </select>
+                                            <div style="padding-top:5px;height: 34px;float:right;">ส่วนลด</div>
+                                        </div>
+                                    </th>
+                                    <th style="text-align:right;vertical-align: middle;" id="total-text">0.00</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th> </th>
+                                    <th colspan="2" style="text-align:right;vertical-align: middle;">จำนวนเงินรวมทั้งสิ้น</th>
+                                    <th style="text-align:right;vertical-align: middle;" id="TotalNetText">0.00</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group req-box-form">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>หมายเหตุ</label>
+                            <textarea class="form-control"  id="Remark" name="Remark" rows="4" placeholder="หมายเหตุ"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                {{if .r}} {{else}}
+                <button type="submit" class="btn btn-lg btn-primary pull-right">บันทึก</button>
+                {{end}}
+            </div>
+        </div>
+        <div class="col-xs-11" id="editOveray">
+            <div class="col-md-6">
+                <input type="text" id="item-name" name="item-name" class="form-control has-query" autocomplete="off" placeholder="่ชื่อ">
+                <input type="hidden" tabindex="-1" id="unit-code" name="unit-code" class="form-control" style="text-align:center;" readonly
+                    autocomplete="off" placeholder="หน่วย">
+                <input type="hidden" tabindex="-1" id="unit-name" name="unit-name" class="form-control" style="text-align:center;" readonly
+                    autocomplete="off" placeholder="หน่วย">
+            </div>
+            <div class="col-md-2">
+                <input type="number" id="qty" name="qty" class="form-control" style="text-align: right;" autocomplete="off" placeholder="จำนวน">
+            </div>
+            <div class="col-md-3">
+                <div class="input-group ">
+                    <input type="number" id="price" name="price" class="form-control" style="text-align: right;" placeholder="ราคา">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success ok-edit-row">ตกลง</button>
+                        <button type="button" class="btn btn-default cancel-edit-row">ยกเลิก</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

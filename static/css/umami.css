@@ -81,6 +81,11 @@
     background-color:#E9E9E9!important;
     border-color:#E9E9E9!important;
 }
+.col-md-5-table{
+    width: 41.66666667%;
+    background-color:#E9E9E9!important;
+    border-color:#E9E9E9!important;
+}
 
 .col-md-9-table{
     width: 75%;
