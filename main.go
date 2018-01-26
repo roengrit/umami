@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	c "umami/controllers"
+	h "umami/helpers"
 
 	_ "umami/models"
 
@@ -29,5 +30,7 @@ func main() {
 
 	beego.Router("/", &c.AppController{})
 	beego.Router("/receive", &c.ReceiveController{})
+	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
+	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)
 	beego.Run()
 }

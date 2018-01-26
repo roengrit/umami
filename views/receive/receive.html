@@ -6,11 +6,11 @@
     </h1>
 </section>
 <section class="content">
-    <form action="/create-receive" autocomplete="off" id="rec-form" method="post">
+    <form action="/create-receive" autocomplete="off" id="receive-form" onsubmit="return false;" method="post">
         {{ .xsrfdata }}
         
         <input type="hidden" id="current-row" />
-        <input type="hidden" id="SuplierID" name="Suplier.ID" />
+        <input type="hidden" id="SupplierID" name="Suplier.ID" value="{{.m.Supplier.ID}}" />
 
         <div id="box-req" class="box box-primary">
             <div class="box-body">
@@ -21,20 +21,35 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <input type="text" id="SuplierName" name="Suplier.Name" class="form-control has-query" autocomplete="off" placeholder="ผู้จำหน่าย...."
-                                value="">
+                            <input type="text" id="SupplierName" name="Supplier.Name" 
+                                   class="form-control has-query" autocomplete="off" placeholder="ผู้จำหน่าย...."
+                                   value="{{.m.SupplierName}}">
                         </div>
                     </div>
                 </div>
                 <div class="form-group req-box-form">
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                         <label for="req-sn">วันที่รับ</label>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="fa fa-calculator"></i>
                             </span>
-                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" class="form-control" placeholder="....">
+                            {{if .DocTime}}
+                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" class="form-control" value='{{.m.DocDate}}'> {{else}}
+                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" class="form-control" value='{{date .CurrentDate "d-m-Y"}}'> {{end}}
+                            
                         </div>
+                    </div>
+                    <div class="col-xs-2">
+                            <label for="req-sn">เวลาที่รับ</label>
+                            <div class="input-group bootstrap-timepicker timepicker">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                                 {{if .DocTime}}
+                                <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{.m.DocTime}}'> {{else}}
+                                <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{date .CurrentDate "H:i"}}'> {{end}}
+                            </div>
                     </div>
                     <div class="col-xs-6">
                         <label for="req-sn">เอกสารอ้างอิง</label>
@@ -42,7 +57,7 @@
                             <span class="input-group-addon">
                                 <i class="fa  fa-file-text-o"></i>
                             </span>
-                            <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" placeholder="เอกสารอ้างอิง">
+                            <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" value="{{.m.DocRefNo}}" placeholder="เอกสารอ้างอิง">
                         </div>
                     </div>
                 </div>             
@@ -59,36 +74,75 @@
                                 </tr>
                             </thead>
                             <tbody class="table-bordered table-condensed" id="RetData">
-
+                                    {{if .RetCount}}
+                                        {{range $key, $val := .m.OrderSub}}
+                                            <tr  style="cursor: pointer;" index-val="{{$key}}">
+                                                    <input type="hidden" class="ProductId" name="Product[{{$key}}].ID" value="{{$val.Product.ID}}" /> 
+                                                    <input type="hidden" class="ProductName" name="Product[{{$key}}].Name" value="{{$val.Product.Name}}" />
+                                                    <input type="hidden" class="ProductUnitID" name="Product[{{$key}}].Unit.ID" value="{{$val.Product.Unit.ID}}" /> 
+                                                    <input type="hidden" class="ProductQty" name="Product[{{$key}}].Qty" value="{{$val.Qty}}" />
+                                                    <input type="hidden" class="ProductPrice" name="Product[{{$key}}].Price" value="{{$val.Price}}" />
+                                                    <input type="hidden" class="ProductTotalPrice" name="Product[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
+                    
+                                                    <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
+                                                    <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
+                                                    <td class="col-md-2 table-td-mid table-td-number ProductPriceText">{8}</td>
+                                                    <td class="col-md-2 table-td-mid table-td-number ProductTotalPriceText"  >{9}</td>
+                                                    <td class="col-md-1 table-td-mid table-td-number"  >
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-danger btn-flat btn-flat btn-sm delete-row">
+                                                                <i class="fa  fa-close"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                            </tr>
+                                        {{end}}  
+                                    {{end}}
                             </tbody>
                             <tfoot class="table-bordered table-condensed">
+                                <input type="hidden" name="TotalAmount" id="TotalAmount" value="{{.m.TotalAmount}}"/>
+                                <input type="hidden" name="TotalDiscount" id="TotalDiscount" value="{{.m.TotalDiscount}}"/>
+                                <input type="hidden" name="TotalNetAmount" id="TotalNetAmount" value="{{.m.TotalNetAmount}}"/>
                                 <tr>
                                     <th>
                                         <button type="button" class="btn btn-sm btn-success add-row">เพิ่ม</button>
                                     </th>
                                     <th colspan="2" style="text-align:right;vertical-align: middle;">รวมเป็นเงิน</th>
-                                    <th style="text-align:right;vertical-align: middle;" id="TotalText">0.00</th>
+                                   
+                                    <th style="text-align:right;vertical-align: middle;" id="TotalAmountText">
+                                     {{if.m.TotalAmount}} {{.m.TotalAmount | ThCommaSep}} {{else}} 0.00 {{end}}
+                                    </th>
                                     <th></th>
                                 </tr>
                                 <tr>
                                     <th> </th>
                                     <th colspan="2" style="text-align:right;vertical-align: middle;">
                                         <div style="display:block;">
-                                            <input type="text" class="form-control" style="width:130px!important;float:right;margin-left:5px;" />
-                                            <select id="discountType" class="form-control" style="width:80px!important;float:right;margin-left:5px;">
-                                                <option>%</option>
-                                                <option>เงิน</option>
+                                            <input type="number" step="0.01" class="form-control" id="DiscountWord" value="{{if.m.DiscountWord}}{{.m.DiscountWord | TextThCommaSep}}{{else}}0.00{{end}}"
+                                             name="DiscountWord" style="width:130px!important;float:right;margin-left:5px;text-align: right;" />
+                                            <select id="DiscountType" name="DiscountType" class="form-control" style="width:80px!important;float:right;margin-left:5px;">
+                                                 {{if.m.DiscountType}}
+                                                <option value="1" selected>%</option>
+                                                <option value="0">เงิน</option>
+                                                {{else}}
+                                                <option value="0" selected>เงิน</option>
+                                                <option value="1">%</option>
+                                                {{end}}
                                             </select>
                                             <div style="padding-top:5px;height: 34px;float:right;">ส่วนลด</div>
                                         </div>
                                     </th>
-                                    <th style="text-align:right;vertical-align: middle;" id="total-text">0.00</th>
+                                    <th style="text-align:right;vertical-align: middle;" id="TotalDiscountText">
+                                            {{if.m.TotalDiscount}} {{.m.TotalDiscount | ThCommaSep}} {{else}} 0.00 {{end}}
+                                    </th>
                                     <th></th>
                                 </tr>
                                 <tr>
                                     <th> </th>
                                     <th colspan="2" style="text-align:right;vertical-align: middle;">จำนวนเงินรวมทั้งสิ้น</th>
-                                    <th style="text-align:right;vertical-align: middle;" id="TotalNetText">0.00</th>
+                                    <th style="text-align:right;vertical-align: middle;" id="TotalNetAmountText">
+                                            {{if.m.TotalNetAmount}} {{.m.TotalNetAmount | ThCommaSep}} {{else}} 0.00 {{end}}
+                                    </th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -99,18 +153,19 @@
                     <div class="col-xs-12">
                         <div class="form-group">
                             <label>หมายเหตุ</label>
-                            <textarea class="form-control"  id="Remark" name="Remark" rows="4" placeholder="หมายเหตุ"></textarea>
+                            <textarea class="form-control"  id="Remark" name="Remark" rows="4" placeholder="หมายเหตุ">{{.m.Remark}}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="box-footer">
                 {{if .r}} {{else}}
-                <button type="submit" class="btn btn-lg btn-primary pull-right">บันทึก</button>
+                <button type="submit" class="btn btn-primary pull-right">บันทึก</button>
+                <a href="/receive-list" class="btn btn-default pull-right" style="margin-right:5px;">ยกเลิก</a>
                 {{end}}
             </div>
         </div>
-        <div class="col-xs-11" id="editOveray">
+        <div class="col-xs-12" id="editOveray">
             <div class="col-md-6">
                 <input type="text" id="item-name" name="item-name" class="form-control has-query" autocomplete="off" placeholder="่ชื่อ">
                 <input type="hidden" tabindex="-1" id="unit-code" name="unit-code" class="form-control" style="text-align:center;" readonly
@@ -121,7 +176,7 @@
             <div class="col-md-2">
                 <input type="number" id="qty" name="qty" class="form-control" style="text-align: right;" autocomplete="off" placeholder="จำนวน">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group ">
                     <input type="number" id="price" name="price" class="form-control" style="text-align: right;" placeholder="ราคา">
                     <span class="input-group-btn">
