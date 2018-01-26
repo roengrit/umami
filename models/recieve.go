@@ -8,22 +8,26 @@ import (
 
 //Receive _
 type Receive struct {
-	ID            int
-	Flag          int
-	DocNo         string    `orm:"size(30)"`
-	DocRefNo      string    `orm:"size(30)"`
-	Supplier      *Supplier `orm:"rel(fk)"`
-	SupplierName  string    `orm:"size(300)"`
-	DiscountType  int
-	DiscountWord  string  `orm:"size(300)"`
-	TotalDiscount float64 `orm:"digits(12);decimals(2)"`
-	TotalAmount   float64 `orm:"digits(12);decimals(2)"`
-	CreditDay     int
-	CreditDate    time.Time `orm:"type(date)"`
-	Creator       *User     `orm:"rel(fk)"`
-	CreatedAt     time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor        *User     `orm:"null;rel(fk)"`
-	EditedAt      time.Time `orm:"null;auto_now;type(datetime)"`
+	ID             int
+	Flag           int
+	DocNo          string    `orm:"size(30)"`
+	DocTime        string    `orm:"size(6)"`
+	DocRefNo       string    `orm:"size(30)"`
+	TableNo        string    `orm:"size(300)"`
+	Supplier       *Supplier `orm:"rel(fk)"`
+	SupplierName   string    `orm:"size(300)"`
+	DiscountType   int
+	DiscountWord   string  `orm:"size(300)"`
+	TotalDiscount  float64 `orm:"digits(12);decimals(2)"`
+	TotalAmount    float64 `orm:"digits(12);decimals(2)"`
+	TotalNetAmount float64 `orm:"digits(12);decimals(2)"`
+	CreditDay      int
+	CreditDate     time.Time  `orm:"type(date)"`
+	Creator        *User      `orm:"rel(fk)"`
+	CreatedAt      time.Time  `orm:"auto_now_add;type(datetime)"`
+	Editor         *User      `orm:"null;rel(fk)"`
+	EditedAt       time.Time  `orm:"null;auto_now;type(datetime)"`
+	OrderSub       []OrderSub `orm:"-"`
 }
 
 //ReceiveSub _

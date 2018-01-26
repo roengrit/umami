@@ -1,7 +1,11 @@
 package controllers
 
 import (
+	"html/template"
 	"time"
+	m "umami/models"
+
+	"github.com/go-playground/form"
 )
 
 //ReceiveController _
@@ -9,12 +13,12 @@ type ReceiveController struct {
 	BaseController
 }
 
-//Get Home page
+//Get _
 func (c *ReceiveController) Get() {
 	c.Data["title"] = "รับสินค้า/วัตถุดิบ"
 	c.Data["CurrentDate"] = time.Now()
 	c.Data["RetCount"] = 0
-	//c.Data["m"] = m.Order{}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layout.html"
 	c.TplName = "receive/receive.html"
 	c.LayoutSections = make(map[string]string)
@@ -23,7 +27,15 @@ func (c *ReceiveController) Get() {
 	c.Render()
 }
 
-func hello(in string) (out string) {
-	out = in + "world"
-	return
+//Post _
+func (c *ReceiveController) Post() {
+	doc := m.Receive{}
+	decoder := form.NewDecoder()
+	parsFormErr := decoder.Decode(&doc, c.Ctx.Request.Form)
+	if parsFormErr != nil {
+
+	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = doc
+	c.ServeJSON()
 }

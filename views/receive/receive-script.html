@@ -28,12 +28,12 @@
         });
 
         var templateRow = `<tr  style="cursor: pointer;" index-val="@">
-                                <input type="hidden" class="ProductId" name="Product[@].ID" value="{0}" /> 
-                                <input type="hidden" class="ProductName" name="Product[@].Name" value="{1}" />
-                                <input type="hidden" class="ProductUnitID" name="Product[@].Unit.ID" value="{2}" /> 
-                                <input type="hidden" class="ProductQty" name="Product[@].Qty" value="{3}" />
-                                <input type="hidden" class="ProductPrice" name="Product[@].Price" value="{4}" />
-                                <input type="hidden" class="ProductTotalPrice" name="Product[@].TotalPrice" value="{5}" />
+                                <input type="hidden" class="ProductId" name="OrderSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductName" name="OrderSub[@].Product.Name" value="{1}" />
+                                <input type="hidden" class="ProductUnitID" name="OrderSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductQty" name="OrderSub[@].Qty" value="{3}" />
+                                <input type="hidden" class="ProductPrice" name="OrderSub[@].Price" value="{4}" />
+                                <input type="hidden" class="ProductTotalPrice" name="OrderSub[@].TotalPrice" value="{5}" />
 
                                 <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
                                 <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
@@ -120,12 +120,12 @@
             $editOveray.hide();
             $("#RetData tr").each(function (index) {
                 $(this).attr("index-val", index);
-                $(this).find(".ProductId").attr("name", "Product[" + index + "].ID");
-                $(this).find(".ProductName").attr("name", "Product[" + index + "].Name");
-                $(this).find(".ProductUnitID").attr("name", "Product[" + index + "].Unit.ID");
-                $(this).find(".ProductQty").attr("name", "Product[" + index + "].Qty");
-                $(this).find(".ProductPrice").attr("name", "Product[" + index + "].Price");
-                $(this).find(".ProductTotalPrice").attr("name", "Product[" + index + "].TotalPrice");
+                $(this).find(".ProductId").attr("name", "OrderSub[" + index + "].Product.ID");
+                $(this).find(".ProductName").attr("name", "OrderSub[" + index + "].Product.Name");
+                $(this).find(".ProductUnitID").attr("name", "OrderSub[" + index + "].Unit.ID");
+                $(this).find(".ProductQty").attr("name", "OrderSub[" + index + "].Qty");
+                $(this).find(".ProductPrice").attr("name", "OrderSub[" + index + "].Price");
+                $(this).find(".ProductTotalPrice").attr("name", "OrderSub[" + index + "].TotalPrice");
             });            
         }
     });

@@ -6,11 +6,12 @@
     </h1>
 </section>
 <section class="content">
-    <form action="/create-receive" autocomplete="off" id="receive-form" onsubmit="return false;" method="post">
+    <form action="/receive" autocomplete="off" id="receive-form" onsubmit="return true;" method="post">
         {{ .xsrfdata }}
         
         <input type="hidden" id="current-row" />
         <input type="hidden" id="SupplierID" name="Suplier.ID" value="{{.m.Supplier.ID}}" />
+        <input type="hidden" id="DocNo" name="DocNo" value="{{.m.DocNo}}" />
 
         <div id="box-req" class="box box-primary">
             <div class="box-body">
@@ -77,12 +78,12 @@
                                     {{if .RetCount}}
                                         {{range $key, $val := .m.OrderSub}}
                                             <tr  style="cursor: pointer;" index-val="{{$key}}">
-                                                    <input type="hidden" class="ProductId" name="Product[{{$key}}].ID" value="{{$val.Product.ID}}" /> 
-                                                    <input type="hidden" class="ProductName" name="Product[{{$key}}].Name" value="{{$val.Product.Name}}" />
-                                                    <input type="hidden" class="ProductUnitID" name="Product[{{$key}}].Unit.ID" value="{{$val.Product.Unit.ID}}" /> 
-                                                    <input type="hidden" class="ProductQty" name="Product[{{$key}}].Qty" value="{{$val.Qty}}" />
-                                                    <input type="hidden" class="ProductPrice" name="Product[{{$key}}].Price" value="{{$val.Price}}" />
-                                                    <input type="hidden" class="ProductTotalPrice" name="Product[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
+                                                    <input type="hidden" class="ProductId" name="OrderSub[{{$key}}].Product.ID" value="{{$val.Product.ID}}" /> 
+                                                    <input type="hidden" class="ProductName" name="OrderSub[{{$key}}].Product.Name" value="{{$val.Product.Name}}" />
+                                                    <input type="hidden" class="ProductUnitID" name="OrderSub[{{$key}}].Unit.ID" value="{{$val.Unit.ID}}" /> 
+                                                    <input type="hidden" class="ProductQty" name="OrderSub[{{$key}}].Qty" value="{{$val.Qty}}" />
+                                                    <input type="hidden" class="ProductPrice" name="OrderSub[{{$key}}].Price" value="{{$val.Price}}" />
+                                                    <input type="hidden" class="ProductTotalPrice" name="OrderSub[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
                     
                                                     <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
                                                     <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
