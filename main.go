@@ -25,7 +25,6 @@ func main() {
 
 	if err != nil {
 		fmt.Println(err)
-		fmt.Println("regis model")
 	}
 
 	beego.Router("/", &c.AppController{})
