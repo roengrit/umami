@@ -4,7 +4,20 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
+	"time"
 )
+
+//ValidateDate _
+func ValidateDate(reqDate string) (time.Time, error) {
+	var errDate error
+	retDate := time.Now()
+	sp := strings.Split(reqDate, "-")
+	if len(sp) == 3 {
+		retDate, errDate = time.Parse("2006-02-01", sp[2]+"-"+sp[0]+"-"+sp[1])
+	}
+	return retDate, errDate
+}
 
 //ThCommaSep _
 func ThCommaSep(in float64) (out string) {

@@ -29,12 +29,12 @@
         });
 
         var templateRow = `<tr  style="cursor: pointer;" index-val="@">
-                                <input type="hidden" class="ProductId" name="OrderSub[@].Product.ID" value="{0}" /> 
-                                <input type="hidden" class="ProductName" name="OrderSub[@].Product.Name" value="{1}" />
-                                <input type="hidden" class="ProductUnitID" name="OrderSub[@].Unit.ID" value="{2}" /> 
-                                <input type="hidden" class="ProductQty" name="OrderSub[@].Qty" value="{3}" />
-                                <input type="hidden" class="ProductPrice" name="OrderSub[@].Price" value="{4}" />
-                                <input type="hidden" class="ProductTotalPrice" name="OrderSub[@].TotalPrice" value="{5}" />
+                                <input type="hidden" class="ProductId" name="ReceiveSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductName" name="ReceiveSub[@].Product.Name" value="{1}" />
+                                <input type="hidden" class="ProductUnitID" name="ReceiveSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductQty" name="ReceiveSub[@].Qty" value="{3}" />
+                                <input type="hidden" class="ProductPrice" name="ReceiveSub[@].Price" value="{4}" />
+                                <input type="hidden" class="ProductTotalPrice" name="ReceiveSub[@].TotalPrice" value="{5}" />
 
                                 <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
                                 <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
@@ -180,18 +180,16 @@
             $editOveray.hide();
             $("#RetData tr").each(function (index) {
                 $(this).attr("index-val", index);
-                $(this).find(".ProductId").attr("name", "OrderSub[" + index + "].Product.ID");
-                $(this).find(".ProductName").attr("name", "OrderSub[" + index + "].Product.Name");
-                $(this).find(".ProductUnitID").attr("name", "OrderSub[" + index + "].Unit.ID");
-                $(this).find(".ProductQty").attr("name", "OrderSub[" + index + "].Qty");
-                $(this).find(".ProductPrice").attr("name", "OrderSub[" + index + "].Price");
-                $(this).find(".ProductTotalPrice").attr("name", "OrderSub[" + index + "].TotalPrice");
-            });            
+                $(this).find(".ProductId").attr("name", "ReceiveSub[" + index + "].Product.ID");
+                $(this).find(".ProductName").attr("name", "ReceiveSub[" + index + "].Product.Name");
+                $(this).find(".ProductUnitID").attr("name", "ReceiveSub[" + index + "].Unit.ID");
+                $(this).find(".ProductQty").attr("name", "ReceiveSub[" + index + "].Qty");
+                $(this).find(".ProductPrice").attr("name", "ReceiveSub[" + index + "].Price");
+                $(this).find(".ProductTotalPrice").attr("name", "ReceiveSub[" + index + "].TotalPrice");
+            });    
+            sumFoorter();        
         }
         function sumFoorter(){
-            // <input type="hidden" name="TotalAmount" id="TotalAmount" value="{{.m.TotalAmount}}"/>
-            //                     <input type="hidden" name="TotalDiscount" id="TotalDiscount" value="{{.m.TotalDiscount}}"/>
-            //                     <input type="hidden" name="TotalNetAmount" id="TotalNetAmount" value="{{.m.TotalNetAmount}}"/>
             var totalAmount = 0.00;
             var discountVal  = parseFloat($('#DiscountWord').val()==''? '0': $('#DiscountWord').val()) ;
             var totalDiscountAmount = 0.00;
@@ -214,6 +212,18 @@
             $('#TotalDiscountText').html(addCommas(totalDiscountAmount.toFixed(2)));
             $('#TotalNetAmount').val(totalNetAmount.toFixed(2));
             $('#TotalNetAmountText').html(addCommas(totalNetAmount.toFixed(2)));
-        }
+        }        
     });
+    function Save() {
+            hideTopAlert();
+            url = $('#receive-form').attr('action');
+            $.post(url, $('#receive-form').serialize(), function (data) {
+                if (data.RetOK) {
+                    showTopAlert(data.RetData, "success")
+                   // setTimeout(function () { window.location.href = '/receive/list' }, 1000);
+                } else {
+                    showTopAlert(data.RetData, "danger")
+                }
+            });
+        }
 </script>

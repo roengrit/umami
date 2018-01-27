@@ -28,8 +28,7 @@ func (c *SupplierController) CreateSupplier() {
 		c.Data["title"] = "แก้ไข ร้านค้า/Supplier"
 		sup, _ := m.GetSupplier(int(supID))
 		c.Data["m"] = sup
-	}
-	m.GetSupplierList("", 10)
+	} 
 	c.Data["Province"] = m.GetAllProvince()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layout.html"
