@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -21,17 +22,15 @@ type User struct {
 	Line      string `orm:"size(255)"`
 	Role      *Role  `orm:"rel(fk)"`
 	Active    bool
-	Creator   *User     `orm:"rel(fk)"`
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor    *User     `orm:"null;rel(fk)"`
 	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 //Permiss เก็บข้อมูลสิทธิ์ใช้งาน
 type Permiss struct {
 	ID        int
-	RoleID    *Role `orm:"rel(fk)"`
-	MenuID    *Menu `orm:"rel(fk)"`
+	Role      *Role `orm:"rel(fk)"`
+	Menu      *Menu `orm:"rel(fk)"`
 	Active    bool
 	Creator   *User     `orm:"rel(fk)"`
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
@@ -72,16 +71,16 @@ func Login(username, password string) (ok bool, errRet string) {
 }
 
 //GetUser _
-func GetUser(username string) (ok bool, errRet error) {
+func GetUser(username string) (userRet User, errRet error) {
 	o := orm.NewOrm()
 	user := User{Username: username}
 	errRet = o.Read(&user, "Username")
 	if errRet == orm.ErrNoRows {
 		errRet = errors.New("ไม่พบผู้ใช้งานนี้ในระบบ")
-	} else {
-		ok = true
 	}
-	return ok, errRet
+	fmt.Println("DEV")
+	user.ID = 1
+	return user, errRet
 }
 
 //GetUserByID _

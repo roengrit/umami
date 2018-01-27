@@ -20,7 +20,7 @@ func init() {
 func main() {
 
 	name := "default"
-	force := true                              // Drop table and re-create.
+	force := false                             // Drop table and re-create.
 	verbose := true                            // Print log.
 	err := orm.RunSyncdb(name, force, verbose) // Error.
 
@@ -29,6 +29,11 @@ func main() {
 	}
 
 	beego.Router("/", &c.AppController{})
+	beego.Router("/service/secure/json/", &c.ServiceController{}, "get:GetXSRF")
+
+	beego.Router("/supplier/?:id", &c.SupplierController{}, "get:CreateSupplier;post:UpdateSupplier;delete:DeleteSupplier")
+	beego.Router("/supplier/read/?:id", &c.SupplierController{}, "get:CreateSupplier")
+	beego.Router("/supplier/list", &c.SupplierController{}, "get:SupplierList;post:GetSupplierList")
 	beego.Router("/receive", &c.ReceiveController{})
 	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
 	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)
