@@ -30,6 +30,9 @@ func main() {
 
 	beego.Router("/", &c.AppController{})
 	beego.Router("/service/secure/json/", &c.ServiceController{}, "get:GetXSRF")
+	beego.Router("/service/entity/list/json", &c.ServiceController{}, "get:ListEntityJSON")
+	beego.Router("/product/list/json", &c.ProductController{}, "get:ListProductJSON")
+	beego.Router("/product/json", &c.ProductController{}, "get:GetProductJSON")
 
 	beego.Router("/supplier/?:id", &c.SupplierController{}, "get:CreateSupplier;post:UpdateSupplier;delete:DeleteSupplier")
 	beego.Router("/supplier/read/?:id", &c.SupplierController{}, "get:CreateSupplier")

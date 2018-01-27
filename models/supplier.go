@@ -10,6 +10,7 @@ import (
 //Supplier _
 type Supplier struct {
 	ID        int
+	Lock      bool
 	Name      string     `orm:"size(300)"`
 	Address   string     `orm:"size(300)"`
 	Province  *Provinces `orm:"rel(fk)"`
@@ -21,18 +22,6 @@ type Supplier struct {
 	CreatedAt time.Time  `orm:"auto_now_add;type(datetime)"`
 	Editor    *User      `orm:"null;rel(fk)"`
 	EditedAt  time.Time  `orm:"null;auto_now;type(datetime)"`
-}
-
-//SupplierRead _
-type SupplierRead struct {
-	ID       int
-	Name     string     `orm:"size(300)"`
-	Address  string     `orm:"size(300)"`
-	Province *Provinces `orm:"rel(fk)"`
-	PostCode string     `orm:"size(10)"`
-	Contact  string     `orm:"size(255)"`
-	Tel      string     `orm:"size(100)"`
-	Remark   string     `orm:"size(100)"`
 }
 
 func init() {

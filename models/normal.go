@@ -58,20 +58,21 @@ func GetAllProvince() (req *[]Provinces) {
 }
 
 //GetListEntity _
-func GetListEntity(entity string, top int, term string) (num int64, err error, entityList []NormalEntity) {
-	var sql = "SELECT i_d,name,lock FROM " + entity + " WHERE lower(name) like lower(?) order by i_d limit {0}"
+func GetListEntity(entity string, top int, term string) (num int64, entityList []NormalEntity, err error) {
+	var sql = "SELECT i_d,name,lock FROM " + entity + " WHERE lower(name) like lower(?) order by name limit {0}"
 	if top == 0 {
 		sql = strings.Replace(sql, "limit {0}", "", -1)
 	} else {
 		sql = strings.Replace(sql, "{0}", strconv.Itoa(top), -1)
 	}
+	orm.Debug = true
 	o := orm.NewOrm()
 	num, err = o.Raw(sql, "%"+term+"%").QueryRows(&entityList)
-	return num, err, entityList
+	return num, entityList, err
 }
 
 //GetListEntityWithParent _
-func GetListEntityWithParent(entity string, entityParent string, top int, parentID string, term string) (num int64, err error, entityList []NormalEntity) {
+func GetListEntityWithParent(entity string, entityParent string, top int, parentID string, term string) (num int64, entityList []NormalEntity, err error) {
 	var sql = "SELECT i_d, name FROM " + entity + " WHERE " + entityParent + "= ? and lower(name) like lower(?) order by name limit {0}"
 	if top == 0 {
 		sql = strings.Replace(sql, "limit {0}", "", -1)
@@ -80,20 +81,20 @@ func GetListEntityWithParent(entity string, entityParent string, top int, parent
 	}
 	o := orm.NewOrm()
 	num, err = o.Raw(sql, parentID, "%"+term+"%").QueryRows(&entityList)
-	return num, err, entityList
+	return num, entityList, err
 }
 
 //GetEntity _
-func GetEntity(entity, id string) (err error, entityItem NormalEntity) {
+func GetEntity(entity, id string) (entityItem NormalEntity, err error) {
 	var sql = "SELECT i_d,name,lock FROM " + entity + " WHERE i_d = ?  limit 1"
 	o := orm.NewOrm()
 	err = o.Raw(sql, id).QueryRow(&entityItem)
-	return err, entityItem
+	return entityItem, err
 }
 
 //DeleteEntity _
 func DeleteEntity(entity, id string) (errRet error) {
-	err, ret := GetEntity(entity, id)
+	ret, err := GetEntity(entity, id)
 	if err == nil && (NormalEntity{}) != ret {
 		if ret.Lock {
 			err = errors.New("ไม่อนุญาตให้แก้ไข หรือ ลบข้อมูล")
@@ -125,7 +126,7 @@ func CreateEntity(entity, name string) (retID int64, errRet error) {
 
 //UpdateEntity _
 func UpdateEntity(entity, id, name string) (err error) {
-	err, ret := GetEntity(entity, id)
+	ret, err := GetEntity(entity, id)
 	if err == nil && (NormalEntity{}) != ret { //พบข้อมูลที่ต้องการแก้ไข
 		if ret.Lock { //ข้อมูล ล็อค  ไม่อนุญาตให้แก้ไข หรือ ลบข้อมูล
 			err = errors.New("ไม่อนุญาตให้แก้ไข หรือ ลบข้อมูล")

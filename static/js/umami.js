@@ -3,10 +3,23 @@ function loadNormalTable()
     url = $('#search-form').attr('action');
     $('#txt-search').addClass('load-text');
     $.post(url,$('#search-form').serialize(), function( data ) {
-        $('#retCount').html(data.RetCount);
-        $('#retData').html(data.RetData);
+        $('#RetCount').html(data.RetCount);
+        $('#RetData').html(data.RetData);
         $('#txt-search').removeClass('load-text');
     });
+}
+
+function addCommas(nStr)
+{
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
 }
 
 function editNormal(id) {
@@ -125,24 +138,4 @@ $(function () {
             showGlobalSmallModal();
           });
       });
-      $('.has-query').keyup(function (e) {
-          switch (e.keyCode) {
-              case 40: // down arrow
-              case 38: // up arrow
-              case 16: // shift
-              case 17: // ctrl
-              case 18: // alt
-                  break
-              case 9: // tab
-              case 13: // enter
-                  break
-              case 27: // escape
-                  break
-              default: {
-                  $(this).removeClass("check-text");
-                  var name = $(this).attr("id");
-                  $("#" + name + "-id").val('');
-              } break
-          }
-      });    
 });

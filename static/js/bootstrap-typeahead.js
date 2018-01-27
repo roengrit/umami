@@ -35,6 +35,7 @@
         that.autoSelect = that.options.autoSelect || that.autoSelect;
         that.parent = that.options.parent || that.parent;
         that.fixurl = that.options.fixurl || that.fixurl;
+        that.valid = that.options.valid || that.valid;
 
         if (that.options.ajax) {
             var ajax = that.options.ajax;
@@ -135,11 +136,6 @@
 
             var query = $.trim(this.$element.val());
 
-            //console.log("TEST0");
-            //if (query === this.query) {
-               //return this;
-            //}
-
             // Query changed
             this.query = query;
 
@@ -148,18 +144,7 @@
                 clearTimeout(this.ajax.timerId);
                 this.ajax.timerId = null;
             }
-            //console.log("TEST1");
-            // if (!query || query.length < this.ajax.triggerLength) {
-            //     // cancel the ajax callback if in progress
-            //     if (this.ajax.xhr) {
-            //         this.ajax.xhr.abort();
-            //         this.ajax.xhr = null;
-            //         this.ajaxToggleLoadClass(false);
-            //     }
-            //     console.log("TEST11");
-            //     return this.shown ? this.hide() : this;
-            // }
-            //console.log("TEST2");
+           
             function execute() {
                 this.ajaxToggleLoadClass(true);
 
@@ -409,29 +394,29 @@
                 case 40: // down arrow
                 case 38: // up arrow
                 case 16: // shift
-                case 17: // ctrl
+                case 17: // ctrl                
                 case 18: // alt
                     break
-
                 case 9: // tab
                 case 13: // enter
                     if (!this.shown)
                         return
                     this.select()
+                    this.hide()
                     break
-
                 case 27: // escape
                     if (!this.shown)
                         return
                     this.hide()
                     break
-
                 default:    
                     if(this.parent != undefined){
                         this.ajax.url = this.fixurl + '&parent=' + $('#'+this.parent).val() 
                     }
-                    if (this.ajax)
+                    $("#"+this.valid).val('');
+                    if (this.ajax){                       
                         this.ajaxLookup()
+                    }
                     else
                         this.lookup()
             }
@@ -461,7 +446,7 @@
             e.stopPropagation()
             e.preventDefault()
             this.select()
-            this.$element.focus()
+            this.hide()
         },
         mouseenter: function (e) {
             this.mousedover = true

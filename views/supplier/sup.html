@@ -45,11 +45,11 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-location-arrow"></i>
                             </span>
-                            <select id="Province.ID" name="Province.ID"  {{.r }} class="form-control">
+                            <select id="ProvinceID" name="Province.ID"  {{.r }} class="form-control province">
                                     {{range $key, $val := .Province}}
                                         <option value="{{$val.ID}}" > {{$val.Name}} </option>
                                     {{end}}   
-                        </select>   
+                            </select>   
                         </div>
                     </div>
                     <div class="col-xs-6">

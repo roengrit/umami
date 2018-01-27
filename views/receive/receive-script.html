@@ -3,6 +3,7 @@
 <script src="/static/js/bootstrap-typeahead.js" charset="UTF-8"></script>
 <script>
     $(document).ready(function () {
+        sumFoorter();
         var $editOveray = $('#editOveray');
         $('#ret-table').on("click", "tbody > tr", function (index) {
             var bottomWidth = $(this).css('width');
@@ -47,27 +48,42 @@
                                     </div>
                                 </td>
                          </tr>`;
-        {{if not .RetCount}}
+
+        if ($('#RetData tr').length == 0) {
             for (i = 0; i <= 3; i++) {
                 appendEmptyRow(i);
             }
-        {{end}}
+        }
+
         $(".cancel-edit-row").click(function (event) {
             $editOveray.hide();
         });
 
         $(".ok-edit-row").click(function (event) {
             var index  =  $("#current-row").val();
-            $('#RetData > tr').eq(index).find(".ProductId").val($('#item-user-edit-id').val());
-            $('#RetData > tr').eq(index).find(".ProductUnitID").val($('#item-user-edit').val()); 
-            $('#RetData > tr').eq(index).find(".ProductQty").html($('#item-user-edit').val());
-            $('#RetData > tr').eq(index).find(".ProductPrice").html($('#item-user-edit').val());
-            $('#RetData > tr').eq(index).find(".ProductTotalPrice").html($('#item-user-edit').val());
+            var qty = parseFloat($('#qty').val()==''? '0': $('#qty').val()) ;
+            var price = parseFloat($('#price').val()==''? '0': $('#price').val());
+            var totalPrice = parseFloat($('#qty').val()==''? '0': $('#qty').val()) * parseFloat($('#price').val()==''? '0': $('#price').val());
+
+            $('#RetData > tr').eq(index).find(".ProductId").val($('#item-id').val());
+            $('#RetData > tr').eq(index).find(".ProductName").val($('#item-name').val());
+            $('#RetData > tr').eq(index).find(".ProductUnitID").val($('#unit-id').val()); 
+
+            $('#RetData > tr').eq(index).find(".ProductQty").val(qty);
+            $('#RetData > tr').eq(index).find(".ProductPrice").val(price);
+            $('#RetData > tr').eq(index).find(".ProductTotalPrice").val(totalPrice);
+
+            $('#RetData > tr').eq(index).find(".ProductNameText").html($('#item-name').val());
+            $('#RetData > tr').eq(index).find(".ProductQtyText").html(addCommas(qty));
+            $('#RetData > tr').eq(index).find(".ProductPriceText").html(addCommas(price));
+            $('#RetData > tr').eq(index).find(".ProductTotalPriceText").html(addCommas(totalPrice));
+            sumFoorter();
             $editOveray.hide();
         }); 
 
         $(".delete-row").click(function (event) {
             deleteRow($(this));
+            sumFoorter();
         });
 
         $(".add-row").click(function (event) {
@@ -96,7 +112,51 @@
             defaultTime: ''
          }); 
 
+         $('#SupplierName').typeahead({
+            ajax: '/service/entity/list/json/?entity=supplier',
+            display: 'Name',
+            displayField: 'Name',
+            valueField: 'ID',
+            val: 'ID',
+            valid:'SupplierID',
+            onSelect: function (data) {
+                if (data.value == 0) {
+                    return;
+                }
+                $('#SupplierID').val(data.value);                 
+            }
+        });
 
+        $('#item-name').typeahead({
+            ajax: '/product/list/json',
+            display: 'Name',
+            displayField: 'Name',
+            valueField: 'ID',
+            val: 'ID',
+            valid:'item-id',
+            onSelect: function (data) {
+                if (data.value == 0) {
+                    return;
+                }
+                $('#item-id').val(data.value);  
+                $.get("/product/json/?id=" + data.value, function (product) {
+                    $('#unit-id').val(product.Data1.Unit.ID);  
+                    $('#item-balance_cost').val(product.Data1.BalanceCost);  
+                });       
+            }
+        });
+
+        $('#DiscountType').change(function(){
+            sumFoorter();
+        })
+
+        $("#DiscountWord").bind('keyup mouseup', function () {
+            sumFoorter();          
+        });
+
+        $('#DiscountWord').change(function(){
+            sumFoorter();
+        })
 
         function appendEmptyRow(index) {
             $('#RetData').append(
@@ -105,9 +165,9 @@
                 .replace('{0}', '')
                 .replace('{1}', '')
                 .replace('{2}', '')
-                .replace('{3}', '')
-                .replace('{4}', '')
-                .replace('{5}', '')
+                .replace('{3}', '0.00')
+                .replace('{4}', '0.00')
+                .replace('{5}', '0.00')
                 .replace('{6}', '')                 
                 .replace('{7}', '0.00')
                 .replace('{8}', '0.00')
@@ -127,6 +187,33 @@
                 $(this).find(".ProductPrice").attr("name", "OrderSub[" + index + "].Price");
                 $(this).find(".ProductTotalPrice").attr("name", "OrderSub[" + index + "].TotalPrice");
             });            
+        }
+        function sumFoorter(){
+            // <input type="hidden" name="TotalAmount" id="TotalAmount" value="{{.m.TotalAmount}}"/>
+            //                     <input type="hidden" name="TotalDiscount" id="TotalDiscount" value="{{.m.TotalDiscount}}"/>
+            //                     <input type="hidden" name="TotalNetAmount" id="TotalNetAmount" value="{{.m.TotalNetAmount}}"/>
+            var totalAmount = 0.00;
+            var discountVal  = parseFloat($('#DiscountWord').val()==''? '0': $('#DiscountWord').val()) ;
+            var totalDiscountAmount = 0.00;
+            var totalNetAmount = 0.00;
+
+            $("#RetData tr").each(function (index) {
+                totalAmount += parseFloat($(this).find(".ProductTotalPrice").val());
+            });              
+
+            if($('#DiscountType').val() == "0"){
+                totalDiscountAmount = discountVal;
+            }else{
+                totalDiscountAmount = (discountVal / 100) * totalAmount;                 
+            }  
+            totalNetAmount = totalAmount-totalDiscountAmount;
+
+            $('#TotalAmount').val(totalAmount.toFixed(2));
+            $('#TotalAmountText').html(addCommas(totalAmount.toFixed(2)));
+            $('#TotalDiscount').val(totalDiscountAmount.toFixed(2));
+            $('#TotalDiscountText').html(addCommas(totalDiscountAmount.toFixed(2)));
+            $('#TotalNetAmount').val(totalNetAmount.toFixed(2));
+            $('#TotalNetAmountText').html(addCommas(totalNetAmount.toFixed(2)));
         }
     });
 </script>

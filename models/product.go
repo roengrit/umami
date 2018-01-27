@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -62,4 +64,30 @@ type Unit struct {
 
 func init() {
 	orm.RegisterModel(new(Product), new(ProductCategory), new(ProductType), new(Unit)) // Need to register model in init
+}
+
+//GetProductList _
+func GetProductList(top int, term string) (num int64, productList []Product, err error) {
+	var sql = `SELECT T0.i_d,T0.name,T0.lock, T1.i_d as unit_id,T1.name as unit_name
+			   FROM product T0	
+			   JOIN unit T1 ON T0.unit_id = T1.i_d		    
+			   WHERE lower(T0.name) like lower(?) order by T0.name limit {0}`
+	if top == 0 {
+		sql = strings.Replace(sql, "limit {0}", "", -1)
+	} else {
+		sql = strings.Replace(sql, "{0}", strconv.Itoa(top), -1)
+	}
+	o := orm.NewOrm()
+	num, err = o.Raw(sql, "%"+term+"%").QueryRows(&productList)
+	return num, productList, err
+}
+
+//GetProduct _
+func GetProduct(ID int) (sup *Product, errRet error) {
+	supplier := &Product{}
+	o := orm.NewOrm()
+	o.QueryTable("product").Filter("ID", ID).RelatedSel().One(supplier)
+	supplier.Creator = nil
+	supplier.Editor = nil
+	return supplier, errRet
 }

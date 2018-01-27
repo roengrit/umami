@@ -11,7 +11,7 @@ function Save() {
         }
     });
 }
-{{if .data.Province.ID}}
-    $("#province").val("{{.data.Province.ID}}");
-{{end}}
+    $(document).ready(function () {
+        $("#ProvinceID").val('{{.m.Province.ID}}'); 
+    });
 </script>
