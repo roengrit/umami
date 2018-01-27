@@ -1,0 +1,1 @@
+INSERT INTO "supplier" ("i_d", "name", "address", "province_id", "post_code", "contact", "tel", "remark", "creator_id", "created_at", "editor_id", "edited_at") VALUES (1, 'ROENGRIT MOONCHAI', '29 ซ.พนม 1 ถ.พนม ต.ในเมือง อ.เมือง', 1, '34000', 'MUCH1', '0892536161', 'BEGIN', 1, '2018-1-27 09:31:08.500877', 0, '2018-1-27 10:30:49.958935');
