@@ -140,35 +140,22 @@ func GetReceive(ID int) (doc *Receive, errRet error) {
 	return doc, errRet
 }
 
-// //GetSupplier _
-// func GetSupplier(ID int) (sup *Supplier, errRet error) {
-// 	supplier := &Supplier{}
-// 	o := orm.NewOrm()
-// 	o.QueryTable("supplier").Filter("ID", ID).RelatedSel().One(supplier)
-// 	return supplier, errRet
-// }
-
-// //GetSupplierList _
-// func GetSupplierList(term string, limit int) (sup *[]Supplier, rowCount int, errRet error) {
-// 	supplier := &[]Supplier{}
-// 	o := orm.NewOrm()
-// 	qs := o.QueryTable("supplier")
-// 	cond := orm.NewCondition()
-// 	cond1 := cond.Or("Name__icontains", term).
-// 		Or("Tel__icontains", term).
-// 		Or("Contact__icontains", term).
-// 		Or("Remark__icontains", term).
-// 		Or("Address__icontains", term)
-// 	qs.SetCond(cond1).RelatedSel().Limit(limit).All(supplier)
-// 	return supplier, len(*supplier), errRet
-// }
-
-// //DeleteSupplier _
-// func DeleteSupplier(ID int) (errRet error) {
-// 	o := orm.NewOrm()
-// 	if num, errDelete := o.Delete(&Supplier{ID: ID}); errDelete != nil {
-// 		errRet = errDelete
-// 		_ = num
-// 	}
-// 	return errRet
-// }
+//GetReceiveList _
+func GetReceiveList(term string, limit int, dateBegin, dateEnd string) (sup *[]Receive, rowCount int, errRet error) {
+	receive := &[]Receive{}
+	orm.Debug = true
+	o := orm.NewOrm()
+	qs := o.QueryTable("receive")
+	condSub1 := orm.NewCondition()
+	condSub2 := orm.NewCondition()
+	cond1 := condSub1.Or("Supplier__Name__icontains", term).
+		Or("DocNo__icontains", term).
+		Or("Remark__icontains", term)
+	qs = qs.SetCond(cond1)
+	if dateBegin != "" && dateEnd != "" {
+		cond2 := condSub2.And("doc_date__gte", dateBegin).And("doc_date__lte", dateEnd)
+		qs = qs.SetCond(cond2)
+	}
+	qs.RelatedSel().Limit(limit).All(receive)
+	return receive, len(*receive), errRet
+}

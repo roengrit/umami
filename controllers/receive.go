@@ -19,7 +19,6 @@ type ReceiveController struct {
 
 //Get _
 func (c *ReceiveController) Get() {
-
 	docID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
 	if strings.Contains(c.Ctx.Request.URL.RequestURI(), "read") {
 		c.Data["r"] = "readonly"
@@ -28,8 +27,6 @@ func (c *ReceiveController) Get() {
 		c.Data["title"] = "รับสินค้า/วัตถุดิบ"
 	} else {
 		doc, _ := m.GetReceive(int(docID))
-		fmt.Println(doc.ReceiveSub)
-		fmt.Println(len(doc.ReceiveSub))
 		c.Data["m"] = doc
 		c.Data["RetCount"] = len(doc.ReceiveSub)
 		c.Data["title"] = "แก้ไข รับสินค้า/วัตถุดิบ : " + doc.DocNo
@@ -85,5 +82,54 @@ func (c *ReceiveController) Post() {
 	}
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Data["json"] = retJSON
+	c.ServeJSON()
+}
+
+//ReceiveList _
+func (c *ReceiveController) ReceiveList() {
+	c.Data["beginDate"] = time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, time.Local).Format("2006-01-02")
+	c.Data["endDate"] = time.Date(time.Now().Year(), time.Now().Month()+1, 0, 0, 0, 0, 0, time.Local).Format("2006-01-02")
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["title"] = "รับสินค้า/วัตถุดิบ"
+	c.Layout = "layout.html"
+	c.TplName = "receive/receive-list.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["html_head"] = "receive/receive-style.html"
+	c.LayoutSections["scripts"] = "receive/receive-list-script.html"
+	c.Render()
+}
+
+//GetReceiveList _
+func (c *ReceiveController) GetReceiveList() {
+	ret := m.NormalModel{}
+	ret.RetOK = true
+	top, _ := strconv.ParseInt(c.GetString("top"), 10, 32)
+	term := c.GetString("txt-search")
+	dateBegin := c.GetString("txt-date-begin")
+	dateEnd := c.GetString("txt-date-end")
+	if dateBegin != "" {
+		sp := strings.Split(dateBegin, "-")
+		dateBegin = sp[2] + "-" + sp[1] + "-" + sp[0]
+	}
+	if dateEnd != "" {
+		sp := strings.Split(dateEnd, "-")
+		dateEnd = sp[2] + "-" + sp[1] + "-" + sp[0]
+	}
+	fmt.Println(dateBegin, dateEnd)
+	lists, rowCount, err := m.GetReceiveList(term, int(top), dateBegin, dateEnd)
+	if err == nil {
+		ret.RetOK = true
+		ret.RetCount = int64(rowCount)
+		ret.RetData = h.GenReceiveHTML(*lists)
+		if rowCount == 0 {
+			ret.RetData = h.HTMLReceiveNotFoundRows
+		}
+	} else {
+		ret.RetOK = false
+		ret.RetData = strings.Replace(h.HTMLReceiveError, "{err}", err.Error(), -1)
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
 	c.ServeJSON()
 }
