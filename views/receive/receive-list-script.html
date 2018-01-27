@@ -12,7 +12,14 @@
         format: 'dd-mm-yyyy',      
     });
     $('#txt-date-begin').datepicker('setDate', new Date(Date.parse("{{.beginDate}}"))) ;
-    $('#txt-date-end').datepicker('setDate', new Date(Date.parse("{{.endDate}}"))) ;
+    $('#txt-date-end').datepicker('setDate', new Date(Date.parse("{{.endDate}}"))) ;   
+    loadNormalTable();
 });
-        loadNormalTable();
+function cancelDoc(id){
+         hideTopAlert();
+         $.get( "/receive/cancel/?id=" + id , function( data ) {
+            $('#small-global-modal-content').html(data.RetData);
+            showGlobalSmallModal();
+          });
+    }
 </script>

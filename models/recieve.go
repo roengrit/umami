@@ -11,6 +11,7 @@ import (
 type Receive struct {
 	ID             int
 	Flag           int
+	Active         bool
 	DocNo          string    `orm:"size(30)"`
 	DocDate        time.Time `form:"-"orm:"null"`
 	DocTime        string    `orm:"size(6)"`
@@ -26,10 +27,13 @@ type Receive struct {
 	CreditDay      int
 	CreditDate     time.Time    `orm:"type(date)"`
 	Remark         string       `orm:"size(300)"`
+	CancelRemark   string       `orm:"size(300)"`
 	Creator        *User        `orm:"rel(fk)"`
 	CreatedAt      time.Time    `orm:"auto_now_add;type(datetime)"`
 	Editor         *User        `orm:"null;rel(fk)"`
 	EditedAt       time.Time    `orm:"null;auto_now;type(datetime)"`
+	CancelUser     *User        `orm:"null;rel(fk)"`
+	CancelAt       time.Time    `orm:"null;type(datetime)"`
 	ReceiveSub     []ReceiveSub `orm:"-"`
 }
 
@@ -37,6 +41,7 @@ type Receive struct {
 type ReceiveSub struct {
 	ID         int
 	Flag       int
+	Active     bool
 	DocNo      string    `orm:"size(30)"`
 	Product    *Product  `orm:"rel(fk)"`
 	Unit       *Unit     `orm:"rel(fk)"`
@@ -46,8 +51,6 @@ type ReceiveSub struct {
 	TotalPrice float64   `orm:"digits(12);decimals(2)"`
 	Creator    *User     `orm:"rel(fk)"`
 	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor     *User     `orm:"null;rel(fk)"`
-	EditedAt   time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
 func init() {
@@ -61,6 +64,7 @@ func CreateReceive(receive Receive, user User) (retID int64, errRet error) {
 	receive.CreatedAt = time.Now()
 	receive.CreditDay = 0
 	receive.CreditDate = time.Now()
+	receive.Active = true
 	var fullDataSub []ReceiveSub
 	for _, val := range receive.ReceiveSub {
 		if val.Product.ID != 0 {
@@ -68,15 +72,14 @@ func CreateReceive(receive Receive, user User) (retID int64, errRet error) {
 			val.Creator = &user
 			val.DocNo = receive.DocNo
 			val.Flag = receive.Flag
+			val.Active = true
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
 	o := orm.NewOrm()
 	o.Begin()
 	id, err := o.Insert(&receive)
-	if err == nil {
-		_, err = o.InsertMulti(len(fullDataSub), fullDataSub)
-	}
+	id, err = o.InsertMulti(len(fullDataSub), fullDataSub)
 	o.Commit()
 	if err == nil {
 		retID = id
@@ -99,15 +102,15 @@ func UpdateReceive(receive Receive, user User) (retID int64, errRet error) {
 	receive.CreditDate = docCheck.CreditDate
 	receive.EditedAt = time.Now()
 	receive.Editor = &user
+	receive.Active = true
 	var fullDataSub []ReceiveSub
 	for _, val := range receive.ReceiveSub {
 		if val.Product.ID != 0 {
 			val.CreatedAt = time.Now()
 			val.Creator = &user
-			val.EditedAt = time.Now()
-			val.Editor = &user
 			val.DocNo = receive.DocNo
 			val.Flag = receive.Flag
+			val.Active = true
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
@@ -143,19 +146,39 @@ func GetReceive(ID int) (doc *Receive, errRet error) {
 //GetReceiveList _
 func GetReceiveList(term string, limit int, dateBegin, dateEnd string) (sup *[]Receive, rowCount int, errRet error) {
 	receive := &[]Receive{}
-	orm.Debug = true
 	o := orm.NewOrm()
 	qs := o.QueryTable("receive")
 	condSub1 := orm.NewCondition()
 	condSub2 := orm.NewCondition()
-	cond1 := condSub1.Or("Supplier__Name__icontains", term).
-		Or("DocNo__icontains", term).
-		Or("Remark__icontains", term)
+	cond1 := condSub1.And("doc_date__gte", dateBegin).And("doc_date__lte", dateEnd)
 	qs = qs.SetCond(cond1)
 	if dateBegin != "" && dateEnd != "" {
-		cond2 := condSub2.And("doc_date__gte", dateBegin).And("doc_date__lte", dateEnd)
-		qs = qs.SetCond(cond2)
+		cond2 := condSub2.Or("Supplier__Name__icontains", term).Or("DocNo__icontains", term).Or("Remark__icontains", term)
+		cond1 = cond1.AndCond(cond2)
+		qs = qs.SetCond(cond1)
 	}
 	qs.RelatedSel().Limit(limit).All(receive)
 	return receive, len(*receive), errRet
+}
+
+//UpdateCancelReceive _
+func UpdateCancelReceive(ID int, remark string, user User) (retID int64, errRet error) {
+	docCheck := &Receive{}
+	o := orm.NewOrm()
+	o.QueryTable("receive").Filter("ID", ID).RelatedSel().One(docCheck)
+	if docCheck.ID == 0 {
+		errRet = errors.New("ไม่พบข้อมูล")
+	}
+	docCheck.Active = false
+	docCheck.CancelRemark = remark
+	docCheck.CancelAt = time.Now()
+	docCheck.CancelUser = &user
+	o.Begin()
+	_, err := o.Update(docCheck)
+	o.Commit()
+	if err != nil {
+		o.Rollback()
+	}
+	errRet = err
+	return retID, errRet
 }

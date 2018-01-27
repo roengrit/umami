@@ -39,6 +39,7 @@ func main() {
 	beego.Router("/supplier/list", &c.SupplierController{}, "get:SupplierList;post:GetSupplierList")
 	beego.Router("/receive", &c.ReceiveController{})
 	beego.Router("/receive/read", &c.ReceiveController{})
+	beego.Router("/receive/cancel", &c.ReceiveController{}, "get:CancelReceive;post:UpdateCancelReceive")
 	beego.Router("/receive/list", &c.ReceiveController{}, "get:ReceiveList;post:GetReceiveList")
 	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
 	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)

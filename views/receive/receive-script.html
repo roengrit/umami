@@ -6,6 +6,9 @@
         sumFoorter();
         var $editOveray = $('#editOveray');
         $('#ret-table').on("click", "tbody > tr", function (index) {
+            {{if .r}}
+              return;
+            {{end}}
             var bottomWidth = $(this).css('width');
             var intWidth = parseInt(bottomWidth.replace("px", ""));
             var bottomHeight = '40px';
@@ -220,7 +223,7 @@
             $.post(url, $('#receive-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
-                   // setTimeout(function () { window.location.href = '/receive/list' }, 1000);
+                    setTimeout(function () { window.location.href = '/receive/list' }, 600);
                 } else {
                     showTopAlert(data.RetData, "danger")
                 }

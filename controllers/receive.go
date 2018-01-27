@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	"bytes"
 	"html/template"
 	"strconv"
 	"strings"
@@ -28,6 +28,9 @@ func (c *ReceiveController) Get() {
 	} else {
 		doc, _ := m.GetReceive(int(docID))
 		c.Data["m"] = doc
+		if !doc.Active {
+			c.Data["r"] = "readonly"
+		}
 		c.Data["RetCount"] = len(doc.ReceiveSub)
 		c.Data["title"] = "แก้ไข รับสินค้า/วัตถุดิบ : " + doc.DocNo
 	}
@@ -115,7 +118,6 @@ func (c *ReceiveController) GetReceiveList() {
 		sp := strings.Split(dateEnd, "-")
 		dateEnd = sp[2] + "-" + sp[1] + "-" + sp[0]
 	}
-	fmt.Println(dateBegin, dateEnd)
 	lists, rowCount, err := m.GetReceiveList(term, int(top), dateBegin, dateEnd)
 	if err == nil {
 		ret.RetOK = true
@@ -127,6 +129,52 @@ func (c *ReceiveController) GetReceiveList() {
 	} else {
 		ret.RetOK = false
 		ret.RetData = strings.Replace(h.HTMLReceiveError, "{err}", err.Error(), -1)
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//CancelReceive _
+func (c *ReceiveController) CancelReceive() {
+	ID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
+	ret := m.NormalModel{}
+	dataTemplate := m.NormalModel{}
+	dataTemplate.ID = ID
+	dataTemplate.Title = "กรุณาระบุ หมายเหตุ การยกเลิก"
+	dataTemplate.XSRF = c.XSRFToken()
+	t, err := template.ParseFiles("views/receive/receive-cancel.html")
+	var tpl bytes.Buffer
+	if err = t.Execute(&tpl, dataTemplate); err != nil {
+		ret.RetOK = err != nil
+		ret.RetData = err.Error()
+	} else {
+		ret.RetOK = true
+		ret.RetData = tpl.String()
+	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//UpdateCancelReceive _
+func (c *ReceiveController) UpdateCancelReceive() {
+	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
+	ret := m.NormalModel{}
+	ID, _ := c.GetInt("ID")
+	remark := c.GetString("Remark")
+	ret.RetOK = true
+	if remark == "" {
+		ret.RetOK = false
+		ret.RetData = "กรุณาระบุหมายเหตุ"
+	}
+	if ret.RetOK {
+		_, err := m.UpdateCancelReceive(ID, remark, actionUser)
+		if err != nil {
+			ret.RetOK = false
+			ret.RetData = err.Error()
+		}
 	}
 	ret.XSRF = c.XSRFToken()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())

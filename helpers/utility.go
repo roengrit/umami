@@ -58,6 +58,7 @@ var renderFloatPrecisionRounders = [10]float64{
 	0.0000000005,
 }
 
+//RenderFloat _
 func RenderFloat(format string, n float64) string {
 	// Special cases:
 	// NaN = "NaN"
@@ -180,6 +181,7 @@ func RenderFloat(format string, n float64) string {
 	return signStr + intStr + decimalStr + fracStr
 }
 
+//RenderInteger _
 func RenderInteger(format string, n int) string {
 	return RenderFloat(format, float64(n))
 }

@@ -1,3 +1,10 @@
+{{if.r}}
+   <style>
+       .delete-row{
+           display: none;
+       }
+   </style>
+{{end}}     
 <section class="content-header">
     <div id="top-alert" style="display:none">
     </div>
@@ -17,16 +24,27 @@
         <div id="box-req" class="box box-primary">
             <div class="box-body">
                 <div class="form-group req-box-form">
-                    <div class="col-xs-12">
+                    <div class="col-xs-11">
                         <label for="req-name">ผู้จำหน่าย</label>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <input type="text" id="SupplierName" name="SupplierName" tabindex="1"
+                            <input type="text" id="SupplierName" name="SupplierName" tabindex="0"
                                    class="form-control"  autocomplete="off" placeholder="ผู้จำหน่าย...."
-                                   value="{{.m.SupplierName}}">
+                                   value="{{.m.SupplierName}}" {{.r }} />
                         </div>
+                    </div>
+                    <div class="col-xs-1">
+                            <label for="req-name">สถานะ</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-bell-o"></i>
+                                </span>
+                                 {{if .m.Active}}
+                                <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="N" readonly /> {{else}}
+                                <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="C" readonly /> {{end}}
+                            </div>
                     </div>
                 </div>
                 <div class="form-group req-box-form">
@@ -37,8 +55,8 @@
                                 <i class="fa fa-calculator"></i>
                             </span>
                             {{if .DocTime}}
-                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" tabindex="2" class="form-control" value='{{.m.DocDate}}'> {{else}}
-                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" tabindex="2" class="form-control" value='{{date .CurrentDate "d-m-Y"}}'> {{end}}
+                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" tabindex="2" class="form-control" value='{{.m.DocDate}}' {{.r }} /> {{else}}
+                            <input type="text" id="DocDate" data-date-language="th" name="DocDate" tabindex="2" class="form-control" value='{{date .CurrentDate "d-m-Y"}}' {{.r }} /> {{end}}
                             
                         </div>
                     </div>
@@ -49,8 +67,8 @@
                                     <i class="fa fa-clock-o"></i>
                                 </span>
                                  {{if .DocTime}}
-                                <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{.m.DocTime}}'> {{else}}
-                                <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{date .CurrentDate "H:i"}}'> {{end}}
+                                <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{.m.DocTime}}' {{.r }} /> {{else}}
+                                <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{date .CurrentDate "H:i"}}'{{.r }} /> {{end}}
                             </div>
                     </div>
                     <div class="col-xs-6">
@@ -59,7 +77,7 @@
                             <span class="input-group-addon">
                                 <i class="fa  fa-file-text-o"></i>
                             </span>
-                            <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" value="{{.m.DocRefNo}}" placeholder="เอกสารอ้างอิง">
+                            <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" value="{{.m.DocRefNo}}" placeholder="เอกสารอ้างอิง" {{.r }} />
                         </div>
                     </div>
                 </div>             
@@ -107,10 +125,14 @@
                                 <input type="hidden" name="TotalNetAmount" id="TotalNetAmount" value="{{.m.TotalNetAmount}}"/>
                                 <tr>
                                     <th>
-                                        <button type="button" class="btn btn-sm btn-success add-row">เพิ่ม</button>
+                                        <button type="button" class="btn btn-sm btn-success add-row" 
+                                        {{if.r }}
+                                          style="display:none;"
+                                        {{else}}
+                                        {{end}}
+                                        >เพิ่ม</button>
                                     </th>
-                                    <th colspan="2" style="text-align:right;vertical-align: middle;">รวมเป็นเงิน</th>
-                                   
+                                    <th colspan="2" style="text-align:right;vertical-align: middle;">รวมเป็นเงิน</th>                                   
                                     <th style="text-align:right;vertical-align: middle;" id="TotalAmountText">
                                      {{if.m.TotalAmount}} {{.m.TotalAmount | ThCommaSep}} {{else}} 0.00 {{end}}
                                     </th>
@@ -121,8 +143,8 @@
                                     <th colspan="2" style="text-align:right;vertical-align: middle;">
                                         <div style="display:block;">
                                             <input type="number" step="0.01" class="form-control" id="DiscountWord" value="{{if.m.DiscountWord}}{{.m.DiscountWord | TextThCommaSep}}{{else}}0.00{{end}}"
-                                             name="DiscountWord" style="width:130px!important;float:right;margin-left:5px;text-align: right;" />
-                                            <select id="DiscountType" name="DiscountType" class="form-control" style="width:80px!important;float:right;margin-left:5px;">
+                                             name="DiscountWord" style="width:130px!important;float:right;margin-left:5px;text-align: right;" {{.r }}  />
+                                            <select id="DiscountType" name="DiscountType" class="form-control" style="width:80px!important;float:right;margin-left:5px;" {{.r }}  >
                                                  {{if.m.DiscountType}}
                                                 <option value="1" selected>%</option>
                                                 <option value="0">เงิน</option>
@@ -155,10 +177,20 @@
                     <div class="col-xs-12">
                         <div class="form-group">
                             <label>หมายเหตุ</label>
-                            <textarea class="form-control"  id="Remark" name="Remark" rows="4" placeholder="หมายเหตุ">{{.m.Remark}}</textarea>
+                            <textarea class="form-control"  id="Remark" name="Remark" rows="4" placeholder="หมายเหตุ" {{.r }}  >{{.m.Remark}}</textarea>
                         </div>
                     </div>
                 </div>
+                {{if not .m.Active}}
+                <div class="form-group req-box-form">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>หมายเหตุการยกเลิก</label>
+                                <textarea class="form-control"  id="CancelRemark" name="CancelRemark" rows="4" placeholder="หมายเหตุ" {{.r }}  >{{.m.CancelRemark}}</textarea>
+                            </div>
+                        </div>
+                </div>
+                {{end}}
             </div>      
             <div class="box-footer">
                 {{if .r}} {{else}}

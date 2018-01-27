@@ -23,6 +23,7 @@ type NormalModel struct {
 	RetCount   int64
 	RetData    string
 	ID         int64
+	Remark     string
 	Name       string
 	Del        string
 	Title      string
@@ -65,7 +66,6 @@ func GetListEntity(entity string, top int, term string) (num int64, entityList [
 	} else {
 		sql = strings.Replace(sql, "{0}", strconv.Itoa(top), -1)
 	}
-	orm.Debug = true
 	o := orm.NewOrm()
 	num, err = o.Raw(sql, "%"+term+"%").QueryRows(&entityList)
 	return num, entityList, err
