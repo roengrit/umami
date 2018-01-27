@@ -42,8 +42,14 @@
                                     <i class="fa fa-bell-o"></i>
                                 </span>
                                  {{if .m.Active}}
-                                <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="N" readonly /> {{else}}
-                                <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="C" readonly /> {{end}}
+                                      <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="N" readonly />
+                                 {{else}}
+                                    {{if .m.DocNo}}
+                                         <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="C" readonly />
+                                    {{else}}
+                                         <input type="text" id="Active" tabindex="1" class="form-control" autocomplete="off" value="N" readonly /> 
+                                    {{end}}                                   
+                                {{end}}
                             </div>
                     </div>
                 </div>
@@ -182,14 +188,16 @@
                     </div>
                 </div>
                 {{if not .m.Active}}
-                <div class="form-group req-box-form">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>หมายเหตุการยกเลิก</label>
-                                <textarea class="form-control"  id="CancelRemark" name="CancelRemark" rows="4" placeholder="หมายเหตุ" {{.r }}  >{{.m.CancelRemark}}</textarea>
+                    {{if .m.DocNo}}
+                    <div class="form-group req-box-form">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>หมายเหตุการยกเลิก</label>
+                                    <textarea class="form-control"  id="CancelRemark" name="CancelRemark" rows="4" placeholder="หมายเหตุ" {{.r }}  >{{.m.CancelRemark}}</textarea>
+                                </div>
                             </div>
-                        </div>
-                </div>
+                    </div>
+                    {{end}}
                 {{end}}
             </div>      
             <div class="box-footer">
