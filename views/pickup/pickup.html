@@ -17,7 +17,7 @@
         {{ .xsrfdata }}
         
         <input type="hidden" id="current-row" />
-        <input type="hidden" id="SupplierID" name="SupplierID" value="{{.m.SupplierID}}" />
+        <input type="hidden" id="MemberID" name="Member.ID" value="1" />
         <input type="hidden" id="DocNo" name="DocNo" value="{{.m.DocNo}}" />
         <input type="hidden" id="ID" name="ID" value="{{.m.ID}}" />
 
@@ -30,14 +30,14 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <input type="text" id="SupplierName" name="SupplierName" tabindex="0"
+                            <input type="text" id="MemberName" name="MemberName" tabindex="0"
                                    class="form-control"  autocomplete="off" placeholder="ผู้จำหน่าย...."
-                                   value="{{.m.SupplierName}}" {{.r }} />
+                                   value="{{.m.MemberName}}" {{.r }} />
                         </div>
                     </div>                    
                 </div>
                 <div class="form-group req-box-form">
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <label for="req-sn">วันที่เบิก</label>
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -49,8 +49,8 @@
                             
                         </div>
                     </div>
-                    <div class="col-xs-2">
-                            <label for="req-sn">เวลาที่รับ</label>
+                    <div class="col-xs-4">
+                            <label for="req-sn">เวลาที่เบิก</label>
                             <div class="input-group bootstrap-timepicker timepicker">
                                 <span class="input-group-addon">
                                     <i class="fa fa-clock-o"></i>
@@ -59,17 +59,8 @@
                                 <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{.m.DocTime}}' {{.r }} /> {{else}}
                                 <input type="text" id="DocTime" name="DocTime" class="form-control" value='{{date .CurrentDate "H:i"}}'{{.r }} /> {{end}}
                             </div>
-                    </div>
-                    <div class="col-xs-5">
-                        <label for="req-sn">เอกสารอ้างอิง</label>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa  fa-file-text-o"></i>
-                            </span>
-                            <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" value="{{.m.DocRefNo}}" placeholder="เอกสารอ้างอิง" {{.r }} />
-                        </div>
-                    </div>
-                    <div class="col-xs-1">
+                    </div>                  
+                    <div class="col-xs-2">
                             <label for="req-name">สถานะ</label>
                             <div class="input-group">
                                 <span class="input-group-addon">
@@ -86,7 +77,31 @@
                                 {{end}}
                             </div>
                     </div>
-                </div>             
+                </div>         
+                <div class="form-group req-box-form">
+                   <div class="col-xs-6">
+                                <label for="req-sn">เอกสารอ้างอิง</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa  fa-file-text-o"></i>
+                                    </span>
+                                    <input type="text" id="DocRefNo" name="DocRefNo" class="form-control" autocomplete="off" value="{{.m.DocRefNo}}" placeholder="เอกสารอ้างอิง" {{.r }} />
+                                </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="req-sn">ประเภทการเบิก</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa  fa-file-text-o"></i>
+                            </span>
+                            <select id="DocType" name="DocType" class="form-control" {{.r }}  autocomplete="off">
+                                <option value="0"  >ทั่วไป/สินเปลือง</option>
+                                <option value="1"  >เพื่อผลิต</option>                                 
+                                <option value="2"  >เพื่อทำลาย</option>                                 
+                            </select>
+                        </div>
+                    </div>
+                </div>       
                 <div class="form-group req-box-form">
                     <div class="col-xs-12">
                         <table class="table" id="ret-table">
@@ -103,12 +118,12 @@
                                     {{if .RetCount}}
                                         {{range $key, $val := .m.PickUpSub}}
                                             <tr  style="cursor: pointer;" index-val="{{$key}}">
-                                                    <input type="hidden" class="ProductId" name="ReceiveSub[{{$key}}].Product.ID" value="{{$val.Product.ID}}" /> 
-                                                    <input type="hidden" class="ProductName" name="ReceiveSub[{{$key}}].Product.Name" value="{{$val.Product.Name}}" />
-                                                    <input type="hidden" class="ProductUnitID" name="ReceiveSub[{{$key}}].Unit.ID" value="{{$val.Unit.ID}}" /> 
-                                                    <input type="hidden" class="ProductQty" name="ReceiveSub[{{$key}}].Qty" value="{{$val.Qty}}" />
-                                                    <input type="hidden" class="ProductPrice" name="ReceiveSub[{{$key}}].Price" value="{{$val.Price}}" />
-                                                    <input type="hidden" class="ProductTotalPrice" name="ReceiveSub[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
+                                                    <input type="hidden" class="ProductId" name="PickUpSub[{{$key}}].Product.ID" value="{{$val.Product.ID}}" /> 
+                                                    <input type="hidden" class="ProductName" name="PickUpSub[{{$key}}].Product.Name" value="{{$val.Product.Name}}" />
+                                                    <input type="hidden" class="ProductUnitID" name="PickUpSub[{{$key}}].Unit.ID" value="{{$val.Unit.ID}}" /> 
+                                                    <input type="hidden" class="ProductQty" name="PickUpSub[{{$key}}].Qty" value="{{$val.Qty}}" />
+                                                    <input type="hidden" class="ProductPrice" name="PickUpSub[{{$key}}].Price" value="{{$val.Price}}" />
+                                                    <input type="hidden" class="ProductTotalPrice" name="PickUpSub[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
                     
                                                     <td class="col-md-5 table-td-mid ProductNameText">{{$val.Product.Name}}</td> 
                                                     <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{{$val.Qty | ThCommaSep }}</td>
@@ -202,9 +217,9 @@
             </div>      
             <div class="box-footer">
                 {{if .r}} {{else}}
-                <button type="submit" onclick="Save()" class="btn btn-primary pull-right">บันทึก</button>
-                <a href="/pickup/list" class="btn btn-default pull-right" style="margin-right:5px;">ยกเลิก</a>
+                <button type="submit" onclick="Save()" class="btn btn-primary pull-right">บันทึก</button>                
                 {{end}}
+                <a href="/pickup/list" class="btn btn-default pull-right" style="margin-right:5px;">ยกเลิก</a>
             </div>
         </div>
         <div class="col-xs-12" id="editOveray">

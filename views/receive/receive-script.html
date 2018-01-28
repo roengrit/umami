@@ -98,6 +98,11 @@
             });
         });
 
+        $("#DocType").val('{{.m.DocType}}'); 
+        if($("#DocType").val()=='' || $("#DocType").val() == null){
+            $("#DocType").val($("#DocType option:first").val());
+        }
+
         $('#DocDate').datepicker({
             autoclose: true,
             language: 'th',
@@ -115,18 +120,18 @@
             defaultTime: ''
          }); 
 
-         $('#SupplierName').typeahead({
-            ajax: '/service/entity/list/json/?entity=supplier',
+         $('#MemberName').typeahead({
+            ajax: '/service/entity/list/json/?entity=member',
             display: 'Name',
             displayField: 'Name',
             valueField: 'ID',
             val: 'ID',
-            valid:'SupplierID',
+            valid:'MemberID',
             onSelect: function (data) {
                 if (data.value == 0) {
                     return;
                 }
-                $('#SupplierID').val(data.value);                 
+                $('#MemberID').val(data.value);                 
             }
         });
 

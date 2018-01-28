@@ -11,37 +11,37 @@ import (
 	"github.com/go-playground/form"
 )
 
-//SupplierController _
-type SupplierController struct {
+//MemberController _
+type MemberController struct {
 	BaseController
 }
 
-//CreateSupplier _
-func (c *SupplierController) CreateSupplier() {
-	supID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
+//CreateMember _
+func (c *MemberController) CreateMember() {
+	memID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
 	if strings.Contains(c.Ctx.Request.URL.RequestURI(), "read") {
 		c.Data["r"] = "readonly"
 	}
-	if supID == 0 {
-		c.Data["title"] = "สร้าง ร้านค้า/Supplier"
+	if memID == 0 {
+		c.Data["title"] = "สร้าง สมาชิก"
 	} else {
-		c.Data["title"] = "แก้ไข ร้านค้า/Supplier"
-		sup, _ := m.GetSupplier(int(supID))
-		c.Data["m"] = sup
-	} 
+		c.Data["title"] = "แก้ไข สมาชิก"
+		mem, _ := m.GetMember(int(memID))
+		c.Data["m"] = mem
+	}
 	c.Data["Province"] = m.GetAllProvince()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layout.html"
-	c.TplName = "supplier/sup.html"
+	c.TplName = "member/mem.html"
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["scripts"] = "supplier/sup-script.html"
+	c.LayoutSections["scripts"] = "member/mem-script.html"
 	c.Render()
 }
 
-//UpdateSupplier _
-func (c *SupplierController) UpdateSupplier() {
+//UpdateMember _
+func (c *MemberController) UpdateMember() {
 
-	var sub m.Supplier
+	var sub m.Member
 	decoder := form.NewDecoder()
 	err := decoder.Decode(&sub, c.Ctx.Request.Form)
 	ret := m.NormalModel{}
@@ -59,7 +59,7 @@ func (c *SupplierController) UpdateSupplier() {
 	if ret.RetOK && sub.ID == 0 {
 		sub.CreatedAt = time.Now()
 		sub.Creator = &actionUser
-		_, err := m.CreateSupplier(sub)
+		_, err := m.CreateMember(sub)
 		if err != nil {
 			ret.RetOK = false
 			ret.RetData = err.Error()
@@ -69,7 +69,7 @@ func (c *SupplierController) UpdateSupplier() {
 	} else if ret.RetOK && sub.ID > 0 {
 		sub.EditedAt = time.Now()
 		sub.Editor = &actionUser
-		err := m.UpdateSupplier(sub)
+		err := m.UpdateMember(sub)
 		if err != nil {
 			ret.RetOK = false
 			ret.RetData = err.Error()
@@ -83,12 +83,12 @@ func (c *SupplierController) UpdateSupplier() {
 	c.ServeJSON()
 }
 
-//DeleteSupplier _
-func (c *SupplierController) DeleteSupplier() {
+//DeleteMember _
+func (c *MemberController) DeleteMember() {
 	ID, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
 	ret := m.NormalModel{}
 	ret.RetOK = true
-	err := m.DeleteSupplier(int(ID))
+	err := m.DeleteMember(int(ID))
 	if err != nil {
 		ret.RetOK = false
 		ret.RetData = err.Error()
@@ -100,34 +100,34 @@ func (c *SupplierController) DeleteSupplier() {
 	c.ServeJSON()
 }
 
-//SupplierList _
-func (c *SupplierController) SupplierList() {
+//MemberList _
+func (c *MemberController) MemberList() {
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.Data["title"] = "ร้านค้า/Supplier"
+	c.Data["title"] = "สมาชิก"
 	c.Layout = "layout.html"
-	c.TplName = "supplier/sup-list.html"
+	c.TplName = "member/mem-list.html"
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["scripts"] = "supplier/sup-list-script.html"
+	c.LayoutSections["scripts"] = "member/mem-list-script.html"
 	c.Render()
 }
 
-//GetSupplierList _
-func (c *SupplierController) GetSupplierList() {
+//GetMemberList _
+func (c *MemberController) GetMemberList() {
 	ret := m.NormalModel{}
 	ret.RetOK = true
 	top, _ := strconv.ParseInt(c.GetString("top"), 10, 32)
 	term := c.GetString("txt-search")
-	lists, rowCount, err := m.GetSupplierList(term, int(top))
+	lists, rowCount, err := m.GetMemberList(term, int(top))
 	if err == nil {
 		ret.RetOK = true
 		ret.RetCount = int64(rowCount)
-		ret.RetData = h.GenSupHTML(*lists)
+		ret.RetData = h.GenMemHTML(*lists)
 		if rowCount == 0 {
-			ret.RetData = h.HTMLSupNotFoundRows
+			ret.RetData = h.HTMLMemNotFoundRows
 		}
 	} else {
 		ret.RetOK = false
-		ret.RetData = strings.Replace(h.HTMLSupError, "{err}", err.Error(), -1)
+		ret.RetData = strings.Replace(h.HTMLMemError, "{err}", err.Error(), -1)
 	}
 	ret.XSRF = c.XSRFToken()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())

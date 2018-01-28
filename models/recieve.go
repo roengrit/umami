@@ -12,13 +12,14 @@ type Receive struct {
 	ID             int
 	Flag           int
 	Active         bool
+	DocType        int
 	DocNo          string    `orm:"size(30)"`
 	DocDate        time.Time `form:"-"orm:"null"`
 	DocTime        string    `orm:"size(6)"`
 	DocRefNo       string    `orm:"size(30)"`
 	TableNo        string    `orm:"size(300)"`
-	Supplier       *Supplier `orm:"rel(fk)"`
-	SupplierName   string    `orm:"size(300)"`
+	Member         *Member   `orm:"rel(fk)"`
+	MemberName     string    `orm:"size(300)"`
 	DiscountType   int
 	DiscountWord   string  `orm:"size(300)"`
 	TotalDiscount  float64 `orm:"digits(12);decimals(2)"`
@@ -153,7 +154,7 @@ func GetReceiveList(term string, limit int, dateBegin, dateEnd string) (sup *[]R
 	cond1 := condSub1.And("doc_date__gte", dateBegin).And("doc_date__lte", dateEnd)
 	qs = qs.SetCond(cond1)
 	if dateBegin != "" && dateEnd != "" {
-		cond2 := condSub2.Or("Supplier__Name__icontains", term).Or("DocNo__icontains", term).Or("Remark__icontains", term)
+		cond2 := condSub2.Or("Member__Name__icontains", term).Or("DocNo__icontains", term).Or("Remark__icontains", term)
 		cond1 = cond1.AndCond(cond2)
 		qs = qs.SetCond(cond1)
 	}

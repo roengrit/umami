@@ -7,7 +7,7 @@
         </h1>
     </section>
     <section class="content">
-        <form action="/supplier/list" id="search-form" onsubmit="return false;" method="post">
+        <form action="/member/list" id="search-form" onsubmit="return false;" method="post">
             {{ .xsrfdata }}
                <div class="input-group input-group-sm col-xs-6 search-top">
                     <input type="text" id="txt-search" name="txt-search" placeholder="ค้นหา" class="form-control">
@@ -50,7 +50,7 @@
                 <h3 class="box-title">ค้นเจอทั้งหมด
                     <span id="RetCount"> {{.RetCount}}</span> รายการ</h3>
                 <div class="box-tools pull-right">
-                    <a href="/supplier" id="sup-add" class="btn btn-sm btn-success">เพิ่มข้อมูล</a>
+                    <a href="/member" id="sup-add" class="btn btn-sm btn-success">เพิ่มข้อมูล</a>
                 </div>
             </div>
             <div class="box-body">
@@ -59,9 +59,10 @@
                         <thead>
                             <tr>
                                 <th >ชื่อ</th>
-                                <th style="width:400px!important;">ผู้ติดต่อ</th>
-                                <th style="width:400px!important;">เบอร์โทร</th>
-                                <th style="width: 180px!important;"></th>
+                                <th style="width:200px!important;">ผู้ติดต่อ</th>
+                                <th style="width:200px!important;">เบอร์โทร</th>
+                                <th style="width:120px!important;">ประเภท</th>
+                                <th style="width:180px!important;"></th>
                             </tr>
                         </thead>
                         <tbody id="RetData">

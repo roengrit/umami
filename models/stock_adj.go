@@ -10,10 +10,10 @@ import (
 type StockAdj struct {
 	ID            int
 	Flag          int
-	DocNo         string    `orm:"size(30)"`
-	DocRefNo      string    `orm:"size(30)"`
-	Supplier      *Supplier `orm:"rel(fk)"`
-	SupplierName  string    `orm:"size(300)"`
+	DocNo         string  `orm:"size(30)"`
+	DocRefNo      string  `orm:"size(30)"`
+	Member        *Member `orm:"rel(fk)"`
+	MemberName    string  `orm:"size(300)"`
 	DiscountType  int
 	DiscountWord  string  `orm:"size(300)"`
 	TotalDiscount float64 `orm:"digits(12);decimals(2)"`

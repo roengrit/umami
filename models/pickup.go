@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -12,13 +13,14 @@ type PickUp struct {
 	ID             int
 	Flag           int
 	Active         bool
+	DocType        int
 	DocNo          string    `orm:"size(30)"`
 	DocDate        time.Time `form:"-"orm:"null"`
 	DocTime        string    `orm:"size(6)"`
 	DocRefNo       string    `orm:"size(30)"`
 	TableNo        string    `orm:"size(300)"`
-	SupplierID     int
-	SupplierName   string `orm:"size(300)"`
+	Member         *Member   `orm:"rel(fk)"`
+	MemberName     string    `orm:"size(300)"`
 	DiscountType   int
 	DiscountWord   string  `orm:"size(300)"`
 	TotalDiscount  float64 `orm:"digits(12);decimals(2)"`
@@ -39,19 +41,18 @@ type PickUp struct {
 
 //PickUpSub _
 type PickUpSub struct {
-	ID          int
-	Flag        int
-	Active      bool
-	DocNo       string    `orm:"size(30)"`
-	Product     *Product  `orm:"rel(fk)"`
-	Unit        *Unit     `orm:"rel(fk)"`
-	Qty         float64   `orm:"digits(12);decimals(2)"`
-	RemainQty   float64   `orm:"digits(12);decimals(2)"`
-	BalanceCost float64   `orm:"digits(12);decimals(2)"`
-	Price       float64   `orm:"digits(12);decimals(2)"`
-	TotalPrice  float64   `orm:"digits(12);decimals(2)"`
-	Creator     *User     `orm:"rel(fk)"`
-	CreatedAt   time.Time `orm:"auto_now_add;type(datetime)"`
+	ID         int
+	Flag       int
+	Active     bool
+	DocNo      string    `orm:"size(30)"`
+	Product    *Product  `orm:"rel(fk)"`
+	Unit       *Unit     `orm:"rel(fk)"`
+	Qty        float64   `orm:"digits(12);decimals(2)"`
+	RemainQty  float64   `orm:"digits(12);decimals(2)"`
+	Price      float64   `orm:"digits(12);decimals(2)"`
+	TotalPrice float64   `orm:"digits(12);decimals(2)"`
+	Creator    *User     `orm:"rel(fk)"`
+	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
 func init() {
@@ -60,7 +61,7 @@ func init() {
 
 //CreatePickUp _
 func CreatePickUp(PickUp PickUp, user User) (retID int64, errRet error) {
-	PickUp.DocNo = GetMaxDoc("pick_up", "PI")
+	PickUp.DocNo = GetMaxDoc("pick_up", "PIC")
 	PickUp.Creator = &user
 	PickUp.CreatedAt = time.Now()
 	PickUp.CreditDay = 0
@@ -77,6 +78,7 @@ func CreatePickUp(PickUp PickUp, user User) (retID int64, errRet error) {
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
+	orm.Debug = true
 	o := orm.NewOrm()
 	o.Begin()
 	id, err := o.Insert(&PickUp)
@@ -103,7 +105,7 @@ func UpdatePickUp(PickUp PickUp, user User) (retID int64, errRet error) {
 	PickUp.CreditDate = docCheck.CreditDate
 	PickUp.EditedAt = time.Now()
 	PickUp.Editor = &user
-	PickUp.Active = true
+	PickUp.Active = docCheck.Active
 	var fullDataSub []PickUpSub
 	for _, val := range PickUp.PickUpSub {
 		if val.Product.ID != 0 {
@@ -111,10 +113,11 @@ func UpdatePickUp(PickUp PickUp, user User) (retID int64, errRet error) {
 			val.Creator = &user
 			val.DocNo = PickUp.DocNo
 			val.Flag = PickUp.Flag
-			val.Active = true
+			val.Active = docCheck.Active
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
+	fmt.Println(len(fullDataSub))
 	o := orm.NewOrm()
 	o.Begin()
 	id, err := o.Update(&PickUp)
@@ -154,7 +157,7 @@ func GetPickUpList(term string, limit int, dateBegin, dateEnd string) (sup *[]Pi
 	cond1 := condSub1.And("doc_date__gte", dateBegin).And("doc_date__lte", dateEnd)
 	qs = qs.SetCond(cond1)
 	if dateBegin != "" && dateEnd != "" {
-		cond2 := condSub2.Or("Supplier__Name__icontains", term).Or("DocNo__icontains", term).Or("Remark__icontains", term)
+		cond2 := condSub2.Or("Member__Name__icontains", term).Or("DocNo__icontains", term).Or("Remark__icontains", term)
 		cond1 = cond1.AndCond(cond2)
 		qs = qs.SetCond(cond1)
 	}

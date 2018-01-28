@@ -34,9 +34,9 @@ func main() {
 	beego.Router("/product/list/json", &c.ProductController{}, "get:ListProductJSON")
 	beego.Router("/product/json", &c.ProductController{}, "get:GetProductJSON")
 
-	beego.Router("/supplier/?:id", &c.SupplierController{}, "get:CreateSupplier;post:UpdateSupplier;delete:DeleteSupplier")
-	beego.Router("/supplier/read/?:id", &c.SupplierController{}, "get:CreateSupplier")
-	beego.Router("/supplier/list", &c.SupplierController{}, "get:SupplierList;post:GetSupplierList")
+	beego.Router("/member/?:id", &c.MemberController{}, "get:CreateMember;post:UpdateMember;delete:DeleteMember")
+	beego.Router("/member/read/?:id", &c.MemberController{}, "get:CreateMember")
+	beego.Router("/member/list", &c.MemberController{}, "get:MemberList;post:GetMemberList")
 
 	beego.Router("/receive", &c.ReceiveController{})
 	beego.Router("/receive/read", &c.ReceiveController{})
@@ -45,8 +45,8 @@ func main() {
 
 	beego.Router("/pickup", &c.PickUpController{})
 	beego.Router("/pickup/read", &c.PickUpController{})
-	// beego.Router("/pickup/cancel", &c.PickUpController{}, "get:CancelPickUp;post:UpdateCancelPickUp")
-	// beego.Router("/pickup/list", &c.PickUpController{}, "get:PickUpList;post:GetPickUpList")
+	beego.Router("/pickup/cancel", &c.PickUpController{}, "get:CancelPickUp;post:UpdateCancelPickUp")
+	beego.Router("/pickup/list", &c.PickUpController{}, "get:PickUpList;post:GetPickUpList")
 
 	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
 	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)

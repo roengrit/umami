@@ -17,7 +17,7 @@
 });
 function cancelDoc(id){
          hideTopAlert();
-         $.get( "/receive/cancel/?id=" + id , function( data ) {
+         $.get( "/pickup/cancel/?id=" + id , function( data ) {
             $('#small-global-modal-content').html(data.RetData);
             showGlobalSmallModal();
           });

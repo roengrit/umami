@@ -32,12 +32,12 @@
         });
 
         var templateRow = `<tr  style="cursor: pointer;" index-val="@">
-                                <input type="hidden" class="ProductId" name="ReceiveSub[@].Product.ID" value="{0}" /> 
-                                <input type="hidden" class="ProductName" name="ReceiveSub[@].Product.Name" value="{1}" />
-                                <input type="hidden" class="ProductUnitID" name="ReceiveSub[@].Unit.ID" value="{2}" /> 
-                                <input type="hidden" class="ProductQty" name="ReceiveSub[@].Qty" value="{3}" />
-                                <input type="hidden" class="ProductPrice" name="ReceiveSub[@].Price" value="{4}" />
-                                <input type="hidden" class="ProductTotalPrice" name="ReceiveSub[@].TotalPrice" value="{5}" />
+                                <input type="hidden" class="ProductId" name="PickUpSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductName" name="PickUpSub[@].Product.Name" value="{1}" />
+                                <input type="hidden" class="ProductUnitID" name="PickUpSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductQty" name="PickUpSub[@].Qty" value="{3}" />
+                                <input type="hidden" class="ProductPrice" name="PickUpSub[@].Price" value="{4}" />
+                                <input type="hidden" class="ProductTotalPrice" name="PickUpSub[@].TotalPrice" value="{5}" />
 
                                 <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
                                 <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
@@ -98,6 +98,11 @@
             });
         });
 
+        $("#DocType").val('{{.m.DocType}}'); 
+        if($("#DocType").val()=='' || $("#DocType").val() == null){
+            $("#DocType").val($("#DocType option:first").val());
+        }
+
         $('#DocDate').datepicker({
             autoclose: true,
             language: 'th',
@@ -115,18 +120,18 @@
             defaultTime: ''
          }); 
 
-         $('#SupplierName').typeahead({
-            ajax: '/service/entity/list/json/?entity=supplier',
+         $('#MemberName').typeahead({
+            ajax: '/service/entity/list/json/?entity=member',
             display: 'Name',
             displayField: 'Name',
             valueField: 'ID',
             val: 'ID',
-            valid:'SupplierID',
+            valid:'MemberID',
             onSelect: function (data) {
                 if (data.value == 0) {
                     return;
                 }
-                $('#SupplierID').val(data.value);                 
+                $('#MemberID').val(data.value);                 
             }
         });
 
@@ -183,12 +188,12 @@
             $editOveray.hide();
             $("#RetData tr").each(function (index) {
                 $(this).attr("index-val", index);
-                $(this).find(".ProductId").attr("name", "ReceiveSub[" + index + "].Product.ID");
-                $(this).find(".ProductName").attr("name", "ReceiveSub[" + index + "].Product.Name");
-                $(this).find(".ProductUnitID").attr("name", "ReceiveSub[" + index + "].Unit.ID");
-                $(this).find(".ProductQty").attr("name", "ReceiveSub[" + index + "].Qty");
-                $(this).find(".ProductPrice").attr("name", "ReceiveSub[" + index + "].Price");
-                $(this).find(".ProductTotalPrice").attr("name", "ReceiveSub[" + index + "].TotalPrice");
+                $(this).find(".ProductId").attr("name", "PickUpSub[" + index + "].Product.ID");
+                $(this).find(".ProductName").attr("name", "PickUpSub[" + index + "].Product.Name");
+                $(this).find(".ProductUnitID").attr("name", "PickUpSub[" + index + "].Unit.ID");
+                $(this).find(".ProductQty").attr("name", "PickUpSub[" + index + "].Qty");
+                $(this).find(".ProductPrice").attr("name", "PickUpSub[" + index + "].Price");
+                $(this).find(".ProductTotalPrice").attr("name", "PickUpSub[" + index + "].TotalPrice");
             });    
             sumFoorter();        
         }
@@ -219,11 +224,11 @@
     });
     function Save() {
             hideTopAlert();
-            url = $('#receive-form').attr('action');
-            $.post(url, $('#receive-form').serialize(), function (data) {
+            url = $('#pickup-form').attr('action');
+            $.post(url, $('#pickup-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
-                    setTimeout(function () { window.location.href = '/receive/list' }, 600);
+                    setTimeout(function () { window.location.href = '/pickup/list' }, 600);
                 } else {
                     showTopAlert(data.RetData, "danger")
                 }
