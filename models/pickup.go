@@ -45,6 +45,7 @@ type PickUpSub struct {
 	Flag       int
 	Active     bool
 	DocNo      string    `orm:"size(30)"`
+	DocDate    time.Time `form:"-"orm:"null"`
 	Product    *Product  `orm:"rel(fk)"`
 	Unit       *Unit     `orm:"rel(fk)"`
 	Qty        float64   `orm:"digits(12);decimals(2)"`
@@ -75,6 +76,7 @@ func CreatePickUp(PickUp PickUp, user User) (retID int64, errRet error) {
 			val.DocNo = PickUp.DocNo
 			val.Flag = PickUp.Flag
 			val.Active = true
+			val.DocDate = PickUp.DocDate
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
@@ -114,6 +116,7 @@ func UpdatePickUp(PickUp PickUp, user User) (retID int64, errRet error) {
 			val.DocNo = PickUp.DocNo
 			val.Flag = PickUp.Flag
 			val.Active = docCheck.Active
+			val.DocDate = PickUp.DocDate
 			fullDataSub = append(fullDataSub, val)
 		}
 	}

@@ -47,7 +47,7 @@ func (c *PickUpController) Get() {
 //Post _
 func (c *PickUpController) Post() {
 	doc := m.PickUp{}
-	doc.Flag = 2 // รับ
+	doc.Flag = 2 // เบิก
 	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
 	retJSON := m.NormalModel{RetOK: true}
 	decoder := form.NewDecoder()

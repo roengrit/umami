@@ -44,6 +44,7 @@ type ReceiveSub struct {
 	Flag       int
 	Active     bool
 	DocNo      string    `orm:"size(30)"`
+	DocDate    time.Time `form:"-"orm:"null"`
 	Product    *Product  `orm:"rel(fk)"`
 	Unit       *Unit     `orm:"rel(fk)"`
 	Qty        float64   `orm:"digits(12);decimals(2)"`
@@ -74,6 +75,7 @@ func CreateReceive(receive Receive, user User) (retID int64, errRet error) {
 			val.DocNo = receive.DocNo
 			val.Flag = receive.Flag
 			val.Active = true
+			val.DocDate = receive.DocDate
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
@@ -103,7 +105,7 @@ func UpdateReceive(receive Receive, user User) (retID int64, errRet error) {
 	receive.CreditDate = docCheck.CreditDate
 	receive.EditedAt = time.Now()
 	receive.Editor = &user
-	receive.Active = true
+	receive.Active = docCheck.Active
 	var fullDataSub []ReceiveSub
 	for _, val := range receive.ReceiveSub {
 		if val.Product.ID != 0 {
@@ -111,7 +113,8 @@ func UpdateReceive(receive Receive, user User) (retID int64, errRet error) {
 			val.Creator = &user
 			val.DocNo = receive.DocNo
 			val.Flag = receive.Flag
-			val.Active = true
+			val.Active = receive.Active
+			val.DocDate = receive.DocDate
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
