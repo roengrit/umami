@@ -6,9 +6,9 @@
         sumFoorter();
         var $editOveray = $('#editOveray');
         $('#ret-table').on("click", "tbody > tr", function (index) {
-            {{if .r}}
+            var readonly = '{{.r}}';
+            if(readonly)
               return;
-            {{end}}
             var bottomWidth = $(this).css('width');
             var intWidth = parseInt(bottomWidth.replace("px", ""));
             var bottomHeight = '40px';

@@ -48,11 +48,11 @@ func GenMemHTML(lists []m.Member) string {
 		var tempText string
 		switch val.MemberType {
 		case 0:
-			tempText = "ภายใน"
+			tempText = "ลูกค้า/สมาชิก"
 		case 1:
-			tempText = " ร้านค้า/Supplier"
+			tempText = "ร้านค้า/Supplier"
 		case 2:
-			tempText = " ลูกค้า/สมาชิก"
+			tempText = "ภายใน"
 
 		}
 		temp = strings.Replace(temp, "{type}", tempText, -1)

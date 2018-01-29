@@ -14,7 +14,7 @@ type Receive struct {
 	Active         bool
 	DocType        int
 	DocNo          string    `orm:"size(30)"`
-	DocDate        time.Time `form:"-"orm:"null"`
+	DocDate        time.Time `form:"-" orm:"null"`
 	DocTime        string    `orm:"size(6)"`
 	DocRefNo       string    `orm:"size(30)"`
 	TableNo        string    `orm:"size(300)"`
@@ -44,7 +44,7 @@ type ReceiveSub struct {
 	Flag       int
 	Active     bool
 	DocNo      string    `orm:"size(30)"`
-	DocDate    time.Time `form:"-"orm:"null"`
+	DocDate    time.Time `form:"-" orm:"null"`
 	Product    *Product  `orm:"rel(fk)"`
 	Unit       *Unit     `orm:"rel(fk)"`
 	Qty        float64   `orm:"digits(12);decimals(2)"`
