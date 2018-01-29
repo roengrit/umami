@@ -12,13 +12,17 @@ import (
 type Product struct {
 	ID              int
 	Lock            bool
-	Name            string           `orm:"size(300)"`
+	Name            string `orm:"size(300)"`
+	AVerageCostType int
+	AVerageCost     float64          `orm:"digits(12);decimals(2)"`
 	BalanceCost     float64          `orm:"digits(12);decimals(2)"`
 	SalePrice       float64          `orm:"digits(12);decimals(2)"`
 	Unit            *Unit            `orm:"rel(fk)"`
 	ProductCategory *ProductCategory `orm:"rel(fk)"`
 	ProductType     *ProductType     `orm:"rel(fk)"`
-	ImagePath       string           `orm:"size(300)"`
+	ImagePath1      string           `orm:"size(300)"`
+	ImagePath2      string           `orm:"size(300)"`
+	ImagePath3      string           `orm:"size(300)"`
 	Active          bool
 	Creator         *User     `orm:"rel(fk)"`
 	CreatedAt       time.Time `orm:"auto_now_add;type(datetime)"`
