@@ -166,6 +166,23 @@
             sumFoorter();
         })
 
+        $('#VatType').change(function(){
+            if($(this).val() == "1"){
+                $('#VatWord').val(7);
+            }else{
+                $('#VatWord').val(0);
+            }
+            sumFoorter();
+        })
+
+        $("#VatWord").bind('keyup mouseup', function () {
+            sumFoorter();          
+        });
+
+        $('#VatWord').change(function(){
+            sumFoorter();
+        })
+
         function appendEmptyRow(index) {
             $('#RetData').append(
                 templateRow.replace(/@/g, index)
@@ -200,8 +217,11 @@
         function sumFoorter(){
             var totalAmount = 0.00;
             var discountVal  = parseFloat($('#DiscountWord').val()==''? '0': $('#DiscountWord').val()) ;
+            var vatVal  = parseFloat($('#VatWord').val()==''? '0': $('#VatWord').val()) ;
             var totalDiscountAmount = 0.00;
             var totalNetAmount = 0.00;
+            var TotalVatValue = 0.00;
+            var TotalInCludeVatNetAmount = 0.00;
 
             $("#RetData tr").each(function (index) {
                 totalAmount += parseFloat($(this).find(".ProductTotalPrice").val());
@@ -212,7 +232,16 @@
             }else{
                 totalDiscountAmount = (discountVal / 100) * totalAmount;                 
             }  
+
             totalNetAmount = totalAmount-totalDiscountAmount;
+
+            if(vatVal>0){
+                TotalVatValue = vatVal/100 * totalNetAmount;
+                TotalInCludeVatNetAmount = totalNetAmount + TotalVatValue;
+            }else{
+                TotalInCludeVatNetAmount  = totalNetAmount;
+            }
+
 
             $('#TotalAmount').val(totalAmount.toFixed(2));
             $('#TotalAmountText').html(addCommas(totalAmount.toFixed(2)));
@@ -220,6 +249,10 @@
             $('#TotalDiscountText').html(addCommas(totalDiscountAmount.toFixed(2)));
             $('#TotalNetAmount').val(totalNetAmount.toFixed(2));
             $('#TotalNetAmountText').html(addCommas(totalNetAmount.toFixed(2)));
+            $('#TotalVatValue').val(TotalVatValue.toFixed(2));
+            $('#TotalVatValueText').html(addCommas(TotalVatValue.toFixed(2)));
+            $('#TotalInCludeVatNetAmount').val(TotalInCludeVatNetAmount.toFixed(2));
+            $('#TotalInCludeVatNetAmountText').html(addCommas(TotalInCludeVatNetAmount.toFixed(2)));
         }        
     });
     function Save() {
@@ -233,5 +266,10 @@
                     showTopAlert(data.RetData, "danger")
                 }
             });
+        }
+        function OTC()
+        {
+            $('#MemberID').val(2);   
+            $('#MemberName').val("ลูกค้า OTC");   
         }
 </script>

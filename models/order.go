@@ -9,33 +9,37 @@ import (
 
 //Order _
 type Order struct {
-	ID             int
-	Flag           int
-	Active         bool
-	DocType        int
-	DocNo          string    `orm:"size(30)"`
-	DocDate        time.Time `form:"-" orm:"null"`
-	DocTime        string    `orm:"size(6)"`
-	DocRefNo       string    `orm:"size(30)"`
-	TableNo        string    `orm:"size(300)"`
-	Member         *Member   `orm:"rel(fk)"`
-	MemberName     string    `orm:"size(300)"`
-	DiscountType   int
-	DiscountWord   string  `orm:"size(300)"`
-	TotalDiscount  float64 `orm:"digits(12);decimals(2)"`
-	TotalAmount    float64 `orm:"digits(12);decimals(2)"`
-	TotalNetAmount float64 `orm:"digits(12);decimals(2)"`
-	CreditDay      int
-	CreditDate     time.Time  `orm:"type(date)"`
-	Remark         string     `orm:"size(300)"`
-	CancelRemark   string     `orm:"size(300)"`
-	Creator        *User      `orm:"rel(fk)"`
-	CreatedAt      time.Time  `orm:"auto_now_add;type(datetime)"`
-	Editor         *User      `orm:"null;rel(fk)"`
-	EditedAt       time.Time  `orm:"null;auto_now;type(datetime)"`
-	CancelUser     *User      `orm:"null;rel(fk)"`
-	CancelAt       time.Time  `orm:"null;type(datetime)"`
-	OrderSub       []OrderSub `orm:"-"`
+	ID                       int
+	Flag                     int
+	Active                   bool
+	DocType                  int
+	DocNo                    string    `orm:"size(30)"`
+	DocDate                  time.Time `form:"-" orm:"null"`
+	DocTime                  string    `orm:"size(6)"`
+	DocRefNo                 string    `orm:"size(30)"`
+	TableNo                  string    `orm:"size(300)"`
+	Member                   *Member   `orm:"rel(fk)"`
+	MemberName               string    `orm:"size(300)"`
+	DiscountType             int
+	DiscountWord             string `orm:"size(300)"`
+	VatType                  int
+	VatWord                  string  `orm:"size(300)"`
+	TotalDiscount            float64 `orm:"digits(12);decimals(2)"`
+	TotalVatValue            float64 `orm:"digits(12);decimals(2)"`
+	TotalAmount              float64 `orm:"digits(12);decimals(2)"`
+	TotalNetAmount           float64 `orm:"digits(12);decimals(2)"`
+	TotalInCludeVatNetAmount float64 `orm:"digits(12);decimals(2)"`
+	CreditDay                int
+	CreditDate               time.Time  `orm:"type(date)"`
+	Remark                   string     `orm:"size(300)"`
+	CancelRemark             string     `orm:"size(300)"`
+	Creator                  *User      `orm:"rel(fk)"`
+	CreatedAt                time.Time  `orm:"auto_now_add;type(datetime)"`
+	Editor                   *User      `orm:"null;rel(fk)"`
+	EditedAt                 time.Time  `orm:"null;auto_now;type(datetime)"`
+	CancelUser               *User      `orm:"null;rel(fk)"`
+	CancelAt                 time.Time  `orm:"null;type(datetime)"`
+	OrderSub                 []OrderSub `orm:"-"`
 }
 
 //OrderSub _

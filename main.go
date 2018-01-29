@@ -48,6 +48,11 @@ func main() {
 	beego.Router("/pickup/cancel", &c.PickUpController{}, "get:CancelPickUp;post:UpdateCancelPickUp")
 	beego.Router("/pickup/list", &c.PickUpController{}, "get:PickUpList;post:GetPickUpList")
 
+	beego.Router("/order", &c.OrderController{})
+	beego.Router("/order/read", &c.OrderController{})
+	beego.Router("/order/cancel", &c.OrderController{}, "get:CancelOrder;post:UpdateCancelOrder")
+	beego.Router("/order/list", &c.OrderController{}, "get:OrderList;post:GetOrderList")
+
 	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
 	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)
 	beego.Run()
