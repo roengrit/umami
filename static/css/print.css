@@ -1,0 +1,1461 @@
+
+ @page {
+    size: A4;
+    margin: 0mm; 
+}
+/**/
+body 
+{
+    position: relative;
+    background-color:#FFFFFF; 
+    font-family: 'rsu-regular',Helvetica,Tahoma,Arial,sans-serif;
+    /*font-size: 16px;*/
+    font-size:15px;
+    height:auto;
+    line-height: 1.1em;
+     /* this affects the margin on the content before sending to printer */
+}
+#Header, #Footer { display: none !important; }
+* {
+box-sizing: border-box;
+}
+p {
+margin: 0 0 10px;
+}
+/*
+960 Grid System ~ Core CSS.
+Learn more ~ http://960.gs/
+
+Licensed under GPL and MIT.
+*/
+
+/*
+Forces backgrounds to span full width,
+even if there is horizontal scrolling.
+Increase this if your layout is wider.
+
+Note: IE6 works fine without this fix.
+*/
+
+
+label {
+font-weight: normal;
+}
+label.title-label {
+    
+}
+/* `Container
+----------------------------------------------------------------------------------------------------*/
+
+.container_12,
+.container_16 {
+display:block;
+width: 6.8in;
+}
+
+/* `Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.grid_1,
+.grid_2,
+.grid_3,
+.grid_4,
+.grid_5,
+.grid_6,
+.grid_7,
+.grid_8,
+.grid_9,
+.grid_10,
+.grid_11,
+.grid_12,
+.grid_13,
+.grid_14,
+.grid_15,
+.grid_16 {
+display: inline;
+float: left;
+/*margin-left: 10px;
+margin-right: 10px;*/
+}
+
+.push_1, .pull_1,
+.push_2, .pull_2,
+.push_3, .pull_3,
+.push_4, .pull_4,
+.push_5, .pull_5,
+.push_6, .pull_6,
+.push_7, .pull_7,
+.push_8, .pull_8,
+.push_9, .pull_9,
+.push_10, .pull_10,
+.push_11, .pull_11,
+.push_12, .pull_12,
+.push_13, .pull_13,
+.push_14, .pull_14,
+.push_15, .pull_15 {
+position: relative;
+}
+
+.container_12 .grid_3,
+.container_16 .grid_4 {
+width: 220px;
+}
+
+.container_12 .grid_6,
+.container_16 .grid_8 {
+width: 50%;
+}
+
+.container_12 .grid_9,
+.container_16 .grid_12 {
+width: 700px;
+}
+
+.container_12 .grid_12,
+.container_16 .grid_16 {
+width: 100%;
+}
+
+/* `Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+margin-left: 0;
+}
+
+.omega {
+margin-right: 0;
+}
+
+/* `Grid >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .grid_1 {
+width: 60px;
+}
+
+.container_12 .grid_2 {
+width: 140px;
+}
+
+.container_12 .grid_4 {
+width: 300px;
+}
+
+.container_12 .grid_5 {
+width: 380px;
+}
+
+.container_12 .grid_7 {
+width: 540px;
+}
+
+.container_12 .grid_8 {
+width: 620px;
+}
+
+.container_12 .grid_10 {
+width: 780px;
+}
+
+.container_12 .grid_11 {
+width: 860px;
+}
+
+/* `Grid >> 16 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_16 .grid_1 {
+width: 40px;
+}
+
+.container_16 .grid_2 {
+width: 100px;
+}
+
+.container_16 .grid_3 {
+width: 160px;
+}
+
+.container_16 .grid_5 {
+width: 280px;
+}
+
+.container_16 .grid_6 {
+width: 340px;
+}
+
+.container_16 .grid_7 {
+width: 400px;
+}
+
+.container_16 .grid_9 {
+width: 520px;
+}
+
+.container_16 .grid_10 {
+width: 580px;
+}
+
+.container_16 .grid_11 {
+width: 640px;
+}
+
+.container_16 .grid_13 {
+width: 760px;
+}
+
+.container_16 .grid_14 {
+width: 820px;
+}
+
+.container_16 .grid_15 {
+width: 880px;
+}
+
+/* `Prefix Extra Space >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .prefix_3,
+.container_16 .prefix_4 {
+padding-left: 240px;
+}
+
+.container_12 .prefix_6,
+.container_16 .prefix_8 {
+padding-left: 480px;
+}
+
+.container_12 .prefix_9,
+.container_16 .prefix_12 {
+padding-left: 720px;
+}
+
+/* `Prefix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .prefix_1 {
+padding-left: 80px;
+}
+
+.container_12 .prefix_2 {
+padding-left: 160px;
+}
+
+.container_12 .prefix_4 {
+padding-left: 320px;
+}
+
+.container_12 .prefix_5 {
+padding-left: 400px;
+}
+
+.container_12 .prefix_7 {
+padding-left: 560px;
+}
+
+.container_12 .prefix_8 {
+padding-left: 640px;
+}
+
+.container_12 .prefix_10 {
+padding-left: 800px;
+}
+
+.container_12 .prefix_11 {
+padding-left: 880px;
+}
+
+/* `Prefix Extra Space >> 16 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_16 .prefix_1 {
+padding-left: 60px;
+}
+
+.container_16 .prefix_2 {
+padding-left: 120px;
+}
+
+.container_16 .prefix_3 {
+padding-left: 180px;
+}
+
+.container_16 .prefix_5 {
+padding-left: 300px;
+}
+
+.container_16 .prefix_6 {
+padding-left: 360px;
+}
+
+.container_16 .prefix_7 {
+padding-left: 420px;
+}
+
+.container_16 .prefix_9 {
+padding-left: 540px;
+}
+
+.container_16 .prefix_10 {
+padding-left: 600px;
+}
+
+.container_16 .prefix_11 {
+padding-left: 660px;
+}
+
+.container_16 .prefix_13 {
+padding-left: 780px;
+}
+
+.container_16 .prefix_14 {
+padding-left: 840px;
+}
+
+.container_16 .prefix_15 {
+padding-left: 900px;
+}
+
+/* `Suffix Extra Space >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .suffix_3,
+.container_16 .suffix_4 {
+padding-right: 240px;
+}
+
+.container_12 .suffix_6,
+.container_16 .suffix_8 {
+padding-right: 480px;
+}
+
+.container_12 .suffix_9,
+.container_16 .suffix_12 {
+padding-right: 720px;
+}
+
+/* `Suffix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .suffix_1 {
+padding-right: 80px;
+}
+
+.container_12 .suffix_2 {
+padding-right: 160px;
+}
+
+.container_12 .suffix_4 {
+padding-right: 320px;
+}
+
+.container_12 .suffix_5 {
+padding-right: 400px;
+}
+
+.container_12 .suffix_7 {
+padding-right: 560px;
+}
+
+.container_12 .suffix_8 {
+padding-right: 640px;
+}
+
+.container_12 .suffix_10 {
+padding-right: 800px;
+}
+
+.container_12 .suffix_11 {
+padding-right: 880px;
+}
+
+/* `Suffix Extra Space >> 16 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_16 .suffix_1 {
+padding-right: 60px;
+}
+
+.container_16 .suffix_2 {
+padding-right: 120px;
+}
+
+.container_16 .suffix_3 {
+padding-right: 180px;
+}
+
+.container_16 .suffix_5 {
+padding-right: 300px;
+}
+
+.container_16 .suffix_6 {
+padding-right: 360px;
+}
+
+.container_16 .suffix_7 {
+padding-right: 420px;
+}
+
+.container_16 .suffix_9 {
+padding-right: 540px;
+}
+
+.container_16 .suffix_10 {
+padding-right: 600px;
+}
+
+.container_16 .suffix_11 {
+padding-right: 660px;
+}
+
+.container_16 .suffix_13 {
+padding-right: 780px;
+}
+
+.container_16 .suffix_14 {
+padding-right: 840px;
+}
+
+.container_16 .suffix_15 {
+padding-right: 900px;
+}
+
+/* `Push Space >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .push_3,
+.container_16 .push_4 {
+left: 240px;
+}
+
+.container_12 .push_6,
+.container_16 .push_8 {
+left: 480px;
+}
+
+.container_12 .push_9,
+.container_16 .push_12 {
+left: 720px;
+}
+
+/* `Push Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .push_1 {
+left: 80px;
+}
+
+.container_12 .push_2 {
+left: 160px;
+}
+
+.container_12 .push_4 {
+left: 320px;
+}
+
+.container_12 .push_5 {
+left: 400px;
+}
+
+.container_12 .push_7 {
+left: 560px;
+}
+
+.container_12 .push_8 {
+left: 640px;
+}
+
+.container_12 .push_10 {
+left: 800px;
+}
+
+.container_12 .push_11 {
+left: 880px;
+}
+
+/* `Push Space >> 16 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_16 .push_1 {
+left: 60px;
+}
+
+.container_16 .push_2 {
+left: 120px;
+}
+
+.container_16 .push_3 {
+left: 180px;
+}
+
+.container_16 .push_5 {
+left: 300px;
+}
+
+.container_16 .push_6 {
+left: 360px;
+}
+
+.container_16 .push_7 {
+left: 420px;
+}
+
+.container_16 .push_9 {
+left: 540px;
+}
+
+.container_16 .push_10 {
+left: 600px;
+}
+
+.container_16 .push_11 {
+left: 660px;
+}
+
+.container_16 .push_13 {
+left: 780px;
+}
+
+.container_16 .push_14 {
+left: 840px;
+}
+
+.container_16 .push_15 {
+left: 900px;
+}
+
+/* `Pull Space >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .pull_3,
+.container_16 .pull_4 {
+left: -240px;
+}
+
+.container_12 .pull_6,
+.container_16 .pull_8 {
+left: -480px;
+}
+
+.container_12 .pull_9,
+.container_16 .pull_12 {
+left: -720px;
+}
+
+/* `Pull Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_12 .pull_1 {
+left: -80px;
+}
+
+.container_12 .pull_2 {
+left: -160px;
+}
+
+.container_12 .pull_4 {
+left: -320px;
+}
+
+.container_12 .pull_5 {
+left: -400px;
+}
+
+.container_12 .pull_7 {
+left: -560px;
+}
+
+.container_12 .pull_8 {
+left: -640px;
+}
+
+.container_12 .pull_10 {
+left: -800px;
+}
+
+.container_12 .pull_11 {
+left: -880px;
+}
+
+/* `Pull Space >> 16 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container_16 .pull_1 {
+left: -60px;
+}
+
+.container_16 .pull_2 {
+left: -120px;
+}
+
+.container_16 .pull_3 {
+left: -180px;
+}
+
+.container_16 .pull_5 {
+left: -300px;
+}
+
+.container_16 .pull_6 {
+left: -360px;
+}
+
+.container_16 .pull_7 {
+left: -420px;
+}
+
+.container_16 .pull_9 {
+left: -540px;
+}
+
+.container_16 .pull_10 {
+left: -600px;
+}
+
+.container_16 .pull_11 {
+left: -660px;
+}
+
+.container_16 .pull_13 {
+left: -780px;
+}
+
+.container_16 .pull_14 {
+left: -840px;
+}
+
+.container_16 .pull_15 {
+left: -900px;
+}
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+.row {
+margin:0;
+}
+
+.clear {
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+/*.clearfix:before,
+.clearfix:after,
+.container_12:before,
+.container_12:after,
+.container_16:before,
+.container_16:after {
+content: '.';
+display: block;
+overflow: hidden;
+visibility: hidden;
+font-size: 0;
+line-height: 0;
+width: 0;
+height: 0;
+}*/
+
+.clearfix:after,
+.container_12:after,
+.container_16:after {
+clear: both;
+}
+
+/*
+The following zoom:1 rule is specifically for IE6 + IE7.
+Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix,
+.container_12,
+.container_16 {
+zoom: 1;
+}
+
+
+html, body {
+height:100%;
+}
+body {
+color: rgba(255, 255, 250, 0) !important;
+margin:0;
+padding:0; 
+-webkit-print-color-adjust: exact;
+-moz-print-color-adjust: exact;
+print-color-adjust: exact;
+}
+ul {
+margin:0;
+padding:0;
+}
+ul li {
+list-style:none;
+
+}
+
+table {
+border-collapse: collapse;
+}
+.table-header{
+color:#676767 !important;
+border-top: 1px solid #d5d5d5;
+border-bottom: 1px solid #d5d5d5;
+display:table-header-group;
+}
+.table-row{
+display:table-row;
+}
+.table-cell{
+padding:5px;
+display:table-cell;
+}
+.table-header .table-row .table-cell:nth-child(1){
+text-align: center;
+}
+.table-header .table-row .table-cell:nth-child(2){
+width: 330px;
+text-align: center;
+}
+.table-header .table-row .table-cell:nth-child(3){
+width: 70px;
+}
+.table-header .table-row .table-cell:nth-child(4){
+width: 50px;
+text-align: left;
+}
+.table-header .table-row .table-cell:nth-child(5){
+width: 100px;
+}
+.table-header .table-row .table-cell:nth-child(6){
+width: 100px;
+}
+.table-header .table-row .table-cell:last-child{    
+-webkit-print-color-adjust: exact;
+-moz-print-color-adjust: exact;
+print-color-adjust: exact;
+color: #676767 !important;
+padding-top: 4px;
+padding-bottom: 2px;
+font-weight: normal;
+vertical-align: middle;
+}
+
+
+.fill {
+/*font-size:16px;*/
+font-size:15px;
+color:#676767;
+border:none;
+/*    border: 1px solid #DDDDDD; */
+/*    padding: 3px 0px 3px 3px;*/
+outline: none;
+}
+
+.fill:focus { 
+/*
+box-shadow: 0 0 5px rgba(81, 203, 238, 1); 
+border: 1px solid rgba(81, 203, 238, 1);
+padding: 3px 0px 3px 3px;
+*/
+background-color:#ffebd7;
+}
+
+.section-margin {
+margin-bottom: 20px;
+}
+
+.invoice-page {
+    margin:0 auto;
+    min-height: 800px;
+    min-width:100%;
+    padding:0.5in;
+    padding-top: 0.5in;
+    position: relative;
+    page-break-after :avoid;
+    page-break-inside: avoid;
+}
+
+body:empty .invoice-page {
+ min-height: 800px !important;
+}
+@-moz-document url-prefix() {
+
+.invoice-page
+{
+    min-height: 800px !important;
+}
+
+}
+html[data-useragent*='MSIE 10.0'] .invoice-page,html[data-useragent*='MSIE 11.0'] .invoice-page,html[data-useragent*='MSIE 12.0'] .invoice-page {
+
+min-height: 800px !important;
+}
+.invoice-logo {
+max-width:300px !important;
+margin-left:20px;
+max-height:75px !important;
+
+}
+.div-logo {
+max-width:300px;
+}
+section[class^="invoice-"] input[type="text"] {
+
+}
+
+section[class^="invoice-"] ul li label {
+margin-bottom:0;
+/*padding: 3px 0px 3px 3px;*/
+}
+
+
+.invoice-title {
+float:right;
+width:250px;
+text-align:center;
+padding:0 0px 10px 0;
+margin-right:20px;
+}
+.invoice-title.small h1{
+font-size:20px;
+}
+.invoice-title.small p,.invoice-title.small p span{
+font-size:18px;
+}
+.invoice-title h1 {
+font-size:25px;
+margin-bottom: 5px;
+margin-top:0;
+}
+.invoice-title p {
+margin:0;
+
+}
+.invoice-title .title2 { 
+font-size:25px;
+}
+.invoice-title .title2 .original {
+ /*color:red;*/
+}
+
+section {
+margin-top:-15px;
+}
+.invoice-logo {
+margin-top:0px;
+}
+.invoice-second-header .left-details {
+
+}
+.invoice-second-header .right-details {
+margin-top: 18px;
+}
+/* company section */
+.invoice-company {
+margin-top:11px;
+}
+.invoice-company li {
+padding-left:20px;
+color: #676767;
+}
+.invoice-company li label.fill,.invoice-customer li label.fill {
+    max-width:400px;
+    word-wrap:break-word;
+}
+.invoice-company input[type="text"], .invoice-customer input[type="text"] {
+width:100%;
+}
+.invoice-company .company-name {
+/*font-weight:bold;*/  
+}
+.invoice-company {
+margin-bottom:15px;
+}
+.invoice-customer {
+
+}
+.invoice-customer li {
+padding-left:20px;
+
+}
+.invoice-customer li:last-child {
+    color: #676767;
+}
+
+
+#invoice-third-header {
+margin-top:-10px;
+}
+.arrow-box:after {
+border: medium solid transparent;
+bottom: 100%;
+content: " ";
+height: 0;
+position: absolute;
+right: 0.25in;
+/*top: 0.25in;
+border-style: solid;
+border-width: 0 110px 120px 0;*/
+top: 0.15in;
+border-style: solid;
+border-width: 0 80px 90px 0;
+width: 0;
+}
+.invoice-title .doc-type-number {
+color: #fff !important;
+font-size: 28px;
+position: absolute;
+right: 40px;
+top: 35px;
+z-index: 99999;
+}
+.invoice-title .setdocument {
+font-size:21px;
+}
+.purchaseorder {
+color:#e72168;
+}
+.purchaseorder .arrow-box:after {
+border-color: transparent #e72168 transparent transparent;
+}
+.quotation {
+color:#f49739;
+}
+.quotation .arrow-box:after {
+border-color: transparent #f49739 transparent transparent;
+}
+.billingnote {
+color:#754595;
+}
+.billingnote .arrow-box:after {
+border-color: transparent #754595 transparent transparent;
+}
+.receipt {
+color:#56af31;
+}
+.receipt .arrow-box:after {
+border-color: transparent #56af31 transparent transparent;
+}
+.taxinvoice {
+color:#2c97ce;
+}
+.taxinvoice .arrow-box:after {
+border-color: transparent #2c97ce transparent transparent; 
+}
+.cashreceipt {
+color:#000;
+}
+.cashreceipt .arrow-box:after {
+border-color: transparent #000 transparent transparent;
+}
+.purchase {
+color:#b75f5f;
+}
+.purchase .arrow-box:after {
+border-color: transparent #b75f5f transparent transparent;
+}
+
+.creditnote {
+color:#0b4792;
+}
+.creditnote .arrow-box:after {
+border-color: transparent #0b4792 transparent transparent;
+}
+
+.debitnote {
+color:#28A5A0;
+}
+.debitnote .arrow-box:after {
+border-color: transparent #28A5A0 transparent transparent;
+}
+
+.title-receipt {
+ 
+
+}
+.title-invoice {
+
+
+}
+.title-delivery {
+
+ 
+}
+.title-billingnote {
+
+
+}
+.title-quotation {
+
+
+}
+.title-po {
+
+
+}
+
+/* info section */
+.invoice-info {
+width:270px;
+float:right;
+border-top:1px solid #d5d5d5;
+padding-top:15px;
+padding-left:5px;
+
+}
+.invoice-info label {
+text-align:left;
+
+}
+.invoice-details {
+width:270px;
+float:right;
+border-top:1px solid #d5d5d5;
+padding-top:15px;
+padding-left:5px;
+margin-top:10px;
+}   
+.invoice-details label {
+text-align:left;
+
+}
+.invoice-info .title-label {
+   
+    width:90px;
+}
+.invoice-info .fill, .invoice-details .fill {
+max-width:170px;
+word-wrap:break-word;
+}
+.invoice-details .title-label {
+width:90px;
+/*vertical-align: top;*/
+}
+
+
+
+.invoice-info .info-number,.invoice-info .info-date,.invoice-info .info-page {
+text-align: left;
+padding-right:0px;
+
+
+}
+.invoice-info .credit-day {
+margin-right:5px;
+}
+.text-day {
+color:#676767;
+}
+.invoice-info .credit-duedate, .invoice-info .text-day, .invoice-info .credit-day,.invoice-info .info-salename,.invoice-info .info-ref {
+
+}
+.invoice-info ul li label {
+text-align:left;
+}
+/*.invoice-products {
+margin-top:25px;
+}*/
+.invoice-products .products-table {
+/*font-size:16px;*/
+font-size:15px;
+min-width:100%;
+width:100%;
+}
+.invoice-products .products-table {
+/*font-size:16px;*/
+font-size:15px;
+height:40px;
+}
+.invoice-summary {
+/*margin-top:20px;
+margin-bottom:35px;*/
+ margin-top:5px;
+margin-bottom:5px;
+}
+.invoice-summary .summary-table td {
+padding:3px; 
+vertical-align:top;
+
+}
+.textbaht {
+color:#676767;
+padding-bottom:20px;
+width:58%;vertical-align:bottom;
+}
+.summary-table td:nth-child(2) {
+
+padding-right:5px !important;
+}
+.summary-table td:nth-child(2)  {
+ color:#676767;
+}
+.invoice-summary .summary-table {
+width:100%;
+/*margin-left:6px;*/
+/*border-bottom:solid 1px #ddd;*/
+
+
+}
+.invoice-summary .summary-table .text-right {
+    text-align:right;
+    padding:inherit 0px;
+}
+.invoice-summary .summary-table .tot td {
+    padding-bottom:20px;
+    border-bottom:solid 1px #d5d5d5;
+}
+
+.invoice-summary .summary-table .tot td:nth-child(2) {
+    width:50%;
+}
+
+.products-table .item-row {
+
+border-bottom:1px solid #e5e5e5;
+}
+.invoice-products .products-table .fill {
+width:100%;
+margin:0;
+}
+.invoice-products .products-table tbody.products-table-header tr {
+border-top:1px solid #d5d5d5;
+border-bottom:1px solid #d5d5d5;
+}
+.invoice-products .products-table tbody.products-table-header tr th {
+
+-webkit-print-color-adjust: exact;
+-moz-print-color-adjust: exact;
+print-color-adjust: exact;
+color:#676767 !important;
+/*padding-top:5px;
+padding-bottom:5px;*/
+padding-top:4px;
+padding-bottom:2px;
+font-weight:normal;
+vertical-align:middle;
+}
+.invoice-products .products-table tbody tr:nth-child(2n+2) td {
+/*    background-color:#fcf2f2;*/
+}
+
+/*.invoice-products .products-table td textarea.productdetails { 
+resize:none;
+line-height : 1.5em;
+
+overflow: hidden;
+}*/
+
+.invoice-products .products-table td .productdetails {
+        
+white-space: pre-wrap;
+word-break: break-all;
+
+}
+
+.invoice-products .products-table th {
+padding:5px;
+} 
+.invoice-products .products-table td {
+padding:5px; 
+vertical-align:top;
+color:#676767;
+
+}
+/* batch */
+.invoice-products .products-table .products-table-trheader-batch th:nth-child(2) {
+width:135px;
+text-align:center;
+}
+.invoice-products .products-table .products-table-trheader-batch th:nth-child(3),
+.invoice-products .products-table .products-table-trheader-batch th:nth-child(4)
+{
+width:120px;
+text-align:center;
+}
+.invoice-products .products-table .products-table-trheader-batch th:nth-child(5)
+{
+/*width:120px;*/
+width:auto;
+text-align:right;
+padding-right:0;
+}
+.invoice-products .products-table .products-table-trheader-batch th:nth-child(6)
+{
+width:auto;
+text-align:center;
+}
+.invoice-products .products-table .products-table-trbody-batch td:nth-child(5){
+
+padding-right:0;
+}
+.invoice-products .products-table .products-table-trbody-batch td:nth-child(6)
+{
+white-space: pre-wrap;
+word-break: break-all;
+}
+/* end batch header*/
+
+.invoice-products .products-table td:nth-child(1) {
+width:20px;
+text-align:center;
+}
+.invoice-products .products-table th:nth-child(1) {
+text-align:center;
+}
+.invoice-products .products-table th:nth-child(2) {
+width:330px;
+text-align:center;
+}
+.invoice-products .products-table th:nth-child(3)
+{
+width:70px;
+
+}
+.invoice-products .products-table th:nth-child(5),
+.invoice-products .products-table th:nth-child(6)
+{
+width:100px;
+
+}
+
+.invoice-products .products-table th:nth-child(4) {
+width: 50px;
+text-align: left;
+}
+.invoice-products .products-table td:nth-child(6),
+.products-table th:nth-child(6) {
+padding-right: 0 !important; 
+}
+.invoice-products .products-table td:nth-child(5) input[type="text"],
+.invoice-products .products-table td:nth-child(6) input[type="text"],
+.invoice-products .products-table td:nth-child(7)   {
+text-align:right; 
+}
+
+.invoice-products .products-table td:nth-child(7) input[type="text"] {
+text-align:center;
+}
+
+
+.invoice-remark label.remark {
+width:100%;
+font-weight:normal !important;
+}
+.invoice-remark {
+/*margin-bottom: 100px;*/
+margin-top: 15px;
+}
+.invoice-remark div.remark {
+white-space:pre-wrap;
+word-wrap: break-word;
+}
+.invoice-remark div.remark br {
+border-bottom:1px solid #d5d5d5;
+}
+
+.invoice-signature {
+color:#676767;
+}
+
+.invoice-signature span.space-line-sm {
+border-bottom: 1px solid #d5d5d5;
+/*padding: 0 65px;*/
+padding: 0 50px;
+}
+
+.invoice-signature span.space-line {
+border-bottom: 1px solid #d5d5d5;
+padding: 0 80px;
+}
+.invoice-signature span.space-line-lg {
+ border-bottom: 1px solid #d5d5d5;
+padding: 0 115px;
+}
+
+.text-center {
+text-align:center !important;
+}
+
+.invoice-footer span.space-line {
+border-bottom: 1px solid #000;
+padding: 0 80px;
+}
+.invoice-footer span.space-line2 {
+border-bottom: 1px solid #d5d5d5;
+/*padding: 0 60px;*/
+padding: 0 64px;
+
+}
+.footer-box {
+
+color:#676767;
+margin-bottom:25px;
+margin-top: 0;
+}
+.footer-box .checkbox {
+padding-left:10px;
+}
+.footer-box .checkbox input[type=checkbox] {  
+    display: none;  
+}
+
+.footer-box .checkbox label {
+top:-5px;
+position:relative;
+} 
+.footer-box .checkbox label:before {  
+content: "";  
+display: inline-block;  
+
+width: 16px;  
+height: 16px;  
+
+margin-right: 5px;  
+
+left: 0;  
+position:relative;
+top:3px;
+border-radius: 5px;
+border:1px solid #999999;
+}
+
+.footer-box .checkbox label.checked i:before{
+content: "";
+background-color: transparent;
+position: absolute;
+display: inline-block;
+width: 5px;
+border-bottom: 2px solid #000;
+height: 14px;
+border-right: 2px solid #000;
+transform: rotate(45deg);
+-o-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
+top: 1px;
+left: 5px;
+}
+.footer-box p {
+line-height:1em;
+}
+.permanent-footer {
+position:absolute;bottom:0.25in;margin-top:10px;min-width:100%;padding-right:1in;
+}
+.permanent-footer label {
+    margin-bottom:0px;
+}
+
+footer {
+position:relative;
+
+margin:0 0 0 0;
+padding:0px;
+min-width:100%;
+padding-right:1in;
+}
+.btn-table-del-row {
+display:none;
+position:absolute;
+}
+input:disabled, select:disabled, textarea:disabled {
+background-color:white;
+}
+.payment-info-container {
+position:absolute;
+left:0px;
+width:130px;
+text-align:center;
+bottom:-3px;
+}
+.payment-info-container div[class^="payment-"] {
+position:relative;
+}
+.user-signature-container {
+position:absolute;
+left:0px;
+width:110px;
+bottom:35px;
+text-align:center;
+}
+.user-signature-date-container {
+position:absolute;
+left:0px;
+width:125px;
+bottom:35px;
+text-align:center;
+}
+.user-signature-date {
+position:relative;
+left:-15px; 
+}
+.user-signature {
+position:relative;
+left:-15px;      
+}
+.signature-row{
+position: relative;
+bottom: 18px; 
+}
+.rubber-stamp-container {
+position:absolute;
+left: -250px;
+bottom: 10px;
+width:235px;
+text-align:center;
+bottom: 10px;
+}
+.rubber-stamp {
+position: relative;
+right: -30px;
+}
+.setwidthDefault {
+width:190px !important;
+}
+.invLogo-width {
+}
+.noPic {
+width:350px;
+height:80px;
+}
+.invoice-company-block {
+}
+.li-floatleft {
+}
+.li-tel {
+}
+.li-bothleft {
+}
+.invCustomer {
+}
+.li-floatinit {
+}
+.div-rightDetails {
+}
+.product-description-detail {
+}
+.invoice-remark-detail {
+}
+.div-remark-size {
+}
+.remark-title {
+}
+
+.li-TaxIdPadding {
+}
+.td-padd {
+}
+
+.invoice-title span.small{
+color:#676767;
+font-size: 15px;
+line-height: 32px;
+}
