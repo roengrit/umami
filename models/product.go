@@ -17,6 +17,7 @@ type Product struct {
 	AVerageCostType int
 	AVerageCost     float64          `orm:"digits(12);decimals(2)"`
 	BalanceCost     float64          `orm:"digits(12);decimals(2)"`
+	BalanceQty     float64          `orm:"digits(12);decimals(2)"`
 	SalePrice       float64          `orm:"digits(12);decimals(2)"`
 	Unit            *Unit            `orm:"rel(fk)"`
 	ProductCategory *ProductCategory `orm:"rel(fk)"`
