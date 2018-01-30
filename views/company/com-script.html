@@ -1,0 +1,19 @@
+<script>
+function Save() {
+    hideTopAlert();
+    url = $('#company-form').attr('action');
+    $.post(url, $('#company-form').serialize(), function (data) {
+        if (data.RetOK) {
+            showTopAlert(data.RetData, "success")             
+        } else {
+            showTopAlert(data.RetData, "danger")
+        }
+    });
+}
+    $(document).ready(function () {
+        $("#ProvinceID").val('{{.m.Province.ID}}'); 
+        if($("#ProvinceID").val()=='' || $("#ProvinceID").val() == null){
+            $("#ProvinceID").val($("#ProvinceID option:first").val());
+        }
+    });
+</script>

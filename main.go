@@ -53,6 +53,8 @@ func main() {
 	beego.Router("/order/cancel", &c.OrderController{}, "get:CancelOrder;post:UpdateCancelOrder")
 	beego.Router("/order/list", &c.OrderController{}, "get:OrderList;post:GetOrderList")
 
+	beego.Router("/company", &c.CompanyController{}, "get:CreateCom;post:UpdateCom")
+
 	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
 	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)
 	beego.Run()

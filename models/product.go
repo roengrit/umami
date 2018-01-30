@@ -13,16 +13,17 @@ type Product struct {
 	ID              int
 	Lock            bool
 	Name            string `orm:"size(300)"`
+	Barcode         string `orm:"size(13)"`
 	AVerageCostType int
 	AVerageCost     float64          `orm:"digits(12);decimals(2)"`
 	BalanceCost     float64          `orm:"digits(12);decimals(2)"`
 	SalePrice       float64          `orm:"digits(12);decimals(2)"`
 	Unit            *Unit            `orm:"rel(fk)"`
 	ProductCategory *ProductCategory `orm:"rel(fk)"`
-	ProductType     *ProductType     `orm:"rel(fk)"`
-	ImagePath1      string           `orm:"size(300)"`
-	ImagePath2      string           `orm:"size(300)"`
-	ImagePath3      string           `orm:"size(300)"`
+	ProductType     int
+	ImagePath1      string `orm:"size(300)"`
+	ImagePath2      string `orm:"size(300)"`
+	ImagePath3      string `orm:"size(300)"`
 	Active          bool
 	Creator         *User     `orm:"rel(fk)"`
 	CreatedAt       time.Time `orm:"auto_now_add;type(datetime)"`
@@ -42,17 +43,17 @@ type ProductCategory struct {
 	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
-//ProductType _
-type ProductType struct {
-	ID        int
-	Lock      bool
-	Name      string `orm:"size(300)"`
-	Active    bool
-	Creator   *User     `orm:"rel(fk)"`
-	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	Editor    *User     `orm:"null;rel(fk)"`
-	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
-}
+// //ProductType _
+// type ProductType struct {
+// 	ID        int
+// 	Lock      bool
+// 	Name      string `orm:"size(300)"`
+// 	Active    bool
+// 	Creator   *User     `orm:"rel(fk)"`
+// 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+// 	Editor    *User     `orm:"null;rel(fk)"`
+// 	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
+// }
 
 //Unit _
 type Unit struct {
@@ -67,7 +68,7 @@ type Unit struct {
 }
 
 func init() {
-	orm.RegisterModel(new(Product), new(ProductCategory), new(ProductType), new(Unit)) // Need to register model in init
+	orm.RegisterModel(new(Product), new(ProductCategory), new(Unit)) // Need to register model in init
 }
 
 //GetProductList _

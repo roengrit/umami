@@ -185,6 +185,25 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="treeview {{.m_request}}">
+                        <a href="#">
+                            <i class="fa  fa-cubes"></i>
+                            <span>สต๊อค</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> สต๊อค</a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> ตรวจนับ</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-line-chart"></i>
@@ -247,16 +266,16 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li>
-                                <a href="#">
+                            <li class="{{.m_shop}}">
+                                <a href="/company">
                                     <i class="fa fa-circle-o"></i> รายละเอียดร้าน</a>
                             </li>
                             <li class="{{.m_category_list}}">
                                 <a href="/normal/?entity=categorys">
                                     <i class="fa fa-circle-o"></i>หมวดหมู่อาหาร</a>
                             </li>
-                            <li class="{{.m_category_list}}">
-                                <a href="/normal/?entity=categorys">
+                            <li class="{{.m_product_list}}">
+                                <a href="/product/list">
                                     <i class="fa fa-circle-o"></i>สินค้า/อาหาร</a>
                             </li>
                             <li class="{{.m_category_list}}">
