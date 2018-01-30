@@ -9,19 +9,21 @@ import (
 
 //Company _
 type Company struct {
-	ID        int
-	Lock      bool
-	Name      string     `orm:"size(300)"`
-	Address   string     `orm:"size(300)"`
-	Province  *Provinces `orm:"rel(fk)"`
-	PostCode  string     `orm:"size(10)"`
-	Contact   string     `orm:"size(255)"`
-	Tel       string     `orm:"size(100)"`
-	Remark    string     `orm:"size(100)"`
-	Creator   *User      `orm:"rel(fk)"`
-	CreatedAt time.Time  `orm:"auto_now_add;type(datetime)"`
-	Editor    *User      `orm:"null;rel(fk)"`
-	EditedAt  time.Time  `orm:"null;auto_now;type(datetime)"`
+	ID          int
+	Lock        bool
+	Name        string     `orm:"size(300)"`
+	Address     string     `orm:"size(300)"`
+	Province    *Provinces `orm:"rel(fk)"`
+	PostCode    string     `orm:"size(10)"`
+	Contact     string     `orm:"size(255)"`
+	Tel         string     `orm:"size(100)"`
+	ImageLogo   string     `orm:"size(300)"`
+	ImageBase64 string     `orm:"-"`
+	Remark      string     `orm:"size(100)"`
+	Creator     *User      `orm:"rel(fk)"`
+	CreatedAt   time.Time  `orm:"auto_now_add;type(datetime)"`
+	Editor      *User      `orm:"null;rel(fk)"`
+	EditedAt    time.Time  `orm:"null;auto_now;type(datetime)"`
 }
 
 func init() {

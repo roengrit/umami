@@ -1,19 +1,42 @@
 <script>
-function Save() {
-    hideTopAlert();
-    url = $('#company-form').attr('action');
-    $.post(url, $('#company-form').serialize(), function (data) {
-        if (data.RetOK) {
-            showTopAlert(data.RetData, "success")             
-        } else {
-            showTopAlert(data.RetData, "danger")
-        }
-    });
-}
+ 
     $(document).ready(function () {
         $("#ProvinceID").val('{{.m.Province.ID}}'); 
         if($("#ProvinceID").val()=='' || $("#ProvinceID").val() == null){
             $("#ProvinceID").val($("#ProvinceID option:first").val());
         }
+
+        $(document).on('change', '.btn-file :file', function() {
+		var input = $(this),
+			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+		input.trigger('fileselect', [label]);
+		});
+
+		$('.btn-file :file').on('fileselect', function(event, label) {
+		    
+		    var input = $(this).parents('.input-group').find(':text'),
+		        log = label;
+		    
+		    if( input.length ) {
+		        input.val(log);
+		    } else {
+		        if( log ) alert(log);
+		    }
+		});
+
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        
+		        reader.onload = function (e) {
+		            $('#img-upload').attr('src', e.target.result);
+		        }
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
+		$("#imgInp").change(function(){
+		    readURL(this);
+		}); 
     });
 </script>

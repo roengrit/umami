@@ -57,5 +57,6 @@ func main() {
 
 	beego.AddFuncMap("ThCommaSep", h.ThCommaSep)
 	beego.AddFuncMap("TextThCommaSep", h.TextThCommaSep)
+
 	beego.Run()
 }

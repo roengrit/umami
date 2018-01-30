@@ -1,6 +1,20 @@
 <section class="content-header">
-    <div id="top-alert" style="display:none">
+    {{if .ret.RetOK}}
+    <div id="top-alert">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ .ret.RetData}}
+        </div>
     </div>
+    {{end}}
+    {{if not  .ret.RetOK}}
+    <div id="top-alert" style="display:none">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ .ret.RetData}}
+        </div>
+    </div>
+    {{end}}
     <h1 id="title-content">
         {{.title}}
     </h1>
@@ -11,7 +25,7 @@
     {{else }}
        action="/company"
     {{end}}
-     autocomplete="off" onsubmit="return false;"  id="company-form" method="post">
+     autocomplete="off"  id="company-form" enctype="multipart/form-data" method="post">
         {{ .xsrfdata }}
         <input type="hidden" id="ID" name="ID" value="{{.m.ID}}" />
         <div id="box-req" class="box box-primary">
@@ -84,7 +98,24 @@
                             value="{{.m.Tel}}"  placeholder="โทรศัพท์">
                         </div>
                     </div>
-                </div>                
+                </div>        
+                <div class="form-group req-box-form"  >
+                    <div class="col-xs-12">
+                            <label>โลโก้</label>
+                            <br>
+                            <br>
+                            <img id='img-upload' title="โลโก้" src="data:image/png|tiff|jpg|gif;base64,{{.m.ImageBase64}}" width="150" height="150" />
+                            <br>
+                            <br>
+                            <div class="input-group">
+                                <span class="btn btn-success btn-file">
+                                    เลือกรูป <input type="file" name="ImgLogo" id="imgInp">
+                                </span>
+                                <input type="text" class="form-control" style="display:none;" readonly>
+                            </div>
+                            <br>
+                    </div>
+                </div>        
                 <div class="form-group req-box-form"  >
                     <div class="col-xs-12">
                         <label for="req-date-event">หมายเหตุ</label>
@@ -99,7 +130,7 @@
             </div>
             <div class="box-footer">
                 {{if .r}} {{else}}
-                <button type="submit" onclick="Save()" class="btn btn-primary pull-right">บันทึก</button> 
+                <button type="submit" class="btn btn-primary pull-right">บันทึก</button> 
                 {{end}}
             </div>
         </div>

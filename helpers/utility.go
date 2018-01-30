@@ -1,8 +1,12 @@
 package helpers
 
 import (
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"math"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -184,4 +188,55 @@ func RenderFloat(format string, n float64) string {
 //RenderInteger _
 func RenderInteger(format string, n int) string {
 	return RenderFloat(format, float64(n))
+}
+
+//File64Encode _
+func File64Encode(path string) (string, error) {
+	buff, err := ioutil.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(buff), nil
+}
+
+//RemoveContents _
+func RemoveContents(dir string) error {
+	d, err := os.Open(dir)
+	if err != nil {
+		return err
+	}
+	defer d.Close()
+	names, err := d.Readdirnames(-1)
+	if err != nil {
+		return err
+	}
+	for _, name := range names {
+		err = os.RemoveAll(filepath.Join(dir, name))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+//RemoveContentsExcludeFile _
+func RemoveContentsExcludeFile(dir string, exFilename string) error {
+	d, err := os.Open(dir)
+	if err != nil {
+		return err
+	}
+	defer d.Close()
+	names, err := d.Readdirnames(-1)
+	if err != nil {
+		return err
+	}
+	for _, name := range names {
+		if exFilename != name {
+			err = os.RemoveAll(filepath.Join(dir, name))
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }

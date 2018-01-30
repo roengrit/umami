@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"html/template"
+	"path/filepath"
 	"time"
 	h "umami/helpers"
 	m "umami/models"
 
 	"github.com/go-playground/form"
+	"github.com/google/uuid"
 )
 
 //CompanyController _
@@ -21,9 +23,13 @@ func (c *CompanyController) CreateCom() {
 		c.Data["title"] = "ข้อมูลร้าน/บริษัท"
 	} else {
 		c.Data["title"] = "แก้ไข ข้อมูลร้าน/บริษัท"
-		mem, _ := m.GetCom(int(company.ID))
-		c.Data["m"] = mem
+		if len(company.ImageLogo) > 0 {
+			base64, _ := h.File64Encode(company.ImageLogo)
+			company.ImageBase64 = base64
+		}
+		c.Data["m"] = company
 	}
+	c.Data["ret"] = m.NormalModel{}
 	c.Data["Province"] = m.GetAllProvince()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layout.html"
@@ -43,6 +49,23 @@ func (c *CompanyController) UpdateCom() {
 	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
 
 	ret.RetOK = true
+
+	file, header, _ := c.GetFile("ImgLogo")
+	if file != nil {
+		fileName := header.Filename
+		fileName = uuid.New().String() + filepath.Ext(fileName)
+		filePathSave := "data/company/" + fileName
+		err = c.SaveToFile("ImgLogo", filePathSave)
+		if err == nil {
+			sub.ImageLogo = filePathSave
+			h.RemoveContentsExcludeFile("data/company", fileName)
+			base64, errBase64 := h.File64Encode(filePathSave)
+			err = errBase64
+			sub.ImageBase64 = base64
+		}
+	}
+	_ = file
+
 	if err != nil {
 		ret.RetOK = false
 		ret.RetData = err.Error()
@@ -72,8 +95,20 @@ func (c *CompanyController) UpdateCom() {
 			ret.RetData = "บันทึกสำเร็จ"
 		}
 	}
-	ret.XSRF = c.XSRFToken()
+	company, _ := m.GetComFirst()
+	if company.ID == 0 {
+		c.Data["title"] = "ข้อมูลร้าน/บริษัท"
+	} else {
+		c.Data["title"] = "แก้ไข ข้อมูลร้าน/บริษัท"
+		company.ImageBase64 = sub.ImageBase64
+		c.Data["m"] = company
+	}
+	c.Data["ret"] = ret
+	c.Data["Province"] = m.GetAllProvince()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.Data["json"] = ret
-	c.ServeJSON()
+	c.Layout = "layout.html"
+	c.TplName = "company/com.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["scripts"] = "company/com-script.html"
+	c.Render()
 }
