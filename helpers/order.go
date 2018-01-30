@@ -22,7 +22,7 @@ const HTMLOrderTemplate = `<tr>
 						</tr>`
 
 //HTMLOrderActionEnable _
-const HTMLOrderActionEnable = `<a class="btn bg-purple" title="รายละเอียด" target="_blank" href="/order/read/?id={id}"><i class="fa fa-file-text-o"></i></a>
+const HTMLOrderActionEnable = `<a class="btn bg-purple" title="พิมพ์" onclick="loadPrint({id})" href="#"><i class="fa fa-print"></i></a>
 								 <a class="btn btn-primary " title="แก้ไข"  target="_blank" href="/order/?id={id}"><i class="fa fa-edit"></i></a>
 								 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 										<span class="caret"></span>
@@ -33,7 +33,7 @@ const HTMLOrderActionEnable = `<a class="btn bg-purple" title="รายละ�
 								</ul> `
 
 //HTMLOrderActionEditOnly _
-const HTMLOrderActionEditOnly = `<a class="btn bg-purple" title="รายละเอียด" target="_blank" href="/order/read/?id={id}"><i class="fa fa-file-text-o"></i></a>
+const HTMLOrderActionEditOnly = `<a class="btn bg-purple" title="พิมพ์" onclick="loadPrint({id})" href="#" ><i class="fa fa-print"></i></a>
 								   <a class="btn btn-primary" title="แก้ไข"  href="/order/?id={id}"><i class="fa fa-edit"></i></a>
 								   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 										<span class="caret"></span>

@@ -50,6 +50,7 @@ func main() {
 
 	beego.Router("/order", &c.OrderController{})
 	beego.Router("/order/read", &c.OrderController{})
+	beego.Router("/order/print", &c.OrderController{}, "get:Print")
 	beego.Router("/order/cancel", &c.OrderController{}, "get:CancelOrder;post:UpdateCancelOrder")
 	beego.Router("/order/list", &c.OrderController{}, "get:OrderList;post:GetOrderList")
 

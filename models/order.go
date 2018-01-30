@@ -65,7 +65,7 @@ func init() {
 
 //CreateOrder _
 func CreateOrder(order Order, user User) (retID int64, errRet error) {
-	order.DocNo = GetMaxDoc("receive", "REC")
+	order.DocNo = GetMaxDoc("receive", "IV")
 	order.Creator = &user
 	order.CreatedAt = time.Now()
 	order.CreditDay = 0

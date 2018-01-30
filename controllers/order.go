@@ -181,3 +181,19 @@ func (c *OrderController) UpdateCancelOrder() {
 	c.Data["json"] = ret
 	c.ServeJSON()
 }
+
+//Print _
+func (c *OrderController) Print() {
+	docID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
+	doc, _ := m.GetOrder(int(docID))
+	c.Data["m"] = doc
+	if !doc.Active {
+		c.Data["r"] = "readonly"
+	}
+	c.Data["RetCount"] = len(doc.OrderSub)
+	c.Data["title"] = "พิมพ์ : " + doc.DocNo
+	c.Data["CurrentDate"] = time.Now()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.TplName = "order/invoice.html"
+	c.Render()
+}

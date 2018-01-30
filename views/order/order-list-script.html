@@ -12,7 +12,7 @@
         format: 'dd-mm-yyyy',      
     });
     $('#txt-date-begin').datepicker('setDate', new Date(Date.parse("{{.beginDate}}"))) ;
-    $('#txt-date-end').datepicker('setDate', new Date(Date.parse("{{.endDate}}"))) ;   
+    $('#txt-date-end').datepicker('setDate', new Date(Date.parse("{{.endDate}}"))) ;  
     loadNormalTable();
 });
 function cancelDoc(id){
@@ -22,4 +22,10 @@ function cancelDoc(id){
             showGlobalSmallModal();
           });
     }
+function loadPrint(id) {
+    var $iframe = $('#frame-print');
+    if ($iframe.length ) {
+        $iframe.attr('src', "/order/print/?id=" + id);   
+    }
+}    
 </script>
