@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -45,18 +44,6 @@ type ProductCategory struct {
 	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
 }
 
-// //ProductType _
-// type ProductType struct {
-// 	ID        int
-// 	Lock      bool
-// 	Name      string `orm:"size(300)"`
-// 	Active    bool
-// 	Creator   *User     `orm:"rel(fk)"`
-// 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-// 	Editor    *User     `orm:"null;rel(fk)"`
-// 	EditedAt  time.Time `orm:"null;auto_now;type(datetime)"`
-// }
-
 //Unit _
 type Unit struct {
 	ID        int
@@ -89,6 +76,29 @@ func GetProductList(top int, term string) (num int64, productList []Product, err
 	return num, productList, err
 }
 
+//GetManagmentProductList _
+func GetManagmentProductList(term string, limit int) (pro *[]Product, rowCount int, errRet error) {
+	productlist := &[]Product{}
+	o := orm.NewOrm()
+	qs := o.QueryTable("product")
+	cond := orm.NewCondition()
+	cond1 := cond.Or("Name__icontains", term).
+		Or("Remark__icontains", term)
+	qs.SetCond(cond1).RelatedSel().Limit(limit).All(productlist)
+	return productlist, len(*productlist), errRet
+}
+
+//GetProductCateList _
+func GetProductCateList(term string, limit int) (cate *[]ProductCategory, rowCount int, errRet error) {
+	ProductCategory := &[]ProductCategory{}
+	o := orm.NewOrm()
+	qs := o.QueryTable("product_category")
+	cond := orm.NewCondition()
+	cond1 := cond.Or("Name__icontains", term)
+	qs.SetCond(cond1).RelatedSel().Limit(limit).All(ProductCategory)
+	return ProductCategory, len(*ProductCategory), errRet
+}
+
 //GetProduct _
 func GetProduct(ID int) (pro *Product, errRet error) {
 	Product := &Product{}
@@ -97,20 +107,12 @@ func GetProduct(ID int) (pro *Product, errRet error) {
 	return Product, errRet
 }
 
-//GetAllProductCategory _
-func GetAllProductCategory() (pro *[]ProductCategory) {
-	ProductCategory := &[]ProductCategory{}
+//GetProductCate _
+func GetProductCate(ID int) (cate *ProductCategory, errRet error) {
+	ProductCategory := &ProductCategory{}
 	o := orm.NewOrm()
-	o.QueryTable("product_category").RelatedSel().All(ProductCategory)
-	return ProductCategory
-}
-
-//GetAllProductUnit _
-func GetAllProductUnit() (pro *[]Unit) {
-	Unit := &[]Unit{}
-	o := orm.NewOrm()
-	o.QueryTable("unit").RelatedSel().All(Unit)
-	return Unit
+	o.QueryTable("product_category").Filter("ID", ID).RelatedSel().One(ProductCategory)
+	return ProductCategory, errRet
 }
 
 //CreateProduct _
@@ -125,9 +127,20 @@ func CreateProduct(pro Product) (retID int64, errRet error) {
 	return retID, err
 }
 
+//CreateProductCate _
+func CreateProductCate(cate ProductCategory) (retID int64, errRet error) {
+	o := orm.NewOrm()
+	o.Begin()
+	id, err := o.Insert(&cate)
+	o.Commit()
+	if err == nil {
+		retID = id
+	}
+	return retID, err
+}
+
 //UpdateProduct _
 func UpdateProduct(pro Product, isNewImage bool) (errRet error) {
-	fmt.Println(pro.FixCost)
 	o := orm.NewOrm()
 	getUpdate, _ := GetProduct(pro.ID)
 	if getUpdate.Lock {
@@ -151,6 +164,26 @@ func UpdateProduct(pro Product, isNewImage bool) (errRet error) {
 	return errRet
 }
 
+//UpdateProductCate _
+func UpdateProductCate(cate ProductCategory) (errRet error) {
+	o := orm.NewOrm()
+	getUpdate, _ := GetProductCate(cate.ID)
+	if getUpdate.Lock {
+		errRet = errors.New("ข้อมูลถูก Lock ไม่สามารถแก้ไขได้")
+	}
+	if getUpdate == nil {
+		errRet = errors.New("ไม่พบข้อมูล")
+	} else if errRet == nil {
+		cate.CreatedAt = getUpdate.CreatedAt
+		cate.Creator = getUpdate.Creator
+		if num, errUpdate := o.Update(&cate); errUpdate != nil {
+			errRet = errUpdate
+			_ = num
+		}
+	}
+	return errRet
+}
+
 //DeleteProduct _
 func DeleteProduct(ID int) (errRet error) {
 	o := orm.NewOrm()
@@ -165,14 +198,32 @@ func DeleteProduct(ID int) (errRet error) {
 	return errRet
 }
 
-//GetManagmentProductList _
-func GetManagmentProductList(term string, limit int) (pro *[]Product, rowCount int, errRet error) {
-	productlist := &[]Product{}
+//DeleteProductCate _
+func DeleteProductCate(ID int) (errRet error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable("product")
-	cond := orm.NewCondition()
-	cond1 := cond.Or("Name__icontains", term).
-		Or("Remark__icontains", term)
-	qs.SetCond(cond1).RelatedSel().Limit(limit).All(productlist)
-	return productlist, len(*productlist), errRet
+	getUpdate, _ := GetProductCate(ID)
+	if getUpdate.Lock {
+		errRet = errors.New("ข้อมูลถูก Lock ไม่สามารถแก้ไขได้")
+	}
+	if num, errDelete := o.Delete(&ProductCategory{ID: ID}); errDelete != nil && errRet == nil {
+		errRet = errDelete
+		_ = num
+	}
+	return errRet
+}
+
+//GetAllProductCategory _
+func GetAllProductCategory() (pro *[]ProductCategory) {
+	ProductCategory := &[]ProductCategory{}
+	o := orm.NewOrm()
+	o.QueryTable("product_category").RelatedSel().All(ProductCategory)
+	return ProductCategory
+}
+
+//GetAllProductUnit _
+func GetAllProductUnit() (pro *[]Unit) {
+	Unit := &[]Unit{}
+	o := orm.NewOrm()
+	o.QueryTable("unit").RelatedSel().All(Unit)
+	return Unit
 }

@@ -42,6 +42,9 @@ func main() {
 	beego.Router("/product/read/?:id", &c.ProductController{}, "get:CreateProduct")
 	beego.Router("/product/list", &c.ProductController{}, "get:ProductList;post:GetProductList")
 
+	beego.Router("/product-category/?:id", &c.ProductController{}, "get:CreateProductCate;post:UpdateProductCate;delete:DeleteProductCate")
+	beego.Router("/product-category/list", &c.ProductController{}, "get:ProductCateList;post:GetProductCateList")
+
 	beego.Router("/receive", &c.ReceiveController{})
 	beego.Router("/receive/read", &c.ReceiveController{})
 	beego.Router("/receive/cancel", &c.ReceiveController{}, "get:CancelReceive;post:UpdateCancelReceive")

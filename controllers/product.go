@@ -214,3 +214,121 @@ func (c *ProductController) GetProductList() {
 	c.Data["json"] = ret
 	c.ServeJSON()
 }
+
+//CreateProductCate _
+func (c *ProductController) CreateProductCate() {
+	cateID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
+	if strings.Contains(c.Ctx.Request.URL.RequestURI(), "read") {
+		c.Data["r"] = "readonly"
+	}
+	if cateID == 0 {
+		c.Data["title"] = "สร้าง หมวดสินค้า"
+	} else {
+		c.Data["title"] = "แก้ไข สหมวดินค้า"
+		cate, _ := m.GetProductCate(int(cateID))
+		c.Data["m"] = cate
+	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Layout = "layout.html"
+	c.TplName = "product-category/product-cate.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["scripts"] = "product-category/product-cate-script.html"
+	c.Render()
+}
+
+//UpdateProductCate _
+func (c *ProductController) UpdateProductCate() {
+
+	var cate m.ProductCategory
+	decoder := form.NewDecoder()
+	err := decoder.Decode(&cate, c.Ctx.Request.Form)
+	ret := m.NormalModel{}
+	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
+
+	ret.RetOK = true
+	if err != nil {
+		ret.RetOK = false
+		ret.RetData = err.Error()
+	} else if c.GetString("Name") == "" {
+		ret.RetOK = false
+		ret.RetData = "กรุณาระบุชื่อ"
+	}
+
+	if ret.RetOK && cate.ID == 0 {
+		cate.CreatedAt = time.Now()
+		cate.Creator = &actionUser
+		_, err := m.CreateProductCate(cate)
+		if err != nil {
+			ret.RetOK = false
+			ret.RetData = err.Error()
+		} else {
+			ret.RetData = "บันทึกสำเร็จ"
+		}
+	} else if ret.RetOK && cate.ID > 0 {
+		cate.EditedAt = time.Now()
+		cate.Editor = &actionUser
+		err := m.UpdateProductCate(cate)
+		if err != nil {
+			ret.RetOK = false
+			ret.RetData = err.Error()
+		} else {
+			ret.RetData = "บันทึกสำเร็จ"
+		}
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//DeleteProductCate _
+func (c *ProductController) DeleteProductCate() {
+	ID, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
+	ret := m.NormalModel{}
+	ret.RetOK = true
+	err := m.DeleteProductCate(int(ID))
+	if err != nil {
+		ret.RetOK = false
+		ret.RetData = err.Error()
+	} else {
+		ret.RetData = "ลบข้อมูลสำเร็จ"
+	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//ProductCateList _
+func (c *ProductController) ProductCateList() {
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["title"] = "หมวดสินค้า"
+	c.Layout = "layout.html"
+	c.TplName = "product-category/product-cate-list.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["scripts"] = "product-category/product-cate-list-script.html"
+	c.Render()
+}
+
+//GetProductCateList _
+func (c *ProductController) GetProductCateList() {
+	ret := m.NormalModel{}
+	ret.RetOK = true
+	top, _ := strconv.ParseInt(c.GetString("top"), 10, 32)
+	term := c.GetString("txt-search")
+	lists, rowCount, err := m.GetProductCateList(term, int(top))
+	if err == nil {
+		ret.RetOK = true
+		ret.RetCount = int64(rowCount)
+		ret.RetData = h.GenProCateHTML(*lists)
+		if rowCount == 0 {
+			ret.RetData = h.HTMLProCateNotFoundRows
+		}
+	} else {
+		ret.RetOK = false
+		ret.RetData = strings.Replace(h.HTMLProCateError, "{err}", err.Error(), -1)
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}

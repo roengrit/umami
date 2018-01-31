@@ -56,3 +56,35 @@ func GenProHTML(lists []m.Product) string {
 	}
 	return hmtlBuffer.String()
 }
+
+//HTMLProCateTemplate _
+const HTMLProCateTemplate = `<tr>
+							<td>{name}</td>
+							<td>
+								<div class="btn-group">
+									{action}
+								</div>
+							</td>                             
+						</tr>`
+
+//HTMLProCateActionEnable _
+const HTMLProCateActionEnable = ` <a class="btn btn-primary"   title="แก้ไข"  href="/product-category/?id={id}"><i class="fa fa-edit"></i></a>
+								  <a class="btn btn-danger"   title="ลบ" href="#"  onclick='confirmDeleteGlobal({id},"/product-category")'><i class="fa fa-trash-o"></i></a>`
+
+//HTMLProCateNotFoundRows _
+const HTMLProCateNotFoundRows = `<tr> <td  colspan="2" style="text-align:center;">*** ไม่พบข้อมูล ***</td></tr>`
+
+//HTMLProCateError _
+const HTMLProCateError = `<tr> <td  colspan="2" style="text-align:center;">{err}</td></tr>`
+
+//GenProCateHTML _
+func GenProCateHTML(lists []m.ProductCategory) string {
+	var hmtlBuffer bytes.Buffer
+	for _, val := range lists {
+		temp := strings.Replace(HTMLProCateTemplate, "{name}", val.Name, -1)
+		tempAction := strings.Replace(HTMLProCateActionEnable, "{id}", strconv.Itoa(val.ID), -1)
+		temp = strings.Replace(temp, "{action}", tempAction, -1)
+		hmtlBuffer.WriteString(temp)
+	}
+	return hmtlBuffer.String()
+}
