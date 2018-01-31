@@ -72,6 +72,7 @@ func (c *ProductController) CreateProduct() {
 		}
 		c.Data["m"] = pro
 	}
+	c.Data["ret"] = m.NormalModel{}
 	c.Data["ProductCategory"] = m.GetAllProductCategory()
 	c.Data["Unit"] = m.GetAllProductUnit()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
@@ -119,11 +120,12 @@ func (c *ProductController) UpdateProduct() {
 	if ret.RetOK && pro.ID == 0 {
 		pro.CreatedAt = time.Now()
 		pro.Creator = &actionUser
-		_, err := m.CreateProduct(pro)
+		ID, err := m.CreateProduct(pro)
 		if err != nil {
 			ret.RetOK = false
 			ret.RetData = err.Error()
 		} else {
+			pro.ID = int(ID)
 			ret.RetData = "บันทึกสำเร็จ"
 		}
 	} else if ret.RetOK && pro.ID > 0 {
@@ -139,6 +141,7 @@ func (c *ProductController) UpdateProduct() {
 	}
 	if pro.ID == 0 {
 		c.Data["title"] = "สร้าง สินค้า"
+		c.Data["m"] = pro
 	} else {
 		c.Data["title"] = "แก้ไข สินค้า"
 		pro, _ := m.GetProduct(int(pro.ID))

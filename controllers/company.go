@@ -99,6 +99,7 @@ func (c *CompanyController) UpdateCom() {
 	company, _ := m.GetComFirst()
 	if company.ID == 0 {
 		c.Data["title"] = "ข้อมูลร้าน/บริษัท"
+		c.Data["m"] = sub
 	} else {
 		c.Data["title"] = "แก้ไข ข้อมูลร้าน/บริษัท"
 		if len(company.ImageLogo) > 0 {
