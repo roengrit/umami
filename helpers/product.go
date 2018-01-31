@@ -12,6 +12,7 @@ const HTMLProTemplate = `<tr>
 							<td>{name}</td>
 							<td>{qty}</td>
 							<td>{category}</td> 
+							<td>{status}</td> 
 							<td>
 								<div class="btn-group">
 									{action}
@@ -45,6 +46,11 @@ func GenProHTML(lists []m.Product) string {
 		temp = strings.Replace(temp, "{qty}", RenderFloat("#,###.##", val.BalanceQty), -1)
 		temp = strings.Replace(temp, "{category}", val.ProductCategory.Name, -1)
 		tempAction := strings.Replace(HTMLProActionEnable, "{id}", strconv.Itoa(val.ID), -1)
+		if val.Active {
+			temp = strings.Replace(temp, "{status}", "เปิดใช้งาน", -1)
+		} else {
+			temp = strings.Replace(temp, "{status}", "ปิดใช้งาน", -1)
+		}
 		temp = strings.Replace(temp, "{action}", tempAction, -1)
 		hmtlBuffer.WriteString(temp)
 	}
