@@ -105,27 +105,40 @@
                         </a>
                         <ul class="treeview-menu">
                             <li class="{{.m_create_request}}">
-                                    <a href="/order/list">
-                                        <i class="fa fa-circle-o"></i> รับ/แก้ไข ออร์เดอร์</a>
+                                <a href="/order/list">
+                                    <i class="fa fa-circle-o"></i> รับ/แก้ไข ออร์เดอร์</a>
                             </li>
                             <li class="treeview">
-                                    <a href="#">
-                                      <i class="fa fa-circle-o"></i> <span>โต๊ะ</span>
-                                      <span class="pull-right-container">
+                                <a href="#">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>โต๊ะ</span>
+                                    <span class="pull-right-container">
                                         <i class="fa fa-angle-left pull-right"></i>
-                                      </span>
-                                    </a>
-                                    <ul class="treeview-menu" style="display: none;">
-                                      <li><a href="#"><i class="fa fa-circle-o"></i> จองโต๊ะ</a></li>
-                                      <li><a href="#"><i class="fa fa-circle-o"></i> ย้ายโตะ</a></li>
-                                      <li><a href="#"><i class="fa fa-circle-o"></i> แยกโต๊ะ</a></li>
-                                      <li><a href="#"><i class="fa fa-circle-o"></i> รวมโต๊ะ</a></li>
-                                      <li class="{{.m_create_request}}">
-                                            <a href="/sale">
-                                                <i class="fa fa-circle-o"></i> ปิดโต๊ะ</a>
-                                        </li>
-                                    </ul>
-                                  </li>                            
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu" style="display: none;">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-circle-o"></i> จองโต๊ะ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-circle-o"></i> ย้ายโตะ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-circle-o"></i> แยกโต๊ะ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-circle-o"></i> รวมโต๊ะ</a>
+                                    </li>
+                                    <li class="{{.m_create_request}}">
+                                        <a href="/sale">
+                                            <i class="fa fa-circle-o"></i> ปิดโต๊ะ</a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
                                     <i class="fa fa-circle-o"></i> เช็คบิล</a>
@@ -150,18 +163,8 @@
                                     <i class="fa fa-circle-o"></i> จ่ายอาหาร</a>
                             </li>
                             <li class="{{.m_create_request}}">
-                                    <a href="/sale">
-                                        <i class="fa fa-circle-o"></i> ปิดรับออร์เดอร์
-                                    </a>
-                                </li>
-                            <li class="{{.m_create_request}}">
-                                    <a href="/receive/list">
-                                        <i class="fa fa-circle-o"></i> รับสินค้า/วัตถุดิบ
-                                    </a>
-                            </li>
-                            <li class="{{.m_create_request}}">
-                                <a href="/pickup/list">
-                                    <i class="fa fa-circle-o"></i> เบิกสินค้า/วัตถุดิบ
+                                <a href="/sale">
+                                    <i class="fa fa-circle-o"></i> ปิดรับออร์เดอร์
                                 </a>
                             </li>
                         </ul>
@@ -194,9 +197,24 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            <li class="{{.m_product_list}}">
+                                <a href="/product/list">
+                                    <i class="fa fa-circle-o"></i>สินค้า/วัตถุดิบ</a>
+                            </li>
                             <li class="{{.m_create_request}}">
-                                <a href="/sale">
-                                    <i class="fa fa-circle-o"></i> สต๊อค</a>
+                                <a href="/receive/list">
+                                    <i class="fa fa-circle-o"></i> รับสินค้า/วัตถุดิบ
+                                </a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/pickup/list">
+                                    <i class="fa fa-circle-o"></i> เบิกสินค้า/วัตถุดิบ
+                                </a>
+                            </li>
+                            <li class="{{.m_create_request}}">
+                                <a href="/auto/pickup/list">
+                                    <i class="fa fa-circle-o"></i> ตรวจนับ (ปิดร้าน)
+                                </a>
                             </li>
                             <li class="{{.m_create_request}}">
                                 <a href="/sale">
@@ -271,12 +289,8 @@
                                     <i class="fa fa-circle-o"></i> รายละเอียดร้าน</a>
                             </li>
                             <li class="{{.m_category_list}}">
-                                <a href="/normal/?entity=categorys">
-                                    <i class="fa fa-circle-o"></i>หมวดหมู่อาหาร</a>
-                            </li>
-                            <li class="{{.m_product_list}}">
-                                <a href="/product/list">
-                                    <i class="fa fa-circle-o"></i>สินค้า/วัตถุดิบ</a>
+                                <a href="/product-category/list">
+                                    <i class="fa fa-circle-o"></i>หมวดหมู่สินค้า</a>
                             </li>
                             <li class="{{.m_category_list}}">
                                 <a href="/normal/?entity=categorys">

@@ -167,13 +167,48 @@ func (c *ProductController) DeleteProduct() {
 	ID, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
 	ret := m.NormalModel{}
 	ret.RetOK = true
-	err := m.DeleteMember(int(ID))
+	err := m.DeleteProduct(int(ID))
 	if err != nil {
 		ret.RetOK = false
 		ret.RetData = err.Error()
 	} else {
 		ret.RetData = "ลบข้อมูลสำเร็จ"
 	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//ProductList _
+func (c *ProductController) ProductList() {
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["title"] = "สินค้า"
+	c.Layout = "layout.html"
+	c.TplName = "product/product-list.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["scripts"] = "product/product-list-script.html"
+	c.Render()
+}
+
+//GetProductList _
+func (c *ProductController) GetProductList() {
+	ret := m.NormalModel{}
+	ret.RetOK = true
+	top, _ := strconv.ParseInt(c.GetString("top"), 10, 32)
+	term := c.GetString("txt-search")
+	lists, rowCount, err := m.GetManagmentProductList(term, int(top))
+	if err == nil {
+		ret.RetOK = true
+		ret.RetCount = int64(rowCount)
+		ret.RetData = h.GenProHTML(*lists)
+		if rowCount == 0 {
+			ret.RetData = h.HTMLProNotFoundRows
+		}
+	} else {
+		ret.RetOK = false
+		ret.RetData = strings.Replace(h.HTMLProError, "{err}", err.Error(), -1)
+	}
+	ret.XSRF = c.XSRFToken()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Data["json"] = ret
 	c.ServeJSON()

@@ -87,27 +87,44 @@
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <label for="req-date-event">ต้นทุน</label>
+                        <label for="req-date-event">สต๊อคสินค้า</label>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="fa fa-location-arrow"></i>
                             </span>
-                            <input type="number" id="AVerageCost" name="AVerageCost" readonly="readonly" class="form-control"    
-                            value="{{.m.AVerageCost}}"  placeholder="ต้นทุน">
+                            <input type="number" readonly="readonly" class="form-control"    
+                            value="{{.m.BalanceQty}}"  placeholder="สต๊อคสินค้า">
                         </div>
                     </div>
                 </div>
-                <div class="form-group req-box-form">
-                    <div class="col-xs-6">
-                        <label for="req-date-event">ราคาขาย</label>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa fa-location-arrow"></i>
-                            </span>
-                            <input type="number" id="SalePrice" name="SalePrice" {{.r }} class="form-control"    
-                            value="{{.m.SalePrice}}"  placeholder="ราคาขาย">
+                <div class="form-group" style="padding-bottom:30px;">
+                        <div class="col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="Active" value="True"> ต้นทุนคงที่
+                                </label>
+                            </div>
                         </div>
-                    </div>
+                </div>
+                <div class="form-group req-box-form">
+                        <div class="col-xs-6">
+                            <label for="req-date-event">ต้นทุน</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-location-arrow"></i>
+                                </span>
+                                <input type="number" readonly="readonly" class="form-control" value="{{.m.AverageCost}}" placeholder="ต้นทุน">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="req-date-event">ราคาขาย</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-location-arrow"></i>
+                                </span>
+                                <input type="number" id="SalePrice" name="SalePrice" {{.r }} class="form-control" value="{{.m.SalePrice}}" placeholder="ราคาขาย">
+                            </div>
+                        </div>
                 </div>
                 <div class="form-group req-box-form"  >
                     <div class="col-xs-12">

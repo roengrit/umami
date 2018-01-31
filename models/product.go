@@ -15,7 +15,7 @@ type Product struct {
 	Lock            bool
 	Name            string           `orm:"size(300)"`
 	Barcode         string           `orm:"size(13)"`
-	AVerageCost     float64          `orm:"digits(12);decimals(2)"`
+	AverageCost     float64          `orm:"digits(12);decimals(2)"`
 	BalanceQty      float64          `orm:"digits(12);decimals(2)"`
 	SalePrice       float64          `orm:"digits(12);decimals(2)"`
 	Unit            *Unit            `orm:"rel(fk)"`
@@ -24,7 +24,8 @@ type Product struct {
 	ImagePath1      string `orm:"size(300)"`
 	ImageBase64     string `orm:"-"`
 	Remark          string `orm:"size(100)"`
-	Active          bool
+	FixCost          bool
+	Active           bool
 	Creator         *User     `orm:"rel(fk)"`
 	CreatedAt       time.Time `orm:"auto_now_add;type(datetime)"`
 	Editor          *User     `orm:"null;rel(fk)"`
@@ -136,6 +137,8 @@ func UpdateProduct(pro Product, isNewImage bool) (errRet error) {
 		if !isNewImage {
 			pro.ImagePath1 = getUpdate.ImagePath1
 		}
+		pro.BalanceQty = getUpdate.BalanceQty
+		pro.AverageCost = getUpdate.AverageCost
 		pro.CreatedAt = getUpdate.CreatedAt
 		pro.Creator = getUpdate.Creator
 		if num, errUpdate := o.Update(&pro); errUpdate != nil {
@@ -158,4 +161,16 @@ func DeleteProduct(ID int) (errRet error) {
 		_ = num
 	}
 	return errRet
+}
+
+//GetManagmentProductList _
+func GetManagmentProductList(term string, limit int) (pro *[]Product, rowCount int, errRet error) {
+	productlist := &[]Product{}
+	o := orm.NewOrm()
+	qs := o.QueryTable("product")
+	cond := orm.NewCondition()
+	cond1 := cond.Or("Name__icontains", term).
+		Or("Remark__icontains", term)
+	qs.SetCond(cond1).RelatedSel().Limit(limit).All(productlist)
+	return productlist, len(*productlist), errRet
 }
