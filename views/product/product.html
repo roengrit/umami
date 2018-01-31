@@ -97,11 +97,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group" style="padding-bottom:30px;">
-                        <div class="col-xs-12">
-                            <div class="checkbox">
+                <div class="form-group " style="padding-bottom:40px;">
+                        <div class="col-xs-6">
+                            <div class="checkbox icheck">
                                 <label>
-                                    <input type="checkbox" name="Active" value="True"> ต้นทุนคงที่
+                                    <input type="checkbox" name="FixCost" 
+                                    {{if.m.FixCost}}checked{{end}}
+                                    value="True"> ต้นทุนคงที่
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox" name="Active" 
+                                    {{if.m.Active}}checked{{end}}
+                                    value="True"> เปิดใช้งาน
                                 </label>
                             </div>
                         </div>

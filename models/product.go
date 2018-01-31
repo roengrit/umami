@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -24,8 +25,8 @@ type Product struct {
 	ImagePath1      string `orm:"size(300)"`
 	ImageBase64     string `orm:"-"`
 	Remark          string `orm:"size(100)"`
-	FixCost          bool
-	Active           bool
+	FixCost         bool
+	Active          bool
 	Creator         *User     `orm:"rel(fk)"`
 	CreatedAt       time.Time `orm:"auto_now_add;type(datetime)"`
 	Editor          *User     `orm:"null;rel(fk)"`
@@ -126,6 +127,7 @@ func CreateProduct(pro Product) (retID int64, errRet error) {
 
 //UpdateProduct _
 func UpdateProduct(pro Product, isNewImage bool) (errRet error) {
+	fmt.Println(pro.FixCost)
 	o := orm.NewOrm()
 	getUpdate, _ := GetProduct(pro.ID)
 	if getUpdate.Lock {

@@ -80,6 +80,7 @@ func (c *ProductController) CreateProduct() {
 	c.TplName = "product/product.html"
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["scripts"] = "product/product-script.html"
+	c.LayoutSections["html_head"] = "product/product-style.html"
 	c.Render()
 }
 

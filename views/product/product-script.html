@@ -1,4 +1,5 @@
 <script src="/static/js/form.js" charset="UTF-8"></script>
+<script src="/static/js/icheck/icheck.min.js" charset="UTF-8"></script>
 <script>
 function Save() {
     hideTopAlert();
@@ -22,6 +23,13 @@ function showResponse(data, statusText, xhr, $form) {
 }
     $(document).ready(function () {
         
+
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+
         $("#ProductCategoryID").val('{{.m.ProductCategory.ID}}'); 
         if($("#ProductCategoryID").val()=='' || $("#ProductCategoryID").val() == null){
             $("#ProductCategoryID").val($("#ProductCategoryID option:first").val());
