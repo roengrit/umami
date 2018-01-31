@@ -43,7 +43,7 @@ func CreateCom(company Company) (retID int64, errRet error) {
 }
 
 //UpdateCom _
-func UpdateCom(company Company) (errRet error) {
+func UpdateCom(company Company, isNewImage bool) (errRet error) {
 	o := orm.NewOrm()
 	getUpdate, _ := GetCom(company.ID)
 	if getUpdate.Lock {
@@ -52,6 +52,9 @@ func UpdateCom(company Company) (errRet error) {
 	if getUpdate == nil {
 		errRet = errors.New("ไม่พบข้อมูล")
 	} else if errRet == nil {
+		if !isNewImage {
+			company.ImageLogo = getUpdate.ImageLogo
+		}
 		company.CreatedAt = getUpdate.CreatedAt
 		company.Creator = getUpdate.Creator
 		if num, errUpdate := o.Update(&company); errUpdate != nil {

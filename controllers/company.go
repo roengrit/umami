@@ -49,7 +49,7 @@ func (c *CompanyController) UpdateCom() {
 	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
 
 	ret.RetOK = true
-
+	isNewImage := false
 	file, header, _ := c.GetFile("ImgLogo")
 	if file != nil {
 		fileName := header.Filename
@@ -57,6 +57,7 @@ func (c *CompanyController) UpdateCom() {
 		filePathSave := "data/company/" + fileName
 		err = c.SaveToFile("ImgLogo", filePathSave)
 		if err == nil {
+			isNewImage = true
 			sub.ImageLogo = filePathSave
 			h.RemoveContentsExcludeFile("data/company", fileName)
 			base64, errBase64 := h.File64Encode(filePathSave)
@@ -87,7 +88,7 @@ func (c *CompanyController) UpdateCom() {
 	} else if ret.RetOK && sub.ID > 0 {
 		sub.EditedAt = time.Now()
 		sub.Editor = &actionUser
-		err := m.UpdateCom(sub)
+		err := m.UpdateCom(sub, isNewImage)
 		if err != nil {
 			ret.RetOK = false
 			ret.RetData = err.Error()
@@ -100,7 +101,10 @@ func (c *CompanyController) UpdateCom() {
 		c.Data["title"] = "ข้อมูลร้าน/บริษัท"
 	} else {
 		c.Data["title"] = "แก้ไข ข้อมูลร้าน/บริษัท"
-		company.ImageBase64 = sub.ImageBase64
+		if len(company.ImageLogo) > 0 {
+			base64, _ := h.File64Encode(company.ImageLogo)
+			company.ImageBase64 = base64
+		}
 		c.Data["m"] = company
 	}
 	c.Data["ret"] = ret
