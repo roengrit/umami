@@ -3,7 +3,6 @@
 <script>
 function Save() {
     hideTopAlert();
-    console.log("Save");
     var options = { 
         success:       showResponse  // post-submit callback 
     }; 
@@ -13,7 +12,6 @@ function Save() {
  
 // post-submit callback 
 function showResponse(data, statusText, xhr, $form) {
-    console.log("Ret");
     if (data.RetOK) {
         showTopAlert(data.RetData, "success")
       //  setTimeout(function () { window.location.href = '/member/list' }, 1000);
@@ -23,12 +21,23 @@ function showResponse(data, statusText, xhr, $form) {
 }
     $(document).ready(function () {
         
-
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
+        $("#FixCost").click(function() {
+            if($('#FixCost').is(':checked')){
+                $('#AverageCost').attr('name','AverageCost');
+                $('#AverageCost').removeAttr('readonly');
+            }else{
+                $('#AverageCost').removeAttr('name');
+                $('#AverageCost').attr('readonly','true');
+            }
         });
+
+        if($('#FixCost').is(':checked')){
+            $('#AverageCost').attr('name','AverageCost');
+            $('#AverageCost').removeAttr('readonly');
+        }else{
+            $('#AverageCost').removeAttr('name');
+            $('#AverageCost').attr('readonly','true');
+        }
 
         $("#ProductCategoryID").val('{{.m.ProductCategory.ID}}'); 
         if($("#ProductCategoryID").val()=='' || $("#ProductCategoryID").val() == null){

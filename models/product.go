@@ -153,7 +153,9 @@ func UpdateProduct(pro Product, isNewImage bool) (errRet error) {
 			pro.ImagePath1 = getUpdate.ImagePath1
 		}
 		pro.BalanceQty = getUpdate.BalanceQty
-		pro.AverageCost = getUpdate.AverageCost
+		if !pro.FixCost {
+			pro.AverageCost = getUpdate.AverageCost
+		}
 		pro.CreatedAt = getUpdate.CreatedAt
 		pro.Creator = getUpdate.Creator
 		if num, errUpdate := o.Update(&pro); errUpdate != nil {
