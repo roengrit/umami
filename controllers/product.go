@@ -224,7 +224,7 @@ func (c *ProductController) CreateProductCate() {
 	if cateID == 0 {
 		c.Data["title"] = "สร้าง หมวดสินค้า"
 	} else {
-		c.Data["title"] = "แก้ไข สหมวดินค้า"
+		c.Data["title"] = "แก้ไข หมวดสินค้า"
 		cate, _ := m.GetProductCate(int(cateID))
 		c.Data["m"] = cate
 	}
@@ -326,6 +326,124 @@ func (c *ProductController) GetProductCateList() {
 	} else {
 		ret.RetOK = false
 		ret.RetData = strings.Replace(h.HTMLProCateError, "{err}", err.Error(), -1)
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//CreateProductUnit _
+func (c *ProductController) CreateProductUnit() {
+	unitID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
+	if strings.Contains(c.Ctx.Request.URL.RequestURI(), "read") {
+		c.Data["r"] = "readonly"
+	}
+	if unitID == 0 {
+		c.Data["title"] = "สร้าง หน่วย"
+	} else {
+		c.Data["title"] = "แก้ไข หน่วย"
+		unit, _ := m.GetProductUnit(int(unitID))
+		c.Data["m"] = unit
+	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Layout = "layout.html"
+	c.TplName = "product-unit/product-unit.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["scripts"] = "product-unit/product-unit-script.html"
+	c.Render()
+}
+
+//UpdateProductUnit _
+func (c *ProductController) UpdateProductUnit() {
+
+	var unit m.Unit
+	decoder := form.NewDecoder()
+	err := decoder.Decode(&unit, c.Ctx.Request.Form)
+	ret := m.NormalModel{}
+	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
+
+	ret.RetOK = true
+	if err != nil {
+		ret.RetOK = false
+		ret.RetData = err.Error()
+	} else if c.GetString("Name") == "" {
+		ret.RetOK = false
+		ret.RetData = "กรุณาระบุชื่อ"
+	}
+
+	if ret.RetOK && unit.ID == 0 {
+		unit.CreatedAt = time.Now()
+		unit.Creator = &actionUser
+		_, err := m.CreateProductUnit(unit)
+		if err != nil {
+			ret.RetOK = false
+			ret.RetData = err.Error()
+		} else {
+			ret.RetData = "บันทึกสำเร็จ"
+		}
+	} else if ret.RetOK && unit.ID > 0 {
+		unit.EditedAt = time.Now()
+		unit.Editor = &actionUser
+		err := m.UpdateProductUnit(unit)
+		if err != nil {
+			ret.RetOK = false
+			ret.RetData = err.Error()
+		} else {
+			ret.RetData = "บันทึกสำเร็จ"
+		}
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//DeleteProductUnit _
+func (c *ProductController) DeleteProductUnit() {
+	ID, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
+	ret := m.NormalModel{}
+	ret.RetOK = true
+	err := m.DeleteProductUnit(int(ID))
+	if err != nil {
+		ret.RetOK = false
+		ret.RetData = err.Error()
+	} else {
+		ret.RetData = "ลบข้อมูลสำเร็จ"
+	}
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//ProductUnitList _
+func (c *ProductController) ProductUnitList() {
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["title"] = "หน่วย"
+	c.Layout = "layout.html"
+	c.TplName = "product-unit/product-unit-list.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["scripts"] = "product-unit/product-unit-list-script.html"
+	c.Render()
+}
+
+//GetProductUnitList _
+func (c *ProductController) GetProductUnitList() {
+	ret := m.NormalModel{}
+	ret.RetOK = true
+	top, _ := strconv.ParseInt(c.GetString("top"), 10, 32)
+	term := c.GetString("txt-search")
+	lists, rowCount, err := m.GetProductUnitList(term, int(top))
+	if err == nil {
+		ret.RetOK = true
+		ret.RetCount = int64(rowCount)
+		ret.RetData = h.GenProUnitHTML(*lists)
+		if rowCount == 0 {
+			ret.RetData = h.HTMLProUnitNotFoundRows
+		}
+	} else {
+		ret.RetOK = false
+		ret.RetData = strings.Replace(h.HTMLProUnitError, "{err}", err.Error(), -1)
 	}
 	ret.XSRF = c.XSRFToken()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())

@@ -99,6 +99,17 @@ func GetProductCateList(term string, limit int) (cate *[]ProductCategory, rowCou
 	return ProductCategory, len(*ProductCategory), errRet
 }
 
+//GetProductUnitList _
+func GetProductUnitList(term string, limit int) (cate *[]Unit, rowCount int, errRet error) {
+	Unit := &[]Unit{}
+	o := orm.NewOrm()
+	qs := o.QueryTable("unit")
+	cond := orm.NewCondition()
+	cond1 := cond.Or("Name__icontains", term)
+	qs.SetCond(cond1).RelatedSel().Limit(limit).All(Unit)
+	return Unit, len(*Unit), errRet
+}
+
 //GetProduct _
 func GetProduct(ID int) (pro *Product, errRet error) {
 	Product := &Product{}
@@ -113,6 +124,14 @@ func GetProductCate(ID int) (cate *ProductCategory, errRet error) {
 	o := orm.NewOrm()
 	o.QueryTable("product_category").Filter("ID", ID).RelatedSel().One(ProductCategory)
 	return ProductCategory, errRet
+}
+
+//GetProductUnit _
+func GetProductUnit(ID int) (unit *Unit, errRet error) {
+	Unit := &Unit{}
+	o := orm.NewOrm()
+	o.QueryTable("unit").Filter("ID", ID).RelatedSel().One(Unit)
+	return Unit, errRet
 }
 
 //CreateProduct _
@@ -132,6 +151,18 @@ func CreateProductCate(cate ProductCategory) (retID int64, errRet error) {
 	o := orm.NewOrm()
 	o.Begin()
 	id, err := o.Insert(&cate)
+	o.Commit()
+	if err == nil {
+		retID = id
+	}
+	return retID, err
+}
+
+//CreateProductUnit _
+func CreateProductUnit(unit Unit) (retID int64, errRet error) {
+	o := orm.NewOrm()
+	o.Begin()
+	id, err := o.Insert(&unit)
 	o.Commit()
 	if err == nil {
 		retID = id
@@ -186,6 +217,26 @@ func UpdateProductCate(cate ProductCategory) (errRet error) {
 	return errRet
 }
 
+//UpdateProductUnit _
+func UpdateProductUnit(unit Unit) (errRet error) {
+	o := orm.NewOrm()
+	getUpdate, _ := GetProductUnit(unit.ID)
+	if getUpdate.Lock {
+		errRet = errors.New("ข้อมูลถูก Lock ไม่สามารถแก้ไขได้")
+	}
+	if getUpdate == nil {
+		errRet = errors.New("ไม่พบข้อมูล")
+	} else if errRet == nil {
+		unit.CreatedAt = getUpdate.CreatedAt
+		unit.Creator = getUpdate.Creator
+		if num, errUpdate := o.Update(&unit); errUpdate != nil {
+			errRet = errUpdate
+			_ = num
+		}
+	}
+	return errRet
+}
+
 //DeleteProduct _
 func DeleteProduct(ID int) (errRet error) {
 	o := orm.NewOrm()
@@ -208,6 +259,20 @@ func DeleteProductCate(ID int) (errRet error) {
 		errRet = errors.New("ข้อมูลถูก Lock ไม่สามารถแก้ไขได้")
 	}
 	if num, errDelete := o.Delete(&ProductCategory{ID: ID}); errDelete != nil && errRet == nil {
+		errRet = errDelete
+		_ = num
+	}
+	return errRet
+}
+
+//DeleteProductUnit _
+func DeleteProductUnit(ID int) (errRet error) {
+	o := orm.NewOrm()
+	getUpdate, _ := GetProductUnit(ID)
+	if getUpdate.Lock {
+		errRet = errors.New("ข้อมูลถูก Lock ไม่สามารถแก้ไขได้")
+	}
+	if num, errDelete := o.Delete(&Unit{ID: ID}); errDelete != nil && errRet == nil {
 		errRet = errDelete
 		_ = num
 	}

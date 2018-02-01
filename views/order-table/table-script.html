@@ -1,0 +1,14 @@
+<script>
+function Save() {
+    hideTopAlert();
+    url = $('#table-form').attr('action');
+    $.post(url, $('#table-form').serialize(), function (data) {
+        if (data.RetOK) {
+            showTopAlert(data.RetData, "success")
+            setTimeout(function () { window.location.href = '/table/list' }, 1000);
+        } else {
+            showTopAlert(data.RetData, "danger")
+        }
+    });
+}    
+</script>
