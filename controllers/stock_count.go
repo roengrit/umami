@@ -25,12 +25,14 @@ func (c *StockCountController) Get() {
 	}
 	if docID == 0 {
 		c.Data["title"] = "นับสต๊อคสินค้า/วัตถุดิบ"
+		c.Data["temp"] = 1
 	} else {
 		doc, _ := m.GetStockCount(int(docID))
 		c.Data["m"] = doc
 		if !doc.Active {
 			c.Data["r"] = "readonly"
 		}
+		c.Data["temp"] = doc.FlagTemp
 		c.Data["RetCount"] = len(doc.StockCountSub)
 		c.Data["title"] = "แก้ไข นับสต๊อคสินค้า/วัตถุดิบ : " + doc.DocNo
 	}

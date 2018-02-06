@@ -83,9 +83,9 @@ func CreateReceive(receive Receive, user User) (retID int64, errRet error) {
 	o.Begin()
 	id, err := o.Insert(&receive)
 	id, err = o.InsertMulti(len(fullDataSub), fullDataSub)
-	o.Commit()
 	if err == nil {
 		retID = id
+		o.Commit()
 	} else {
 		o.Rollback()
 	}
@@ -127,9 +127,9 @@ func UpdateReceive(receive Receive, user User) (retID int64, errRet error) {
 	if err == nil {
 		_, err = o.InsertMulti(len(fullDataSub), fullDataSub)
 	}
-	o.Commit()
 	if err == nil {
 		retID = id
+		o.Commit()
 	} else {
 		o.Rollback()
 	}
@@ -179,9 +179,10 @@ func UpdateCancelReceive(ID int, remark string, user User) (retID int64, errRet 
 	docCheck.CancelUser = &user
 	o.Begin()
 	_, err := o.Update(docCheck)
-	o.Commit()
 	if err != nil {
 		o.Rollback()
+	} else {
+		o.Commit()
 	}
 	errRet = err
 	return retID, errRet

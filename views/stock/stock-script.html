@@ -224,6 +224,7 @@
     });
     function Save() {
             hideTopAlert();
+            $('#FlagTemp').val(0);
             url = $('#pickup-form').attr('action');
             $.post(url, $('#pickup-form').serialize(), function (data) {
                 if (data.RetOK) {

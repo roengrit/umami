@@ -87,9 +87,9 @@ func CreateOrder(order Order, user User) (retID int64, errRet error) {
 	o.Begin()
 	id, err := o.Insert(&order)
 	id, err = o.InsertMulti(len(fullDataSub), fullDataSub)
-	o.Commit()
 	if err == nil {
 		retID = id
+		o.Commit()
 	} else {
 		o.Rollback()
 	}
@@ -131,9 +131,9 @@ func UpdateOrder(order Order, user User) (retID int64, errRet error) {
 	if err == nil {
 		_, err = o.InsertMulti(len(fullDataSub), fullDataSub)
 	}
-	o.Commit()
 	if err == nil {
 		retID = id
+		o.Commit()
 	} else {
 		o.Rollback()
 	}
@@ -183,9 +183,10 @@ func UpdateCancelOrder(ID int, remark string, user User) (retID int64, errRet er
 	docCheck.CancelUser = &user
 	o.Begin()
 	_, err := o.Update(docCheck)
-	o.Commit()
 	if err != nil {
 		o.Rollback()
+	} else {
+		o.Commit()
 	}
 	errRet = err
 	return retID, errRet

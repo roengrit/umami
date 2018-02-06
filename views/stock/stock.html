@@ -220,8 +220,8 @@
             </div>      
             <div class="box-footer">
                 {{if .r}} {{else}}
-                <button type="submit" onclick="Save()" class="btn btn-primary pull-right">บันทึก/ปรับปรุง</button>          
-                <button type="submit" onclick="SaveTemp()" class="btn bg-purple pull-right" style="margin-right:5px;">บันทึก/แสดงผลต่าง</button>    
+                    <button type="submit" {{if .temp}} onclick="Save()" {{end}} class="btn btn-primary pull-right  {{if not .temp}} disabled {{end}} ">บันทึก/ปรับปรุง</button>
+                    <button type="submit" {{if .temp}} onclick="SaveTemp()" {{end}} class="btn bg-purple pull-right  {{if not .temp}} disabled {{end}} " style="margin-right:5px;">บันทึก/แสดงผลต่าง</button>
                 {{end}}
                 <a href="/stock/list" class="btn btn-default pull-right" style="margin-right:5px;">ยกเลิก</a>
             </div>

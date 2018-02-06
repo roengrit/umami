@@ -89,13 +89,12 @@ func CreateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
-	orm.Debug = true
 	o := orm.NewOrm()
 	o.Begin()
 	id, err := o.Insert(&StockCount)
 	id, err = o.InsertMulti(len(fullDataSub), fullDataSub)
-	o.Commit()
 	if err == nil {
+		o.Commit()
 		retID = id
 	} else {
 		o.Rollback()
@@ -144,8 +143,8 @@ func UpdateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 	if err == nil {
 		_, err = o.InsertMulti(len(fullDataSub), fullDataSub)
 	}
-	o.Commit()
 	if err == nil {
+		o.Commit()
 		retID = id
 	} else {
 		o.Rollback()
@@ -196,9 +195,10 @@ func UpdateCancelStockCount(ID int, remark string, user User) (retID int64, errR
 	docCheck.CancelUser = &user
 	o.Begin()
 	_, err := o.Update(docCheck)
-	o.Commit()
 	if err != nil {
 		o.Rollback()
+	} else {
+		o.Commit()
 	}
 	errRet = err
 	return retID, errRet
