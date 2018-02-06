@@ -120,7 +120,6 @@ func firstReceive(AverageCost, Qty float64, tr PreAllStockAdj) (PreAllStockAdj, 
 }
 
 func firstCountStock(AverageCost, Qty float64, tr PreAllStockAdj) (PreAllStockAdj, float64, float64) {
-	tr.AverageCost = tr.AverageCost
 	AverageCost = tr.AverageCost
 	Qty = tr.Qty
 	return tr, AverageCost, Qty

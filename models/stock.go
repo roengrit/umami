@@ -100,6 +100,7 @@ func CreateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 	} else {
 		o.Rollback()
 	}
+
 	errRet = err
 	return retID, errRet
 }

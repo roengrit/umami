@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"strconv"
 	"strings"
@@ -81,7 +82,6 @@ func (c *StockCountController) Post() {
 		}
 		if retJSON.RetOK && doc.ID == 0 {
 			RetID, parsFormErr = m.CreateStockCount(doc, actionUser)
-			doc.ID = int(RetID)
 			if parsFormErr == nil {
 				retJSON.RetOK = true
 				retJSON.RetData = "บันทึกสำเร็จ"
@@ -95,18 +95,20 @@ func (c *StockCountController) Post() {
 			if parsFormErr == nil {
 				retJSON.RetOK = true
 				retJSON.RetData = "บันทึกสำเร็จ"
+				RetID = int64(doc.ID)
 			} else {
 				retJSON.RetOK = false
 				retJSON.RetData = parsFormErr.Error()
 			}
 		}
-		retJSON.ID = int64(doc.ID)
+		doc.ID = int(RetID)
 	} else {
 		retJSON.RetOK = false
 		retJSON.RetData = "มีข้อมูลบางอย่างไม่ครบถ้วน"
 	}
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Data["json"] = retJSON
+	fmt.Println(retJSON)
 	c.ServeJSON()
 }
 
