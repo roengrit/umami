@@ -41,22 +41,22 @@ type StockCount struct {
 
 //StockCountSub _
 type StockCountSub struct {
-	ID         int
-	Flag       int
-	Active     bool
-	DocNo      string    `orm:"size(30)"`
-	DocDate    time.Time `form:"-" orm:"null"`
-	Product    *Product  `orm:"rel(fk)"`
-	Unit       *Unit     `orm:"rel(fk)"`
-	BalanceQty float64   `orm:"digits(12);decimals(2)"`
-	Qty        float64   `orm:"digits(12);decimals(2)"`
-	RemainQty  float64   `orm:"digits(12);decimals(2)"`
-	Cost       float64   `orm:"digits(12);decimals(2)"`
-	Price      float64   `orm:"digits(12);decimals(2)"`
-	TotalPrice float64   `orm:"digits(12);decimals(2)"`
-	Remark     string    `orm:"size(300)"`
-	Creator    *User     `orm:"rel(fk)"`
-	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
+	ID          int
+	Flag        int
+	Active      bool
+	DocNo       string    `orm:"size(30)"`
+	DocDate     time.Time `form:"-" orm:"null"`
+	Product     *Product  `orm:"rel(fk)"`
+	Unit        *Unit     `orm:"rel(fk)"`
+	BalanceQty  float64   `orm:"digits(12);decimals(2)"`
+	Qty         float64   `orm:"digits(12);decimals(2)"`
+	RemainQty   float64   `orm:"digits(12);decimals(2)"`
+	AverageCost float64   `orm:"digits(12);decimals(2)"`
+	Price       float64   `orm:"digits(12);decimals(2)"`
+	TotalPrice  float64   `orm:"digits(12);decimals(2)"`
+	Remark      string    `orm:"size(300)"`
+	Creator     *User     `orm:"rel(fk)"`
+	CreatedAt   time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
 func init() {
