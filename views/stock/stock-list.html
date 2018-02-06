@@ -7,7 +7,7 @@
         </h1>
     </section>
     <section class="content">
-        <form action="/pickup/list" id="search-form" onsubmit="return false;" method="post">
+        <form action="/stock/list" id="search-form" onsubmit="return false;" method="post">
             {{ .xsrfdata }}
             <div class="input-group input-group-sm search-top">
                 <div class="col-xs-6 input-group-sm xs-top-serch">
@@ -60,7 +60,7 @@
                 <h3 class="box-title">ค้นเจอทั้งหมด
                     <span id="RetCount"> {{.RetCount}}</span> รายการ</h3>
                 <div class="box-tools pull-right">
-                    <a href="/pickup" id="sup-add" class="btn btn-sm btn-success">เพิ่มข้อมูล</a>
+                    <a href="/stock" id="sup-add" class="btn btn-sm btn-success">เพิ่มข้อมูล</a>
                 </div>
             </div>
             <div class="box-body">

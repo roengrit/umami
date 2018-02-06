@@ -12,42 +12,60 @@ import (
 	"github.com/go-playground/form"
 )
 
-//StockController _
-type StockController struct {
+//StockCountController _
+type StockCountController struct {
 	BaseController
 }
 
 //Get _
-func (c *StockController) Get() {
+func (c *StockCountController) Get() {
 	docID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
 	if strings.Contains(c.Ctx.Request.URL.RequestURI(), "read") {
 		c.Data["r"] = "readonly"
 	}
 	if docID == 0 {
-		c.Data["title"] = "เบิกสินค้า/วัตถุดิบ"
+		c.Data["title"] = "นับสต๊อคสินค้า/วัตถุดิบ"
 	} else {
-		doc, _ := m.GetPickUp(int(docID))
+		doc, _ := m.GetStockCount(int(docID))
 		c.Data["m"] = doc
 		if !doc.Active {
 			c.Data["r"] = "readonly"
 		}
-		c.Data["RetCount"] = len(doc.PickUpSub)
-		c.Data["title"] = "แก้ไข เบิกสินค้า/วัตถุดิบ : " + doc.DocNo
+		c.Data["RetCount"] = len(doc.StockCountSub)
+		c.Data["title"] = "แก้ไข นับสต๊อคสินค้า/วัตถุดิบ : " + doc.DocNo
 	}
 	c.Data["CurrentDate"] = time.Now()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Layout = "layout.html"
-	c.TplName = "pickup/pickup.html"
+	c.TplName = "stock/stock.html"
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["html_head"] = "pickup/pickup-style.html"
-	c.LayoutSections["scripts"] = "pickup/pickup-script.html"
+	c.LayoutSections["html_head"] = "stock/stock-style.html"
+	c.LayoutSections["scripts"] = "stock/stock-script.html"
+	c.Render()
+}
+
+//StockDiff _
+func (c *StockCountController) StockDiff() {
+	docID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
+	doc, _ := m.GetStockCount(int(docID))
+	c.Data["m"] = doc
+	c.Data["RetCount"] = len(doc.StockCountSub)
+	c.Data["title"] = "ผลต่างการนับสต๊อคสินค้า/วัตถุดิบ : " + doc.DocNo
+	c.Data["CurrentDate"] = time.Now()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Layout = "layout.html"
+	c.TplName = "stock/stock-diff.html"
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["html_head"] = "stock/stock-diff-style.html"
+	c.LayoutSections["scripts"] = "stock/stock-diff-script.html"
 	c.Render()
 }
 
 //Post _
-func (c *StockController) Post() {
-	doc := m.PickUp{}
-	doc.Flag = 4 // เบิก
+func (c *StockCountController) Post() {
+	doc := m.StockCount{}
+	doc.Flag = 4 // นับ
+	var RetID int64
 	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
 	retJSON := m.NormalModel{RetOK: true}
 	decoder := form.NewDecoder()
@@ -60,7 +78,8 @@ func (c *StockController) Post() {
 			retJSON.RetData = "มีข้อมูลบางอย่างไม่ครบถ้วน"
 		}
 		if retJSON.RetOK && doc.ID == 0 {
-			_, parsFormErr = m.CreatePickUp(doc, actionUser)
+			RetID, parsFormErr = m.CreateStockCount(doc, actionUser)
+			doc.ID = int(RetID)
 			if parsFormErr == nil {
 				retJSON.RetOK = true
 				retJSON.RetData = "บันทึกสำเร็จ"
@@ -70,7 +89,7 @@ func (c *StockController) Post() {
 			}
 		}
 		if retJSON.RetOK && doc.ID != 0 {
-			_, parsFormErr = m.UpdatePickUp(doc, actionUser)
+			_, parsFormErr = m.UpdateStockCount(doc, actionUser)
 			if parsFormErr == nil {
 				retJSON.RetOK = true
 				retJSON.RetData = "บันทึกสำเร็จ"
@@ -79,6 +98,7 @@ func (c *StockController) Post() {
 				retJSON.RetData = parsFormErr.Error()
 			}
 		}
+		retJSON.ID = int64(doc.ID)
 	} else {
 		retJSON.RetOK = false
 		retJSON.RetData = "มีข้อมูลบางอย่างไม่ครบถ้วน"
@@ -88,22 +108,22 @@ func (c *StockController) Post() {
 	c.ServeJSON()
 }
 
-//PickUpList _
-func (c *StockController) PickUpList() {
+//StockCountList _
+func (c *StockCountController) StockCountList() {
 	c.Data["beginDate"] = time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, time.Local).Format("2006-01-02")
 	c.Data["endDate"] = time.Date(time.Now().Year(), time.Now().Month()+1, 0, 0, 0, 0, 0, time.Local).Format("2006-01-02")
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.Data["title"] = "เบิกสินค้า/วัตถุดิบ"
+	c.Data["title"] = "นับสต๊อคสินค้า/วัตถุดิบ"
 	c.Layout = "layout.html"
-	c.TplName = "pickup/pickup-list.html"
+	c.TplName = "stock/stock-list.html"
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["html_head"] = "pickup/pickup-style.html"
-	c.LayoutSections["scripts"] = "pickup/pickup-list-script.html"
+	c.LayoutSections["html_head"] = "stock/stock-style.html"
+	c.LayoutSections["scripts"] = "stock/stock-list-script.html"
 	c.Render()
 }
 
-//GetPickUpList _
-func (c *StockController) GetPickUpList() {
+//GetStockCountList _
+func (c *StockCountController) GetStockCountList() {
 	ret := m.NormalModel{}
 	ret.RetOK = true
 	top, _ := strconv.ParseInt(c.GetString("top"), 10, 32)
@@ -118,11 +138,11 @@ func (c *StockController) GetPickUpList() {
 		sp := strings.Split(dateEnd, "-")
 		dateEnd = sp[2] + "-" + sp[1] + "-" + sp[0]
 	}
-	lists, rowCount, err := m.GetPickUpList(term, int(top), dateBegin, dateEnd)
+	lists, rowCount, err := m.GetStockCountList(term, int(top), dateBegin, dateEnd)
 	if err == nil {
 		ret.RetOK = true
 		ret.RetCount = int64(rowCount)
-		ret.RetData = h.GenPickUpHTML(*lists)
+		ret.RetData = h.GenStockCountHTML(*lists)
 		if rowCount == 0 {
 			ret.RetData = h.HTMLPickUpNotFoundRows
 		}
@@ -136,15 +156,15 @@ func (c *StockController) GetPickUpList() {
 	c.ServeJSON()
 }
 
-//CancelPickUp _
-func (c *StockController) CancelPickUp() {
+//CancelStockCount _
+func (c *StockCountController) CancelStockCount() {
 	ID, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("id"), 10, 32)
 	ret := m.NormalModel{}
 	dataTemplate := m.NormalModel{}
 	dataTemplate.ID = ID
 	dataTemplate.Title = "กรุณาระบุ หมายเหตุ การยกเลิก"
 	dataTemplate.XSRF = c.XSRFToken()
-	t, err := template.ParseFiles("views/pickup/pickup-cancel.html")
+	t, err := template.ParseFiles("views/stock/stock-cancel.html")
 	var tpl bytes.Buffer
 	if err = t.Execute(&tpl, dataTemplate); err != nil {
 		ret.RetOK = err != nil
@@ -158,8 +178,8 @@ func (c *StockController) CancelPickUp() {
 	c.ServeJSON()
 }
 
-//UpdateCancelPickUp _
-func (c *StockController) UpdateCancelPickUp() {
+//UpdateCancelStockCount _
+func (c *StockCountController) UpdateCancelStockCount() {
 	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
 	ret := m.NormalModel{}
 	ID, _ := c.GetInt("ID")
@@ -170,7 +190,7 @@ func (c *StockController) UpdateCancelPickUp() {
 		ret.RetData = "กรุณาระบุหมายเหตุ"
 	}
 	if ret.RetOK {
-		_, err := m.UpdateCancelPickUp(ID, remark, actionUser)
+		_, err := m.UpdateCancelStockCount(ID, remark, actionUser)
 		if err != nil {
 			ret.RetOK = false
 			ret.RetData = err.Error()

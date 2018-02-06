@@ -32,12 +32,12 @@
         });
 
         var templateRow = `<tr  style="cursor: pointer;" index-val="@">
-                                <input type="hidden" class="ProductId" name="PickUpSub[@].Product.ID" value="{0}" /> 
-                                <input type="hidden" class="ProductName" name="PickUpSub[@].Product.Name" value="{1}" />
-                                <input type="hidden" class="ProductUnitID" name="PickUpSub[@].Unit.ID" value="{2}" /> 
-                                <input type="hidden" class="ProductQty" name="PickUpSub[@].Qty" value="{3}" />
-                                <input type="hidden" class="ProductPrice" name="PickUpSub[@].Price" value="{4}" />
-                                <input type="hidden" class="ProductTotalPrice" name="PickUpSub[@].TotalPrice" value="{5}" />
+                                <input type="hidden" class="ProductId" name="StockCountSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductName" name="StockCountSub[@].Product.Name" value="{1}" />
+                                <input type="hidden" class="ProductUnitID" name="StockCountSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductQty" name="StockCountSub[@].Qty" value="{3}" />
+                                <input type="hidden" class="ProductPrice" name="StockCountSub[@].Price" value="{4}" />
+                                <input type="hidden" class="ProductTotalPrice" name="StockCountSub[@].TotalPrice" value="{5}" />
 
                                 <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
                                 <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
@@ -188,12 +188,12 @@
             $editOveray.hide();
             $("#RetData tr").each(function (index) {
                 $(this).attr("index-val", index);
-                $(this).find(".ProductId").attr("name", "PickUpSub[" + index + "].Product.ID");
-                $(this).find(".ProductName").attr("name", "PickUpSub[" + index + "].Product.Name");
-                $(this).find(".ProductUnitID").attr("name", "PickUpSub[" + index + "].Unit.ID");
-                $(this).find(".ProductQty").attr("name", "PickUpSub[" + index + "].Qty");
-                $(this).find(".ProductPrice").attr("name", "PickUpSub[" + index + "].Price");
-                $(this).find(".ProductTotalPrice").attr("name", "PickUpSub[" + index + "].TotalPrice");
+                $(this).find(".ProductId").attr("name", "StockCountSub[" + index + "].Product.ID");
+                $(this).find(".ProductName").attr("name", "StockCountSub[" + index + "].Product.Name");
+                $(this).find(".ProductUnitID").attr("name", "StockCountSub[" + index + "].Unit.ID");
+                $(this).find(".ProductQty").attr("name", "StockCountSub[" + index + "].Qty");
+                $(this).find(".ProductPrice").attr("name", "StockCountSub[" + index + "].Price");
+                $(this).find(".ProductTotalPrice").attr("name", "StockCountSub[" + index + "].TotalPrice");
             });    
             sumFoorter();        
         }
@@ -228,7 +228,20 @@
             $.post(url, $('#pickup-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
-                    setTimeout(function () { window.location.href = '/pickup/list' }, 600);
+                    setTimeout(function () { window.location.href = '/stock/list' }, 600);
+                } else {
+                    showTopAlert(data.RetData, "danger")
+                }
+            });
+        }
+        function SaveTemp() {
+            hideTopAlert();
+            $('#FlagTemp').val(1);
+            url = $('#pickup-form').attr('action');
+            $.post(url, $('#pickup-form').serialize(), function (data) {
+                if (data.RetOK) {
+                    showTopAlert(data.RetData, "success")
+                    setTimeout(function () { window.location.href = '/stock/diff/?id=' + data.ID  }, 600);
                 } else {
                     showTopAlert(data.RetData, "danger")
                 }

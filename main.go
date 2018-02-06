@@ -61,6 +61,12 @@ func main() {
 	beego.Router("/pickup/cancel", &c.PickUpController{}, "get:CancelPickUp;post:UpdateCancelPickUp")
 	beego.Router("/pickup/list", &c.PickUpController{}, "get:PickUpList;post:GetPickUpList")
 
+	beego.Router("/stock", &c.StockCountController{})
+	beego.Router("/stock/read", &c.StockCountController{})
+	beego.Router("/stock/diff", &c.StockCountController{}, "get:StockDiff")
+	beego.Router("/stock/cancel", &c.StockCountController{}, "get:CancelStockCount;post:UpdateCancelStockCount")
+	beego.Router("/stock/list", &c.StockCountController{}, "get:StockCountList;post:GetStockCountList")
+
 	beego.Router("/order", &c.OrderController{})
 	beego.Router("/order/read", &c.OrderController{})
 	beego.Router("/order/print", &c.OrderController{}, "get:Print")
