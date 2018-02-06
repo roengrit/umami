@@ -65,7 +65,7 @@ func init() {
 
 //CreateStockCount _
 func CreateStockCount(StockCount StockCount, user User) (retID int64, errRet error) {
-	StockCount.DocNo = GetMaxDoc("pick_up", "STK")
+	StockCount.DocNo = GetMaxDoc("stock_count", "STK")
 	StockCount.Creator = &user
 	StockCount.CreatedAt = time.Now()
 	StockCount.CreditDay = 0
@@ -86,6 +86,7 @@ func CreateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 				val.Remark = "รอการปรับปรุง"
 			}
 			val.DocDate = StockCount.DocDate
+			val.AverageCost = val.Price
 			fullDataSub = append(fullDataSub, val)
 		}
 	}
@@ -94,8 +95,8 @@ func CreateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 	id, err := o.Insert(&StockCount)
 	id, err = o.InsertMulti(len(fullDataSub), fullDataSub)
 	if err == nil {
-		o.Commit()
 		retID = id
+		o.Commit()
 	} else {
 		o.Rollback()
 	}
@@ -130,6 +131,7 @@ func UpdateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 				val.Active = false
 				val.Remark = "รอการปรับปรุง"
 			}
+			val.AverageCost = val.Price
 			val.DocDate = StockCount.DocDate
 			fullDataSub = append(fullDataSub, val)
 		}
