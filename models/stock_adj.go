@@ -59,6 +59,7 @@ func GetAllTransToProcessAvg(productID int) (num int64, PreAllStockAdj []PreAllS
 
 //CalAllAvgAndUpdatDocTrans _
 func CalAllAvgAndUpdatDocTrans(productID int) (err error) {
+	o := orm.NewOrm()
 	num, list, err := GetAllTransToProcessAvg(productID)
 
 	if num == 0 {
@@ -86,12 +87,15 @@ func CalAllAvgAndUpdatDocTrans(productID int) (err error) {
 			} else {
 				val, gAverageCost, gQty = firstReceive(gAverageCost, gQty, val)
 			}
+			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
 		case 2:
 			gQty = gQty + val.Qty
 			val.AverageCost = gAverageCost
+			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
 		case 3:
 			gQty = gQty + val.Qty
 			val.AverageCost = gAverageCost
+			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
 		case 4:
 			if !flagFirst {
 				if val.Qty-val.BalanceQty >= 0 {
@@ -104,12 +108,21 @@ func CalAllAvgAndUpdatDocTrans(productID int) (err error) {
 			} else {
 				val, gAverageCost, gQty = firstCountStock(gAverageCost, gQty, val)
 			}
+			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
 		}
 		flagFirst = false
+		if err != nil {
+			o.Rollback()
+			return err
+		}
 	}
-	o := orm.NewOrm()
-	_, _ = o.Raw("update product set balance_qty = ? , balance_cost = ? where i_d = ?", gQty, gAverageCost, productID).Exec()
-	return errors.New("")
+	_, err = o.Raw("update product set balance_qty = ? , balance_cost = ? where i_d = ?", gQty, gAverageCost, productID).Exec()
+	if err != nil {
+		o.Rollback()
+	} else {
+		o.Commit()
+	}
+	return err
 }
 
 func firstReceive(AverageCost, Qty float64, tr PreAllStockAdj) (PreAllStockAdj, float64, float64) {

@@ -1,5 +1,7 @@
 package controllers
 
+import "umami/models"
+
 //AppController _
 type AppController struct {
 	BaseController
@@ -11,5 +13,5 @@ func (c *AppController) Get() {
 	c.Layout = "layout.html"
 	c.TplName = "main/index.html"
 	c.Render()
-	//models.CalAllAvgAndUpdatDocTrans(1)
+	models.CalAllAvgAndUpdatDocTrans(10)
 }
