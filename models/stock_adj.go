@@ -57,8 +57,8 @@ func GetAllTransToProcessAvg(productID int) (num int64, PreAllStockAdj []PreAllS
 	return num, PreAllStockAdj, err
 }
 
-//CalAllAvgAndUpdatDocTrans _
-func CalAllAvgAndUpdatDocTrans(productID int) (err error) {
+//CalAllAvgTrans _
+func CalAllAvgTrans(productID int, updateTrans bool) (err error) {
 	o := orm.NewOrm()
 	num, list, err := GetAllTransToProcessAvg(productID)
 
@@ -87,15 +87,21 @@ func CalAllAvgAndUpdatDocTrans(productID int) (err error) {
 			} else {
 				val, gAverageCost, gQty = firstReceive(gAverageCost, gQty, val)
 			}
-			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			if updateTrans {
+				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			}
 		case 2:
 			gQty = gQty - val.Qty
 			val.AverageCost = gAverageCost
-			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			if updateTrans {
+				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			}
 		case 3:
 			gQty = gQty - val.Qty
 			val.AverageCost = gAverageCost
-			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			if updateTrans {
+				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			}
 		case 4:
 			if !flagFirst {
 				if val.Qty-val.BalanceQty >= 0 {
@@ -108,7 +114,9 @@ func CalAllAvgAndUpdatDocTrans(productID int) (err error) {
 			} else {
 				val, gAverageCost, gQty = firstCountStock(gAverageCost, gQty, val)
 			}
-			_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			if updateTrans {
+				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			}
 		}
 		flagFirst = false
 		if err != nil {
@@ -136,4 +144,21 @@ func firstCountStock(AverageCost, Qty float64, tr PreAllStockAdj) (PreAllStockAd
 	AverageCost = tr.AverageCost
 	Qty = tr.Qty
 	return tr, AverageCost, Qty
+}
+
+//CalAllAvg _
+func CalAllAvg() {
+	StockAdj := &[]StockAdj{}
+	o := orm.NewOrm()
+	qs := o.QueryTable("stock_adj")
+	qs.Filter("flag", 1).RelatedSel().All(StockAdj)
+	if len(*StockAdj) > 0 {
+		return
+	}
+	qs.Filter("flag", 0).Limit(5).RelatedSel().All(StockAdj)
+	if len(*StockAdj) >= 1 {
+		for _, val := range *StockAdj {
+			CalAllAvgTrans(val.Product.ID, true)
+		}
+	}
 }
