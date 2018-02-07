@@ -4,11 +4,18 @@ import (
 	"html/template"
 	"strings"
 	m "umami/models"
+
+	"github.com/astaxie/beego"
 )
 
 //ServiceController _
 type ServiceController struct {
 	BaseController
+}
+
+//ServiceNonAuthController _
+type ServiceNonAuthController struct {
+	beego.Controller
 }
 
 //GetXSRF _
@@ -37,6 +44,14 @@ func (c *ServiceController) ListEntityJSON() {
 		ret.RetOK = false
 		ret.RetData = "ไม่พบข้อมูล"
 	}
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//CalItemAvg  _
+func (c *ServiceNonAuthController) CalItemAvg() {
+	ret := m.NormalModel{}
+	m.CalAllAvg()
 	c.Data["json"] = ret
 	c.ServeJSON()
 }

@@ -31,8 +31,7 @@ func main() {
 	beego.Router("/", &c.AppController{})
 	beego.Router("/service/secure/json/", &c.ServiceController{}, "get:GetXSRF")
 	beego.Router("/service/entity/list/json", &c.ServiceController{}, "get:ListEntityJSON")
-	beego.Router("/product/list/json", &c.ProductController{}, "get:ListProductJSON")
-	beego.Router("/product/json", &c.ProductController{}, "get:GetProductJSON")
+	beego.Router("/service/avg", &c.ServiceNonAuthController{}, "get:CalItemAvg")
 
 	beego.Router("/member/?:id", &c.MemberController{}, "get:CreateMember;post:UpdateMember;delete:DeleteMember")
 	beego.Router("/member/read/?:id", &c.MemberController{}, "get:CreateMember")
@@ -41,6 +40,8 @@ func main() {
 	beego.Router("/product/?:id", &c.ProductController{}, "get:CreateProduct;post:UpdateProduct;delete:DeleteProduct")
 	beego.Router("/product/read/?:id", &c.ProductController{}, "get:CreateProduct")
 	beego.Router("/product/list", &c.ProductController{}, "get:ProductList;post:GetProductList")
+	beego.Router("/product/list/json", &c.ProductController{}, "get:ListProductJSON")
+	beego.Router("/product/json", &c.ProductController{}, "get:GetProductJSON")
 
 	beego.Router("/product-category/?:id", &c.ProductController{}, "get:CreateProductCate;post:UpdateProductCate;delete:DeleteProductCate")
 	beego.Router("/product-category/list", &c.ProductController{}, "get:ProductCateList;post:GetProductCateList")

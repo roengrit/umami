@@ -124,7 +124,7 @@ func CalAllAvgTrans(productID int, updateTrans bool) (err error) {
 			return err
 		}
 	}
-	_, err = o.Raw("update product set balance_qty = ? , balance_cost = ? where i_d = ?", gQty, gAverageCost, productID).Exec()
+	_, err = o.Raw("update product set balance_qty = ? , average_cost = ? where i_d = ?", gQty, gAverageCost, productID).Exec()
 	if err != nil {
 		o.Rollback()
 	} else {
@@ -158,7 +158,11 @@ func CalAllAvg() {
 	qs.Filter("flag", 0).Limit(5).RelatedSel().All(StockAdj)
 	if len(*StockAdj) >= 1 {
 		for _, val := range *StockAdj {
+			_, _ = o.Raw("update stock_adj set flag = 1 where i_d = ?", val.ID).Exec()
+			o.Commit()
 			CalAllAvgTrans(val.Product.ID, true)
+			_, _ = o.Raw("delete from stock_adj where i_d = ?", val.ID).Exec()
+			o.Commit()
 		}
 	}
 }

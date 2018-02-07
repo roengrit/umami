@@ -364,6 +364,9 @@
     <script>
         $(document).ready(function () {
             $('.sidebar-menu').tree()
+            setInterval(function() { 
+                $.get('/service/avg', function (data) { });
+            }, 10000);
         })
     </script>
 </body>
