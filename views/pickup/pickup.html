@@ -109,7 +109,7 @@
                                 <tr>
                                     <th class="col-md-5 col-md-5-table">ชื่อ</th>
                                     <th class="col-md-2 col-md-2-table" style="text-align:right;">จำนวน</th>
-                                    <th class="col-md-2 col-md-2-table" style="text-align:right;">ราคา:หน่วย</th>
+                                    <th class="col-md-2 col-md-2-table" style="text-align:right;">ต้นทุน:หน่วย</th>
                                     <th class="col-md-2 col-md-2-table" style="text-align:right;">รวม</th>
                                     <th class="col-md-1 col-md-1-table" style="width:100%;"></th>
                                 </tr>
@@ -122,9 +122,9 @@
                                                     <input type="hidden" class="ProductName" name="PickUpSub[{{$key}}].Product.Name" value="{{$val.Product.Name}}" />
                                                     <input type="hidden" class="ProductUnitID" name="PickUpSub[{{$key}}].Unit.ID" value="{{$val.Unit.ID}}" /> 
                                                     <input type="hidden" class="ProductQty" name="PickUpSub[{{$key}}].Qty" value="{{$val.Qty}}" />
-                                                    <input type="hidden" class="ProductPrice" name="PickUpSub[{{$key}}].Price" value="{{$val.Price}}" />
+                                                    <input type="hidden" class="ProductPrice" name="PickUpSub[{{$key}}].Price" value="{{$val.AverageCost}}" />
                                                     <input type="hidden" class="AverageCost" name="PickUpSub[{{$key}}].AverageCost" value="{{$val.AverageCost}}" />
-                                                    <input type="hidden" class="ProductTotalPrice" name="PickUpSub[{{$key}}].TotalPrice" value="{{$val.AverageCost}}" />
+                                                    <input type="hidden" class="ProductTotalPrice" name="PickUpSub[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
                     
                                                     <td class="col-md-5 table-td-mid ProductNameText">{{$val.Product.Name}}</td> 
                                                     <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{{$val.Qty | ThCommaSep }}</td>

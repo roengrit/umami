@@ -125,7 +125,8 @@
                                                     <input type="hidden" class="ProductName" name="StockCountSub[{{$key}}].Product.Name" value="{{$val.Product.Name}}" />
                                                     <input type="hidden" class="ProductUnitID" name="StockCountSub[{{$key}}].Unit.ID" value="{{$val.Unit.ID}}" /> 
                                                     <input type="hidden" class="ProductQty" name="StockCountSub[{{$key}}].Qty" value="{{$val.Qty}}" />
-                                                    <input type="hidden" class="ProductPrice" name="StockCountSub[{{$key}}].Price" value="{{$val.Price}}" />
+                                                    <input type="hidden" class="ProductPrice" name="StockCountSub[{{$key}}].Price" value="{{$val.AverageCost}}" />
+                                                    <input type="hidden" class="AverageCost" name="StockCountSub[{{$key}}].AverageCost" value="{{$val.AverageCost}}" />
                                                     <input type="hidden" class="ProductTotalPrice" name="StockCountSub[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
                     
                                                     <td class="col-md-5 table-td-mid ProductNameText">{{$val.Product.Name}}</td> 
@@ -230,8 +231,8 @@
                 <div class="col-md-6">
                     <input type="text" id="item-name" name="item-name" class="form-control" autocomplete="off" placeholder="่ชื่อ">
                     <input type="hidden" tabindex="-1" id="item-id" name="item-id"  >
-                    <input type="hidden" tabindex="-1" id="unit-id" name="unit-id"  >                
-                    <input type="hidden" tabindex="-1" id="item-balance_cost" name="item-balance_cost"  >  
+                    <input type="hidden" tabindex="-1" id="unit-id" name="unit-id"  >
+                    <input type="hidden" tabindex="-1" id="average-cost" name="average-cost" >   
                     <input type="hidden" tabindex="-1" id="item-image_path" name="item-image_path"  >  
                 </div>
                 <div class="col-md-2">
