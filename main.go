@@ -66,6 +66,7 @@ func main() {
 	beego.Router("/stock/read", &c.StockCountController{})
 	beego.Router("/stock/diff", &c.StockCountController{}, "get:StockDiff")
 	beego.Router("/stock/cancel", &c.StockCountController{}, "get:CancelStockCount;post:UpdateCancelStockCount")
+	beego.Router("/stock/active", &c.StockCountController{}, "post:UpdateActiveStockCount")
 	beego.Router("/stock/list", &c.StockCountController{}, "get:StockCountList;post:GetStockCountList")
 
 	beego.Router("/order", &c.OrderController{})

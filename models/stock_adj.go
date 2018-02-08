@@ -105,11 +105,19 @@ func CalAllAvgTrans(productID int, updateTrans bool) (err error) {
 		case 4:
 			if !flagFirst {
 				if val.Qty-val.BalanceQty >= 0 {
-					gQty = val.Qty
-					gAverageCost = val.AverageCost
+					if val.Qty-val.BalanceQty == 0 {
+						gQty = 0
+						gAverageCost = 0
+					} else {
+						gQty = val.Qty
+						gAverageCost = val.AverageCost
+					}
 				} else {
 					gQty = gQty - val.Qty
 					gAverageCost = val.AverageCost
+					if gQty == 0 {
+						gAverageCost = 0
+					}
 				}
 			} else {
 				val, gAverageCost, gQty = firstCountStock(gAverageCost, gQty, val)

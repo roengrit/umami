@@ -57,8 +57,8 @@
     });
     function SaveProcess() {
             hideTopAlert();
-            url = $('#pickup-form').attr('action');
-            $.post(url, $('#pickup-form').serialize(), function (data) {
+            url = $('#stock-form').attr('action');
+            $.post(url, $('#stock-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
                     setTimeout(function () { window.location.href = '/stock/list' }, 600);

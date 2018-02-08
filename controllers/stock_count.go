@@ -102,6 +102,7 @@ func (c *StockCountController) Post() {
 			}
 		}
 		doc.ID = int(RetID)
+		retJSON.ID = int64(doc.ID)
 	} else {
 		retJSON.RetOK = false
 		retJSON.RetData = "มีข้อมูลบางอย่างไม่ครบถ้วน"
@@ -198,6 +199,27 @@ func (c *StockCountController) UpdateCancelStockCount() {
 		if err != nil {
 			ret.RetOK = false
 			ret.RetData = err.Error()
+		}
+	}
+	ret.XSRF = c.XSRFToken()
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
+
+//UpdateActiveStockCount _
+func (c *StockCountController) UpdateActiveStockCount() {
+	actionUser, _ := m.GetUser(h.GetUser(c.Ctx.Request))
+	ret := m.NormalModel{}
+	ID, _ := c.GetInt("ID")
+	ret.RetOK = true
+	if ret.RetOK {
+		_, err := m.UpdateActiveStockCount(ID, actionUser)
+		if err != nil {
+			ret.RetOK = false
+			ret.RetData = err.Error()
+		} else {
+			ret.RetData = "บันทึกสำเร็จ"
 		}
 	}
 	ret.XSRF = c.XSRFToken()

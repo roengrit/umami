@@ -29,6 +29,13 @@
             $("#qty").val($(this).find(".ProductQty").val());
             $("#price").val($(this).find(".ProductPrice").val());
             $("#average-cost").val($(this).find(".AverageCost").val());
+
+            if ($("#price").val() == '0' || $("#price").val() == '') {
+                $('#price').removeAttr('readonly');
+            } else {
+                $('#price').attr('readonly', 'readonly');
+            }
+
             $editOveray.show();
         });
 
@@ -71,6 +78,10 @@
             var price = parseFloat($('#price').val()==''? '0': $('#price').val());
             var totalPrice = parseFloat($('#qty').val()==''? '0': $('#qty').val()) * parseFloat($('#price').val()==''? '0': $('#price').val());
 
+            if (price == 0) {
+                alert('กรุณาระบุต้นทุน');
+            } 
+            
             $('#RetData > tr').eq(index).find(".ProductId").val($('#item-id').val());
             $('#RetData > tr').eq(index).find(".ProductName").val($('#item-name').val());
             $('#RetData > tr').eq(index).find(".ProductUnitID").val($('#unit-id').val()); 
@@ -84,6 +95,8 @@
             $('#RetData > tr').eq(index).find(".ProductQtyText").html(addCommas(qty));
             $('#RetData > tr').eq(index).find(".ProductPriceText").html(addCommas(price));
             $('#RetData > tr').eq(index).find(".ProductTotalPriceText").html(addCommas(totalPrice));
+
+
             sumFoorter();
             $editOveray.hide();
         }); 
@@ -155,6 +168,12 @@
                     $('#unit-id').val(product.Data1.Unit.ID);  
                     $('#average-cost').val(product.Data1.AverageCost);  
                     $('#price').val(product.Data1.AverageCost);  
+                    if(product.Data1.AverageCost == 0)
+                    {
+                        $('#price').removeAttr('readonly');  
+                    }else{
+                        $('#price').attr('readonly','readonly');  
+                    }
                 });       
             }
         });

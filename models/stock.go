@@ -50,6 +50,7 @@ type StockCountSub struct {
 	Unit        *Unit     `orm:"rel(fk)"`
 	BalanceQty  float64   `orm:"digits(12);decimals(2)"`
 	Qty         float64   `orm:"digits(12);decimals(2)"`
+	DiffQty     float64   `orm:"digits(12);decimals(2)"`
 	RemainQty   float64   `orm:"digits(12);decimals(2)"`
 	AverageCost float64   `orm:"digits(12);decimals(2)"`
 	Price       float64   `orm:"digits(12);decimals(2)"`
@@ -74,10 +75,13 @@ func CreateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 	var fullDataSub []StockCountSub
 	for _, val := range StockCount.StockCountSub {
 		if val.Product.ID != 0 {
+			Product, _ := GetProduct(val.Product.ID)
 			val.CreatedAt = time.Now()
 			val.Creator = &user
 			val.DocNo = StockCount.DocNo
 			val.Flag = StockCount.Flag
+			val.BalanceQty = Product.BalanceQty
+			val.DiffQty = val.Qty - Product.BalanceQty
 			if StockCount.FlagTemp == 0 {
 				val.Active = true
 				val.Remark = ""
@@ -121,10 +125,13 @@ func UpdateStockCount(StockCount StockCount, user User) (retID int64, errRet err
 	var fullDataSub []StockCountSub
 	for _, val := range StockCount.StockCountSub {
 		if val.Product.ID != 0 {
+			Product, _ := GetProduct(val.Product.ID)
 			val.CreatedAt = time.Now()
 			val.Creator = &user
 			val.DocNo = StockCount.DocNo
 			val.Flag = StockCount.Flag
+			val.BalanceQty = Product.BalanceQty
+			val.DiffQty = val.Qty - Product.BalanceQty
 			if StockCount.FlagTemp == 0 {
 				val.Active = true
 				val.Remark = ""
@@ -202,6 +209,26 @@ func UpdateCancelStockCount(ID int, remark string, user User) (retID int64, errR
 		o.Rollback()
 	} else {
 		o.Commit()
+	}
+	errRet = err
+	return retID, errRet
+}
+
+//UpdateActiveStockCount _
+func UpdateActiveStockCount(ID int, user User) (retID int64, errRet error) {
+	o := orm.NewOrm()
+	o.Begin()
+	orm.Debug = true
+	_, err := o.Raw("update stock_count set active = true,flag_temp = 0,editor_id = ?,edited_at = now() where i_d = ?", user.ID, ID).Exec()
+	if err != nil {
+		o.Rollback()
+	} else {
+		_, err := o.Raw("update stock_count_sub set active = true where doc_no = (select stock_count.doc_no from stock_count where stock_count.i_d = ? limit 1)", ID).Exec()
+		if err != nil {
+			o.Rollback()
+		} else {
+			o.Commit()
+		}
 	}
 	errRet = err
 	return retID, errRet
