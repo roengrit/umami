@@ -1,0 +1,70 @@
+<script src="/static/js/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/js/datepicker/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script>
+<script src="/static/js/bootstrap-typeahead.js" charset="UTF-8"></script>
+<script>
+    $(document).ready(function () {
+        sumFoorter();
+        var templateRow = `<tr  style="cursor: pointer;" index-val="@">
+                                <input type="hidden" class="ProductId" name="StockCountSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductName" name="StockCountSub[@].Product.Name" value="{1}" />
+                                <input type="hidden" class="ProductUnitID" name="StockCountSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductQty" name="StockCountSub[@].Qty" value="{3}" />
+                                <input type="hidden" class="ProductPrice" name="StockCountSub[@].Price" value="{4}" />
+                                <input type="hidden" class="ProductTotalPrice" name="StockCountSub[@].TotalPrice" value="{5}" />
+
+                                <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
+                                <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
+                                <td class="col-md-2 table-td-mid table-td-number ProductPriceText">{8}</td>
+                                <td class="col-md-2 table-td-mid table-td-number ProductTotalPriceText"  >{9}</td>
+                                <td class="col-md-1 table-td-mid table-td-number"  >
+                                    <div class="btn-group">
+                                        <a class="btn btn-danger btn-flat btn-flat btn-sm delete-row">
+                                            <i class="fa  fa-close"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                         </tr>`;
+
+        $("#DocType").val('{{.m.DocType}}'); 
+        if($("#DocType").val()=='' || $("#DocType").val() == null){
+            $("#DocType").val($("#DocType option:first").val());
+        }
+        
+        function sumFoorter(){
+            var totalAmount = 0.00;
+            var discountVal  = parseFloat($('#DiscountWord').val()==''? '0': $('#DiscountWord').val()) ;
+            var totalDiscountAmount = 0.00;
+            var totalNetAmount = 0.00;
+
+            $("#RetData tr").each(function (index) {
+                totalAmount += parseFloat($(this).find(".ProductTotalPrice").val());
+            });              
+
+            if($('#DiscountType').val() == "0"){
+                totalDiscountAmount = discountVal;
+            }else{
+                totalDiscountAmount = (discountVal / 100) * totalAmount;                 
+            }  
+            totalNetAmount = totalAmount-totalDiscountAmount;
+
+            $('#TotalAmount').val(totalAmount.toFixed(2));
+            $('#TotalAmountText').html(addCommas(totalAmount.toFixed(2)));
+            $('#TotalDiscount').val(totalDiscountAmount.toFixed(2));
+            $('#TotalDiscountText').html(addCommas(totalDiscountAmount.toFixed(2)));
+            $('#TotalNetAmount').val(totalNetAmount.toFixed(2));
+            $('#TotalNetAmountText').html(addCommas(totalNetAmount.toFixed(2)));
+        }        
+    });
+    function SaveProcess() {
+            hideTopAlert();
+            url = $('#stock-form').attr('action');
+            $.post(url, $('#stock-form').serialize(), function (data) {
+                if (data.RetOK) {
+                    showTopAlert(data.RetData, "success")
+                    setTimeout(function () { window.location.href = '/stock-pick/list' }, 600);
+                } else {
+                    showTopAlert(data.RetData, "danger")
+                }
+            });
+        }
+</script>

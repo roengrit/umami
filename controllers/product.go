@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"html/template"
 	"path/filepath"
 	"strconv"
@@ -21,8 +22,17 @@ type ProductController struct {
 //ListProductJSON  _
 func (c *ProductController) ListProductJSON() {
 	term := strings.TrimSpace(c.GetString("query"))
+	raw, _ := strconv.ParseInt(c.Ctx.Request.URL.Query().Get("raw"), 10, 32)
 	ret := m.NormalModel{}
-	rowCount, lists, err := m.GetProductList(15, term)
+	var err error
+	var rowCount int64
+	var lists []m.Product
+	fmt.Println(raw)
+	if raw == 0 {
+		rowCount, lists, err = m.GetProductList(15, term)
+	} else {
+		rowCount, lists, err = m.GetProductRawList(15, term)
+	}
 	if err == nil {
 		ret.RetOK = true
 		ret.RetCount = rowCount

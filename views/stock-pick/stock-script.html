@@ -40,13 +40,13 @@
         });
 
         var templateRow = `<tr  style="cursor: pointer;" index-val="@">
-                                <input type="hidden" class="ProductId" name="StockCountSub[@].Product.ID" value="{0}" /> 
-                                <input type="hidden" class="ProductName" name="StockCountSub[@].Product.Name" value="{1}" />
-                                <input type="hidden" class="ProductUnitID" name="StockCountSub[@].Unit.ID" value="{2}" /> 
-                                <input type="hidden" class="ProductQty" name="StockCountSub[@].Qty" value="{3}" />
-                                <input type="hidden" class="ProductPrice" name="StockCountSub[@].Price" value="{4}" />
-                                <input type="hidden" class="AverageCost" name="StockCountSub[@].AverageCost" value="{5}" />
-                                <input type="hidden" class="ProductTotalPrice" name="StockCountSub[@].TotalPrice" value="{6}" />
+                                <input type="hidden" class="ProductId" name="StockCountPickSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductName" name="StockCountPickSub[@].Product.Name" value="{1}" />
+                                <input type="hidden" class="ProductUnitID" name="StockCountPickSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductQty" name="StockCountPickSub[@].Qty" value="{3}" />
+                                <input type="hidden" class="ProductPrice" name="StockCountPickSub[@].Price" value="{4}" />
+                                <input type="hidden" class="AverageCost" name="StockCountPickSub[@].AverageCost" value="{5}" />
+                                <input type="hidden" class="ProductTotalPrice" name="StockCountPickSub[@].TotalPrice" value="{6}" />
 
                                 <td class="col-md-5 table-td-mid ProductNameText">{7}</td> 
                                 <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{8}</td>
@@ -154,7 +154,7 @@
         });
 
         $('#item-name').typeahead({
-            ajax: '/product/list/json',
+            ajax: '/product/list/json/?raw=1',
             display: 'Name',
             displayField: 'Name',
             valueField: 'ID',
@@ -214,13 +214,13 @@
             $editOveray.hide();
             $("#RetData tr").each(function (index) {
                 $(this).attr("index-val", index);
-                $(this).find(".ProductId").attr("name", "StockCountSub[" + index + "].Product.ID");
-                $(this).find(".ProductName").attr("name", "StockCountSub[" + index + "].Product.Name");
-                $(this).find(".ProductUnitID").attr("name", "StockCountSub[" + index + "].Unit.ID");
-                $(this).find(".ProductQty").attr("name", "StockCountSub[" + index + "].Qty");
-                $(this).find(".ProductPrice").attr("name", "StockCountSub[" + index + "].Price");
-                $(this).find(".AverageCost").attr("name", "StockCountSub[" + index + "].AverageCost");
-                $(this).find(".ProductTotalPrice").attr("name", "StockCountSub[" + index + "].TotalPrice");
+                $(this).find(".ProductId").attr("name", "StockCountPickSub[" + index + "].Product.ID");
+                $(this).find(".ProductName").attr("name", "StockCountPickSub[" + index + "].Product.Name");
+                $(this).find(".ProductUnitID").attr("name", "StockCountPickSub[" + index + "].Unit.ID");
+                $(this).find(".ProductQty").attr("name", "StockCountPickSub[" + index + "].Qty");
+                $(this).find(".ProductPrice").attr("name", "StockCountPickSub[" + index + "].Price");
+                $(this).find(".AverageCost").attr("name", "StockCountPickSub[" + index + "].AverageCost");
+                $(this).find(".ProductTotalPrice").attr("name", "StockCountPickSub[" + index + "].TotalPrice");
             });    
             sumFoorter();        
         }
@@ -256,7 +256,7 @@
             $.post(url, $('#pickup-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
-                    setTimeout(function () { window.location.href = '/stock/list' }, 600);
+                    setTimeout(function () { window.location.href = '/stock-pick/list' }, 600);
                 } else {
                     showTopAlert(data.RetData, "danger")
                 }
@@ -269,7 +269,7 @@
             $.post(url, $('#pickup-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
-                    setTimeout(function () { window.location.href = '/stock/diff/?id=' + data.ID  }, 600);
+                    setTimeout(function () { window.location.href = '/stock-pick/diff/?id=' + data.ID  }, 600);
                 } else {
                     showTopAlert(data.RetData, "danger")
                 }

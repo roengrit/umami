@@ -149,11 +149,11 @@ func (c *StockCountController) GetStockCountList() {
 		ret.RetCount = int64(rowCount)
 		ret.RetData = h.GenStockCountHTML(*lists)
 		if rowCount == 0 {
-			ret.RetData = h.HTMLPickUpNotFoundRows
+			ret.RetData = h.HTMLStockCountNotFoundRows
 		}
 	} else {
 		ret.RetOK = false
-		ret.RetData = strings.Replace(h.HTMLPickUpError, "{err}", err.Error(), -1)
+		ret.RetData = strings.Replace(h.HTMLStockCountError, "{err}", err.Error(), -1)
 	}
 	ret.XSRF = c.XSRFToken()
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())

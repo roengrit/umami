@@ -76,6 +76,22 @@ func GetProductList(top int, term string) (num int64, productList []Product, err
 	return num, productList, err
 }
 
+//GetProductRawList _
+func GetProductRawList(top int, term string) (num int64, productList []Product, err error) {
+	var sql = `SELECT T0.i_d,T0.name,T0.lock, T1.i_d as unit_id,T1.name as unit_name
+			   FROM product T0	
+			   JOIN unit T1 ON T0.unit_id = T1.i_d		    
+			   WHERE T0.product_type = 2  and lower(T0.name) like lower(?) order by T0.name limit {0}`
+	if top == 0 {
+		sql = strings.Replace(sql, "limit {0}", "", -1)
+	} else {
+		sql = strings.Replace(sql, "{0}", strconv.Itoa(top), -1)
+	}
+	o := orm.NewOrm()
+	num, err = o.Raw(sql, "%"+term+"%").QueryRows(&productList)
+	return num, productList, err
+}
+
 //GetManagmentProductList _
 func GetManagmentProductList(term string, limit int) (pro *[]Product, rowCount int, errRet error) {
 	productlist := &[]Product{}
