@@ -180,6 +180,9 @@ func UpdateCancelReceive(ID int, remark string, user User) (retID int64, errRet 
 	docCheck.CancelUser = &user
 	o.Begin()
 	_, err := o.Update(docCheck)
+	if err == nil {
+		_, err = o.Raw("update receive_sub set active = false where doc_no = ?", docCheck.DocNo).Exec()
+	}
 	if err != nil {
 		o.Rollback()
 	} else {

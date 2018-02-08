@@ -157,7 +157,7 @@ func GetMaxDoc(entity, format string) (docno string) {
 					  LPAD((COALESCE( MAX ( SUBSTRING ( doc_no FROM '[0-9]{5,}$' )), '0' ) :: NUMERIC + 1)  :: text, 5, '0')
 					  ) AS  doc_no 
 				 FROM
-					 ` + entity + `
+					 "` + entity + `"
 				 WHERE
 					 doc_no LIKE'` + format + `%' 	 
 					 AND doc_date BETWEEN date_trunc( 'month', CURRENT_DATE ) :: DATE  AND ( date_trunc( 'month', CURRENT_DATE ) + INTERVAL '1 month - 1 day' ) :: DATE`

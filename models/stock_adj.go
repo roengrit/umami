@@ -96,34 +96,40 @@ func CalAllAvgTrans(productID int, updateTrans bool) (err error) {
 			if updateTrans {
 				_, err = o.Raw("update "+val.Tb+" set average_cost = ?,price = ? where i_d = ?", gAverageCost, gAverageCost, val.ID).Exec()
 			}
+			if gQty == 0 {
+				gAverageCost = 0
+			}
 		case 3:
 			gQty = gQty - val.Qty
 			val.AverageCost = gAverageCost
 			if updateTrans {
 				_, err = o.Raw("update "+val.Tb+" set average_cost = ?,price = ? where i_d = ?", gAverageCost, gAverageCost, val.ID).Exec()
 			}
+			if gQty == 0 {
+				gAverageCost = 0
+			}
 		case 4:
 			if !flagFirst {
 				if val.Qty-val.BalanceQty >= 0 {
 					if val.Qty-val.BalanceQty == 0 {
 						gQty = 0
-						gAverageCost = 0
+						gAverageCost = val.AverageCost
 					} else {
 						gQty = val.Qty
 						gAverageCost = val.AverageCost
 					}
 				} else {
-					gQty = gQty - val.Qty
+					gQty = val.Qty
 					gAverageCost = val.AverageCost
-					if gQty == 0 {
-						gAverageCost = 0
-					}
 				}
 			} else {
 				val, gAverageCost, gQty = firstCountStock(gAverageCost, gQty, val)
 			}
 			if updateTrans {
 				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+			}
+			if gQty == 0 {
+				gAverageCost = 0
 			}
 		}
 		flagFirst = false

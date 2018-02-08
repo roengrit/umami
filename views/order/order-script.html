@@ -154,7 +154,7 @@
                 $.get("/product/json/?id=" + data.value, function (product) {
                     $('#unit-id').val(product.Data1.Unit.ID);  
                     $('#average-cost').val(product.Data1.AverageCost);  
-                    $('#price').val(product.Data1.Price); 
+                    $('#price').val(product.Data1.SalePrice); 
                 });       
             }
         });

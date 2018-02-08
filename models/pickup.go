@@ -180,6 +180,9 @@ func UpdateCancelPickUp(ID int, remark string, user User) (retID int64, errRet e
 	docCheck.CancelUser = &user
 	o.Begin()
 	_, err := o.Update(docCheck)
+	if err == nil {
+		_, err = o.Raw("update pick_up_sub set active = false where doc_no = ?", docCheck.DocNo).Exec()
+	}
 	if err != nil {
 		o.Rollback()
 	} else {

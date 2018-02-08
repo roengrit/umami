@@ -172,7 +172,7 @@ func GetOrderList(term string, limit int, dateBegin, dateEnd string) (doc *[]Ord
 
 //UpdateCancelOrder _
 func UpdateCancelOrder(ID int, remark string, user User) (retID int64, errRet error) {
-	docCheck := &Receive{}
+	docCheck := &Order{}
 	o := orm.NewOrm()
 	o.QueryTable("order").Filter("ID", ID).RelatedSel().One(docCheck)
 	if docCheck.ID == 0 {
@@ -184,6 +184,9 @@ func UpdateCancelOrder(ID int, remark string, user User) (retID int64, errRet er
 	docCheck.CancelUser = &user
 	o.Begin()
 	_, err := o.Update(docCheck)
+	if err == nil {
+		_, err = o.Raw("update order_sub set active = false where doc_no = ?", docCheck.DocNo).Exec()
+	}
 	if err != nil {
 		o.Rollback()
 	} else {
