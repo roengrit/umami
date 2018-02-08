@@ -28,6 +28,7 @@
             $("#unit-code").val($(this).find(".ProductUnitID").val()); 
             $("#qty").val($(this).find(".ProductQty").val());
             $("#price").val($(this).find(".ProductPrice").val());
+            $("#average-cost").val($(this).find(".AverageCost").val());
             $editOveray.show();
         });
 
@@ -37,12 +38,13 @@
                                 <input type="hidden" class="ProductUnitID" name="OrderSub[@].Unit.ID" value="{2}" /> 
                                 <input type="hidden" class="ProductQty" name="OrderSub[@].Qty" value="{3}" />
                                 <input type="hidden" class="ProductPrice" name="OrderSub[@].Price" value="{4}" />
-                                <input type="hidden" class="ProductTotalPrice" name="OrderSub[@].TotalPrice" value="{5}" />
+                                <input type="hidden" class="AverageCost" name="OrderSub[@].AverageCost" value="{5}" />
+                                <input type="hidden" class="ProductTotalPrice" name="OrderSub[@].TotalPrice" value="{6}" />
 
-                                <td class="col-md-5 table-td-mid ProductNameText">{6}</td> 
-                                <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{7}</td>
-                                <td class="col-md-2 table-td-mid table-td-number ProductPriceText">{8}</td>
-                                <td class="col-md-2 table-td-mid table-td-number ProductTotalPriceText"  >{9}</td>
+                                <td class="col-md-5 table-td-mid ProductNameText">{7}</td> 
+                                <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{8}</td>
+                                <td class="col-md-2 table-td-mid table-td-number ProductPriceText">{9}</td>
+                                <td class="col-md-2 table-td-mid table-td-number ProductTotalPriceText"  >{10}</td>
                                 <td class="col-md-1 table-td-mid table-td-number"  >
                                     <div class="btn-group">
                                         <a class="btn btn-danger btn-flat btn-flat btn-sm delete-row">
@@ -65,6 +67,7 @@
         $(".ok-edit-row").click(function (event) {
             var index  =  $("#current-row").val();
             var qty = parseFloat($('#qty').val()==''? '0': $('#qty').val()) ;
+            var averageCost = parseFloat($('#average-cost').val()==''? '0': $('#average-cost').val());
             var price = parseFloat($('#price').val()==''? '0': $('#price').val());
             var totalPrice = parseFloat($('#qty').val()==''? '0': $('#qty').val()) * parseFloat($('#price').val()==''? '0': $('#price').val());
 
@@ -74,6 +77,7 @@
 
             $('#RetData > tr').eq(index).find(".ProductQty").val(qty);
             $('#RetData > tr').eq(index).find(".ProductPrice").val(price);
+            $('#RetData > tr').eq(index).find(".AverageCost").val(averageCost);
             $('#RetData > tr').eq(index).find(".ProductTotalPrice").val(totalPrice);
 
             $('#RetData > tr').eq(index).find(".ProductNameText").html($('#item-name').val());
@@ -149,7 +153,8 @@
                 $('#item-id').val(data.value);  
                 $.get("/product/json/?id=" + data.value, function (product) {
                     $('#unit-id').val(product.Data1.Unit.ID);  
-                    $('#item-balance_cost').val(product.Data1.BalanceCost);  
+                    $('#average-cost').val(product.Data1.AverageCost);  
+                    $('#price').val(product.Data1.Price); 
                 });       
             }
         });
@@ -193,10 +198,11 @@
                 .replace('{3}', '0.00')
                 .replace('{4}', '0.00')
                 .replace('{5}', '0.00')
-                .replace('{6}', '')                 
-                .replace('{7}', '0.00')
+                .replace('{6}', '0.00')                 
+                .replace('{7}', '')
                 .replace('{8}', '0.00')
                 .replace('{9}', '0.00')
+                .replace('{10}', '0.00')
             );
         }
 
@@ -210,6 +216,7 @@
                 $(this).find(".ProductUnitID").attr("name", "OrderSub[" + index + "].Unit.ID");
                 $(this).find(".ProductQty").attr("name", "OrderSub[" + index + "].Qty");
                 $(this).find(".ProductPrice").attr("name", "OrderSub[" + index + "].Price");
+                $(this).find(".AverageCost").attr("name", "OrderSub[" + index + "].AverageCost");
                 $(this).find(".ProductTotalPrice").attr("name", "OrderSub[" + index + "].TotalPrice");
             });    
             sumFoorter();        

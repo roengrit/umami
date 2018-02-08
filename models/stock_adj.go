@@ -94,13 +94,13 @@ func CalAllAvgTrans(productID int, updateTrans bool) (err error) {
 			gQty = gQty - val.Qty
 			val.AverageCost = gAverageCost
 			if updateTrans {
-				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+				_, err = o.Raw("update "+val.Tb+" set average_cost = ?,price = ? where i_d = ?", gAverageCost, gAverageCost, val.ID).Exec()
 			}
 		case 3:
 			gQty = gQty - val.Qty
 			val.AverageCost = gAverageCost
 			if updateTrans {
-				_, err = o.Raw("update "+val.Tb+" set average_cost = ? where i_d = ?", gAverageCost, val.ID).Exec()
+				_, err = o.Raw("update "+val.Tb+" set average_cost = ?,price = ? where i_d = ?", gAverageCost, gAverageCost, val.ID).Exec()
 			}
 		case 4:
 			if !flagFirst {

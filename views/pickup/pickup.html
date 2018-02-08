@@ -123,7 +123,8 @@
                                                     <input type="hidden" class="ProductUnitID" name="PickUpSub[{{$key}}].Unit.ID" value="{{$val.Unit.ID}}" /> 
                                                     <input type="hidden" class="ProductQty" name="PickUpSub[{{$key}}].Qty" value="{{$val.Qty}}" />
                                                     <input type="hidden" class="ProductPrice" name="PickUpSub[{{$key}}].Price" value="{{$val.Price}}" />
-                                                    <input type="hidden" class="ProductTotalPrice" name="PickUpSub[{{$key}}].TotalPrice" value="{{$val.TotalPrice}}" />
+                                                    <input type="hidden" class="AverageCost" name="PickUpSub[{{$key}}].AverageCost" value="{{$val.AverageCost}}" />
+                                                    <input type="hidden" class="ProductTotalPrice" name="PickUpSub[{{$key}}].TotalPrice" value="{{$val.AverageCost}}" />
                     
                                                     <td class="col-md-5 table-td-mid ProductNameText">{{$val.Product.Name}}</td> 
                                                     <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{{$val.Qty | ThCommaSep }}</td>
@@ -226,8 +227,8 @@
                 <div class="col-md-6">
                     <input type="text" id="item-name" name="item-name" class="form-control" autocomplete="off" placeholder="่ชื่อ">
                     <input type="hidden" tabindex="-1" id="item-id" name="item-id"  >
-                    <input type="hidden" tabindex="-1" id="unit-id" name="unit-id"  >                
-                    <input type="hidden" tabindex="-1" id="item-balance_cost" name="item-balance_cost"  >  
+                    <input type="hidden" tabindex="-1" id="unit-id" name="unit-id"  >
+                    <input type="hidden" tabindex="-1" id="average-cost" name="average-cost"  >  
                     <input type="hidden" tabindex="-1" id="item-image_path" name="item-image_path"  >  
                 </div>
                 <div class="col-md-2">
@@ -235,7 +236,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="input-group ">
-                        <input type="number" id="price" name="price" step="0.01" class="form-control" style="text-align: right;" placeholder="ราคา">
+                        <input type="number" id="price" name="price" step="0.01" class="form-control" style="text-align: right;" readonly placeholder="ราคา">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success ok-edit-row">ตกลง</button>
                             <button type="button" class="btn btn-default cancel-edit-row">ยกเลิก</button>
