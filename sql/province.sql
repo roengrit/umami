@@ -13,22 +13,6 @@ File Encoding         : 65001
 
 Date: 2018-01-27 09:30:02
 */
-
-
--- ----------------------------
--- Table structure for provinces
--- ----------------------------
-DROP TABLE IF EXISTS "public"."provinces";
-CREATE TABLE "public"."provinces" (
-"i_d" int4 DEFAULT nextval('provinces_i_d_seq'::regclass) NOT NULL,
-"name" text COLLATE "default" DEFAULT ''::text NOT NULL,
-"created_at" timestamptz(6),
-"updated_at" timestamptz(6)
-)
-WITH (OIDS=FALSE)
-
-;
-
 -- ----------------------------
 -- Records of provinces
 -- ----------------------------
