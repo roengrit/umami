@@ -151,17 +151,22 @@ func CalAllAvg() {
 	StockAdj := &[]StockAdj{}
 	o := orm.NewOrm()
 	qs := o.QueryTable("stock_adj")
-	qs.Filter("flag", 1).RelatedSel().All(StockAdj)
+	qs.Filter("flag", 1).Limit(1).Distinct().RelatedSel().All(StockAdj)
 	if len(*StockAdj) > 0 {
 		return
 	}
 	qs.Filter("flag", 0).Limit(5).RelatedSel().All(StockAdj)
 	if len(*StockAdj) >= 1 {
 		for _, val := range *StockAdj {
-			_, _ = o.Raw("update stock_adj set flag = 1 where i_d = ?", val.ID).Exec()
+			_, _ = o.Raw("update stock_adj set flag = 1 where product_id = ?", val.Product.ID).Exec()
 			o.Commit()
+		}
+	}
+	qs.Filter("flag", 1).RelatedSel().All(StockAdj)
+	if len(*StockAdj) >= 1 {
+		for _, val := range *StockAdj {
 			CalAllAvgTrans(val.Product.ID, true)
-			_, _ = o.Raw("delete from stock_adj where i_d = ?", val.ID).Exec()
+			_, _ = o.Raw("delete from stock_adj where flag = 1 and product_id = ?", val.Product.ID).Exec()
 			o.Commit()
 		}
 	}

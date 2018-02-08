@@ -1,1 +1,0 @@
-INSERT INTO "user" ("i_d", "lock", "username", "password", "name", "tel", "facebook", "line", "role_id", "active",   "created_at",  "edited_at") VALUES (1, 'f', 'admin', '', '', '', '', '', 1, 't', '2018-1-27 09:39:21',  '2018-1-27 09:39:25');
