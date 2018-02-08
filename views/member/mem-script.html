@@ -16,5 +16,13 @@ function Save() {
         if($("#ProvinceID").val()=='' || $("#ProvinceID").val() == null){
             $("#ProvinceID").val($("#ProvinceID option:first").val());
         }
+        $("#MemberType").val('{{.m.MemberType}}'); 
+        if($("#MemberType").val()=='' || $("#MemberType").val() == null){
+            $("#MemberType").val($("#MemberType option:first").val());
+        }
+        $("#Level").val('{{.m.Level}}'); 
+        if($("#Level").val()=='' || $("#Level").val() == null){
+            $("#Level").val($("#Level option:first").val());
+        }
     });
 </script>
