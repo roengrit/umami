@@ -55,3 +55,17 @@ func (c *ServiceNonAuthController) CalItemAvg() {
 	c.Data["json"] = ret
 	c.ServeJSON()
 }
+
+//CalItemAvgByID _
+func (c *ServiceNonAuthController) CalItemAvgByID() {
+	ret := m.NormalModel{}
+	ID, _ := strconv.ParseInt(c.GetString("id"), 10, 32)
+	if ID != 0 {
+
+		o := orm.NewOrm()
+		_, _ = o.Raw("insert into stock_adj(product_id) values(?)  ", ID).Exec()
+		m.CalAllAvg()
+	}
+	c.Data["json"] = ret
+	c.ServeJSON()
+}
