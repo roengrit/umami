@@ -25,7 +25,7 @@
             $("#current-row").val($(this).attr("index-val"));
             $("#item-id").val($(this).find(".ProductId").val());
             $("#item-name").val($(this).find(".ProductName").val());
-            $("#unit-code").val($(this).find(".ProductUnitID").val()); 
+            $("#unit-id").val($(this).find(".ProductUnitID").val());
             $("#qty").val($(this).find(".ProductQty").val());
             $("#price").val($(this).find(".ProductPrice").val());
             $("#average-cost").val($(this).find(".AverageCost").val());
@@ -40,15 +40,15 @@
         });
 
         var templateRow = `<tr  style="cursor: pointer;" index-val="@">
-                                <input type="hidden" class="ProductId" name="StockCountSub[@].Product.ID" value="{0}" /> 
+                                <input type="hidden" class="ProductId" name="StockCountSub[@].Product.ID" value="{0}" />
                                 <input type="hidden" class="ProductName" name="StockCountSub[@].Product.Name" value="{1}" />
-                                <input type="hidden" class="ProductUnitID" name="StockCountSub[@].Unit.ID" value="{2}" /> 
+                                <input type="hidden" class="ProductUnitID" name="StockCountSub[@].Unit.ID" value="{2}" />
                                 <input type="hidden" class="ProductQty" name="StockCountSub[@].Qty" value="{3}" />
                                 <input type="hidden" class="ProductPrice" name="StockCountSub[@].Price" value="{4}" />
                                 <input type="hidden" class="AverageCost" name="StockCountSub[@].AverageCost" value="{5}" />
                                 <input type="hidden" class="ProductTotalPrice" name="StockCountSub[@].TotalPrice" value="{6}" />
 
-                                <td class="col-md-5 table-td-mid ProductNameText">{7}</td> 
+                                <td class="col-md-5 table-td-mid ProductNameText">{7}</td>
                                 <td class="col-md-2 table-td-mid table-td-number ProductQtyText">{8}</td>
                                 <td class="col-md-2 table-td-mid table-td-number ProductPriceText">{9}</td>
                                 <td class="col-md-2 table-td-mid table-td-number ProductTotalPriceText"  >{10}</td>
@@ -81,11 +81,11 @@
             if (price == 0) {
                 alert('กรุณาระบุต้นทุน');
                 return;
-            } 
-            
+            }
+
             $('#RetData > tr').eq(index).find(".ProductId").val($('#item-id').val());
             $('#RetData > tr').eq(index).find(".ProductName").val($('#item-name').val());
-            $('#RetData > tr').eq(index).find(".ProductUnitID").val($('#unit-id').val()); 
+            $('#RetData > tr').eq(index).find(".ProductUnitID").val($('#unit-id').val());
 
             $('#RetData > tr').eq(index).find(".ProductQty").val(qty);
             $('#RetData > tr').eq(index).find(".AverageCost").val(averageCost);
@@ -100,7 +100,7 @@
 
             sumFoorter();
             $editOveray.hide();
-        }); 
+        });
 
         $(".delete-row").click(function (event) {
             deleteRow($(this));
@@ -116,7 +116,7 @@
             });
         });
 
-        $("#DocType").val('{{.m.DocType}}'); 
+        $("#DocType").val('{{.m.DocType}}');
         if($("#DocType").val()=='' || $("#DocType").val() == null){
             $("#DocType").val($("#DocType option:first").val());
         }
@@ -136,7 +136,7 @@
             orientation: "auto",
             showMeridian:false,
             defaultTime: ''
-         }); 
+         });
 
          $('#MemberName').typeahead({
             ajax: '/service/entity/list/json/?entity=member',
@@ -149,7 +149,7 @@
                 if (data.value == 0) {
                     return;
                 }
-                $('#MemberID').val(data.value);                 
+                $('#MemberID').val(data.value);
             }
         });
 
@@ -164,18 +164,18 @@
                 if (data.value == 0) {
                     return;
                 }
-                $('#item-id').val(data.value);  
+                $('#item-id').val(data.value);
                 $.get("/product/json/?id=" + data.value, function (product) {
-                    $('#unit-id').val(product.Data1.Unit.ID);  
-                    $('#average-cost').val(product.Data1.AverageCost);  
-                    $('#price').val(product.Data1.AverageCost);  
+                    $('#unit-id').val(product.Data1.Unit.ID);
+                    $('#average-cost').val(product.Data1.AverageCost);
+                    $('#price').val(product.Data1.AverageCost);
                     if(product.Data1.AverageCost == 0)
                     {
-                        $('#price').removeAttr('readonly');  
+                        $('#price').removeAttr('readonly');
                     }else{
-                        $('#price').attr('readonly','readonly');  
+                        $('#price').attr('readonly','readonly');
                     }
-                });       
+                });
             }
         });
 
@@ -184,7 +184,7 @@
         })
 
         $("#DiscountWord").bind('keyup mouseup', function () {
-            sumFoorter();          
+            sumFoorter();
         });
 
         $('#DiscountWord').change(function(){
@@ -201,7 +201,7 @@
                 .replace('{3}', '0.00')
                 .replace('{4}', '0.00')
                 .replace('{5}', '0.00')
-                .replace('{6}', '0.00')                 
+                .replace('{6}', '0.00')
                 .replace('{7}', '')
                 .replace('{8}', '0.00')
                 .replace('{9}', '0.00')
@@ -221,8 +221,8 @@
                 $(this).find(".ProductPrice").attr("name", "StockCountSub[" + index + "].Price");
                 $(this).find(".AverageCost").attr("name", "StockCountSub[" + index + "].AverageCost");
                 $(this).find(".ProductTotalPrice").attr("name", "StockCountSub[" + index + "].TotalPrice");
-            });    
-            sumFoorter();        
+            });
+            sumFoorter();
         }
         function sumFoorter(){
             var totalAmount = 0.00;
@@ -232,13 +232,13 @@
 
             $("#RetData tr").each(function (index) {
                 totalAmount += parseFloat($(this).find(".ProductTotalPrice").val());
-            });              
+            });
 
             if($('#DiscountType').val() == "0"){
                 totalDiscountAmount = discountVal;
             }else{
-                totalDiscountAmount = (discountVal / 100) * totalAmount;                 
-            }  
+                totalDiscountAmount = (discountVal / 100) * totalAmount;
+            }
             totalNetAmount = totalAmount-totalDiscountAmount;
 
             $('#TotalAmount').val(totalAmount.toFixed(2));
@@ -247,7 +247,7 @@
             $('#TotalDiscountText').html(addCommas(totalDiscountAmount.toFixed(2)));
             $('#TotalNetAmount').val(totalNetAmount.toFixed(2));
             $('#TotalNetAmountText').html(addCommas(totalNetAmount.toFixed(2)));
-        }        
+        }
     });
     function Save() {
             hideTopAlert();
@@ -269,7 +269,9 @@
             $.post(url, $('#pickup-form').serialize(), function (data) {
                 if (data.RetOK) {
                     showTopAlert(data.RetData, "success")
-                    setTimeout(function () { window.location.href = '/stock/diff/?id=' + data.ID  }, 600);
+                    $.get('/service/avg', function (data) {
+                      setTimeout(function () { window.location.href = '/stock/diff/?id=' + data.ID  }, 600);
+                     });
                 } else {
                     showTopAlert(data.RetData, "danger")
                 }

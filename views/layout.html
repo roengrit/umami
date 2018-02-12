@@ -363,10 +363,7 @@
     <script src="/static/js/umami.js"></script> {{.scripts}}
     <script>
         $(document).ready(function () {
-            $('.sidebar-menu').tree()
-            setInterval(function() { 
-                $.get('/service/avg', function (data) { });
-            }, 10000);
+            $('.sidebar-menu').tree();             
         })
     </script>
 </body>
